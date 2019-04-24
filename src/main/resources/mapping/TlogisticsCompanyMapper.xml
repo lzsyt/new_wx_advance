@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kzq.advance.mapper.TlogisticsCompanyMapper">
+  <resultMap id="BaseResultMap" type="com.kzq.advance.domain.TlogisticsCompany">
+    <result column="logistics_company" jdbcType="VARCHAR" property="logisticsCompany" />
+    <result column="cp_code" jdbcType="VARCHAR" property="cpCode" />
+    <result column="resource_code" jdbcType="VARCHAR" property="resourceCode" />
+  </resultMap>
+  <insert id="insert" parameterType="com.kzq.advance.domain.TlogisticsCompany">
+    insert into t_logistics_company (logistics_company, cp_code, resource_code
+      )
+    values (#{logisticsCompany,jdbcType=VARCHAR}, #{cpCode,jdbcType=VARCHAR}, #{resourceCode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.kzq.advance.domain.TlogisticsCompany">
+    insert into t_logistics_company
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="logisticsCompany != null">
+        logistics_company,
+      </if>
+      <if test="cpCode != null">
+        cp_code,
+      </if>
+      <if test="resourceCode != null">
+        resource_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="logisticsCompany != null">
+        #{logisticsCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="cpCode != null">
+        #{cpCode,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceCode != null">
+        #{resourceCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="findByCompany" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from t_logistics_company where logistics_company=#{company}
+  </select>
+</mapper>
