@@ -3,6 +3,9 @@ package com.kzq.advance.common.quartz.model;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Component
 @ConfigurationProperties("spring.datasource")
 public class JdbcBean {
@@ -12,6 +15,34 @@ public class JdbcBean {
     private String username;
     private String password;
     private String url;
+    private List<String> databases;
+    private String databasename;
+    private String databasebackuppath;
+
+    public String getDatabasebackuppath() {
+        return databasebackuppath;
+    }
+
+    public void setDatabasebackuppath(String databasebackuppath) {
+        this.databasebackuppath = databasebackuppath;
+    }
+
+    public List<String> getDatabases() {
+        return databases;
+    }
+
+    public void setDatabases(List<String> databases) {
+        this.databases = databases;
+    }
+
+    public String getDatabasename() {
+        return databasename;
+    }
+
+    public void setDatabasename(String databasename) {
+        this.databasename = databasename;
+        this.databases = Arrays.asList(databasename.split(","));
+    }
 
     public void setUrl(String url) {
         this.url = url;

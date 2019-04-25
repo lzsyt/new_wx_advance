@@ -1,7 +1,7 @@
 package com.kzq.advance.common.quartz.jops;
 import com.kzq.advance.common.quartz.model.BaseJob;
-import com.kzq.advance.common.util.SpringUtil;
 import com.kzq.advance.common.quartz.model.JdbcBean;
+import com.kzq.advance.common.util.SpringUtil;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
@@ -15,11 +15,8 @@ import java.util.Map;
 
 
 public class DataBaseBackUp implements BaseJob {
-    public static final String WINDOWS_UPLOAD_PATH = "/data/peng/dbfiles/";
 
-    public static final String LINUX_UPLOAD_PATH = "/data/peng/dbfiles/";
-
-    public static final String SQL_BACKUP_PREFIX_FORMAT = "yyyyMMddHHmmss";
+    public static final String SQL_BACKUP_PREFIX_FORMAT = "yyyy_MM_dd_HH_mm_ss";
 
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -32,8 +29,8 @@ public class DataBaseBackUp implements BaseJob {
 //    @Scheduled(cron="0 13 11 ? * *")//表示每天晚上23点59分59秒执行一次
     public void backup(JdbcBean jdbcBean){
         try {
-            String fileName = new SimpleDateFormat(SQL_BACKUP_PREFIX_FORMAT).format(new Date())+"_backup";
-            filePath = getFilePath(fileName+".sql");
+            String fileName = new SimpleDateFormat(SQL_BACKUP_PREFIX_FORMAT).format(new Date()) + "_backup";
+            filePath = getFilePath(fileName + ".sql", jdbcBean);
             boolean exportFlag = executeExportCommond(jdbcBean,filePath);
             if(exportFlag){
                 logger.info("******************************");
@@ -79,7 +76,7 @@ public class DataBaseBackUp implements BaseJob {
         String sql = new StringBuffer("mysqldump").
                 append(" -P ").append(jdbcBean.getPort()).
                 append(" -h ").append(jdbcBean.getIp()).
-                append(" -u ").append(jdbcBean.getUsername()).
+                append(" -u").append(jdbcBean.getUsername()).
                 append(" -p").append(jdbcBean.getPassword()).
                 append(" ").append(jdbcBean.getDb()).
                 append(" --default-character-set=utf8 ").
@@ -111,15 +108,10 @@ public class DataBaseBackUp implements BaseJob {
 
 
     //获得文件路径
-    public static String getFilePath(String fileName){
-        String os = System.getProperty("os.name"); //获取操作系统的名称
+    public static String getFilePath(String fileName,JdbcBean jdbcBean){
         String rootPath;
         String filPath;
-        if(os.toLowerCase().startsWith("win") || os.toLowerCase().startsWith("Win")){
-            rootPath = WINDOWS_UPLOAD_PATH;
-        }else{
-            rootPath = LINUX_UPLOAD_PATH;
-        }
+        rootPath = jdbcBean.getDatabasebackuppath() + jdbcBean.getDb() + "/";
         if(!new File(rootPath).exists()){//判断文件是否存在
             new File(rootPath).mkdirs();//可以在不存在的目录中创建文件夹。诸如：a\\b,既可以创建多级目录。
         }
@@ -136,7 +128,10 @@ public class DataBaseBackUp implements BaseJob {
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         JdbcBean jdbcBean = (JdbcBean) SpringUtil.getBean("jdbcBean");
-        backup(jdbcBean);
+        for (String s : jdbcBean.getDatabases()) {
+            jdbcBean.setDb(s);
+            backup(jdbcBean);
+        }
 
     }
 }

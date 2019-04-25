@@ -23,6 +23,8 @@ spring:
         testOnReturn: false
         poolPreparedStatements: true
         maxOpenPreparedStatements: 20
+        databasename: jxc,staff
+        databasebackuppath: /res/backup/
     mvc:
       view:
         prefix: /WEB-INF/jsp/
