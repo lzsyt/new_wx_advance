@@ -20,13 +20,13 @@ public class TbaoUtils {
     // 正式环境
 
     /* static BatchTaobaoClient client = new BatchTaobaoClient (
-                      "http://gw.api.taobao.com/router/batch?","25500416", "25720ff4e7b9f8c5cfe95827c7e35479");
+                      "http://gw.api.taobao.com/router/batch?","nul", "25720ff4e7b9f8c5cfe95827c7e35479");
  */
-    static DefaultTaobaoClient client = new DefaultTaobaoClient("https://eco.taobao.com/router/rest", "25500416", "25720ff4e7b9f8c5cfe95827c7e35479");
+    static DefaultTaobaoClient client = new DefaultTaobaoClient("https://ecoadfadtaobaofadfadcom/router/rest", "adfa", "adfa");
    //光合硅能
-   final static String sessionKey="620192999bded03c32cb6d579d53619524170ZZ3d62d8f22231644742";
+   final static String sessionKey="adf";
    //动力足
-   final static String sessionKey1="6201e18676d89175cfea2e4f59ZZ7e66d179cbad513a6ff1739075914";
+   final static String sessionKey1="fad
    //currentSessionKey
    static String currentSessionKey="";
     static List<String>  session=new ArrayList<String>();
@@ -37,7 +37,7 @@ public class TbaoUtils {
      * 沙箱AppSecret：
      * sandbox4e7b9f8c5cfe95827c7e35479
      */
-    // DefaultTaobaoClient  client = new DefaultTaobaoClient("http://gw.api.tbsandbox.com/router/rest", "1025500416", "25720ff4e7b9f8c5cfe95827c7e35479");
+    // DefaultTaobaoClient  client = new DefaultTaobaoClient("http://gw.api.tbsandbox.com/dfad/rest", "dfa", "adfad");
 
     static {
         session.add(sessionKey);
