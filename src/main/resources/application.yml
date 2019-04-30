@@ -1,41 +1,38 @@
-server:
-  port: 8080
-
 spring:
-    datasource:
-        name: test
-        url: jdbc:mysql://127.0.0.1:3306/jxc?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=UTC
-        username: root
-        password: 1111
-        # 使用druid数据源
-        type: com.alibaba.druid.pool.DruidDataSource
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        filters: stat
-        maxActive: 20
-        initialSize: 1
-        maxWait: 60000
-        minIdle: 1
-        timeBetweenEvictionRunsMillis: 60000
-        minEvictableIdleTimeMillis: 300000
-        validationQuery: select 'x'
-        testWhileIdle: true
-        testOnBorrow: false
-        testOnReturn: false
-        poolPreparedStatements: true
-        maxOpenPreparedStatements: 20
-        databasename: jxc,staff
-        databasebackuppath: /res/backup/
-    mvc:
-      view:
-        prefix: /WEB-INF/jsp/
-        suffix: .jsp
-    resources:
-      static-locations: classpath:/testStatic/,classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
-    devtools:
-      restart:
-        enabled: true
-        additional-paths: src/main/java
-        exclude: WEB-INF/**
+  datasource:
+    name: test
+    url: jdbc:mysql://127.0.0.1:3306/jxc?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=UTC
+    username: root
+    password: 1111
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+    databasename: jxc,abc
+    databasebackuppath: /res/backup/
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+  resources:
+    static-locations: classpath:/testStatic/,classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+      exclude: WEB-INF/**
 
 ## 该配置节点为独立的节点，有很多同学容易将这个配置放在spring的节点下，导致配置无法被识别
 mybatis:
@@ -44,16 +41,20 @@ mybatis:
 
 #pagehelper分页插件
 pagehelper:
-    helperDialect: mysql
-    reasonable: true
-    supportMethodsArguments: true
-    params: count=countSql
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
 
+
+
+spring.datasource.druid.stat-view-servlet.login-username: admin
+spring.datasource.druid.stat-view-servlet.login-password: 123
 
 logging:
-  config: classpath:logback-spring.xml
-#  level:
-#    com:
-#      kzq:
-#        advance: debug
+  level:
+    com:
+      kzq:
+        advance:
+          mapper: debug
 

@@ -1,14 +1,14 @@
-package com.kzq.advance.common.quartz.service.impl;
+package com.kzq.advance.service.impl;
 
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.kzq.advance.mapper.JobAndTriggerMapper;
 import com.kzq.advance.common.quartz.model.JobAndTrigger;
-import com.kzq.advance.common.quartz.service.IJobAndTriggerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.kzq.advance.mapper.JobAndTriggerMapper;
+import com.kzq.advance.service.IJobAndTriggerService;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class IJobAndTriggerServiceImpl implements IJobAndTriggerService {
 
-    @Autowired
+    @Resource
     private JobAndTriggerMapper jobAndTriggerMapper;
 
     @Override

@@ -1,11 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: 23108
-  Date: 2019/4/24
-  Time: 9:53
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -271,7 +264,7 @@
 
             //从服务器读取数据
             loadData: function(pageNum, pageSize){
-                this.$http.get('/job/queryjob?' + 'pageNum=' +  pageNum + '&pageSize=' + pageSize).then(function(res){
+                this.$http.get('job/queryjob?' + 'pageNum=' +  pageNum + '&pageSize=' + pageSize).then(function(res){
                     console.log(res)
                     this.tableData = res.body.JobAndTrigger.list;
                     this.totalCount = res.body.number;
@@ -282,7 +275,7 @@
 
             //单行删除
             handleDelete: function(index, row) {
-                this.$http.post('/job/deletejob',{"jobClassName":row.job_NAME,"jobGroupName":row.job_GROUP},{emulateJSON: true}).then(function(res){
+                this.$http.post('job/deletejob',{"jobClassName":row.job_NAME,"jobGroupName":row.job_GROUP},{emulateJSON: true}).then(function(res){
                     this.loadData( this.currentPage, this.pagesize);
                 },function(){
                     console.log('failed');
@@ -291,7 +284,7 @@
 
             //暂停任务
             handlePause: function(index, row){
-                this.$http.post('/job/pausejob',{"jobClassName":row.job_NAME,"jobGroupName":row.job_GROUP},{emulateJSON: true}).then(function(res){
+                this.$http.post('job/pausejob',{"jobClassName":row.job_NAME,"jobGroupName":row.job_GROUP},{emulateJSON: true}).then(function(res){
                     this.loadData( this.currentPage, this.pagesize);
                 },function(){
                     console.log('failed');
@@ -300,7 +293,7 @@
 
             //恢复任务
             handleResume: function(index, row){
-                this.$http.post('/job/resumejob',{"jobClassName":row.job_NAME,"jobGroupName":row.job_GROUP},{emulateJSON: true}).then(function(res){
+                this.$http.post('job/resumejob',{"jobClassName":row.job_NAME,"jobGroupName":row.job_GROUP},{emulateJSON: true}).then(function(res){
                     this.loadData( this.currentPage, this.pagesize);
                 },function(){
                     console.log('failed');
@@ -322,7 +315,7 @@
 
             //添加
             add: function(){
-                this.$http.post('/job/addjob',{"jobClassName":this.form.jobName,"jobGroupName":this.form.jobGroup,"cronExpression":this.form.cronExpression}).then(function(res){
+                this.$http.post('job/addjob',{"jobClassName":this.form.jobName,"jobGroupName":this.form.jobGroup,"cronExpression":this.form.cronExpression}).then(function(res){
                     this.loadData(this.currentPage, this.pagesize);
                     this.dialogFormVisibleChange = false;
                     this.checkboxChange = false;
@@ -332,7 +325,7 @@
             },
             addSimTir: function () {
                 console.log(this.value4)
-                this.$http.post('/job/addjob',{"jobClassName":this.form.jobName,"jobGroupName":this.form.jobGroup,"cronExpression":this.form.cronExpression,
+                this.$http.post('job/addjob',{"jobClassName":this.form.jobName,"jobGroupName":this.form.jobGroup,"cronExpression":this.form.cronExpression,
                     "timeType":this.value4}).then(function(res){
                     this.loadData(this.currentPage, this.pagesize);
                     this.dialogFormVisibleChange = false;
@@ -353,7 +346,7 @@
             //更新任务
             update: function(){
                 this.$http.post
-                ('/job/reschedulejob',
+                ('job/reschedulejob',
                     {"jobClassName":this.updateform.jobName,
                         "jobGroupName":this.updateform.jobGroup,
                         "cronExpression":this.updateform.cronExpression

@@ -121,8 +121,8 @@ public class OtherAspect {
     /**
      * 打印方法参数值  基本类型直接打印，非基本类型需要重写toString方法
      *
-     * @param paramsArgsName  方法参数名数组
-     * @param paramsArgsValue 方法参数值数组
+     * @param
+     * @param
      */
 //    private void logParam(String[] paramsArgsName,Object[] paramsArgsValue){
 //        if(ArrayUtils.isEmpty(paramsArgsName) || ArrayUtils.isEmpty(paramsArgsValue)){

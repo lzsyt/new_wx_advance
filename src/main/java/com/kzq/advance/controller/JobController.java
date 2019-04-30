@@ -2,17 +2,18 @@ package com.kzq.advance.controller;
 
 
 import com.github.pagehelper.PageInfo;
+import com.kzq.advance.common.quartz.model.BaseJob;
 import com.kzq.advance.common.quartz.model.JobAndTrigger;
 import com.kzq.advance.common.quartz.model.JobInfo;
-import com.kzq.advance.common.quartz.model.BaseJob;
-import com.kzq.advance.common.quartz.service.IJobAndTriggerService;
 import com.kzq.advance.common.quartz.tool.DateUnit;
+import com.kzq.advance.service.IJobAndTriggerService;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +40,12 @@ public class JobController {
     private DateUnit dateUnit;
 
     private static Logger log = LoggerFactory.getLogger(JobController.class);
+
+
+    @RequestMapping("/jobManage")
+    public ModelAndView index(){
+        return new ModelAndView("quartz/jopManager");
+    }
 
 
     /**
@@ -121,8 +128,7 @@ public class JobController {
      * @throws Exception
      */
     @PostMapping(value = "/pausejob")
-    public void pausejob(@RequestParam(value = "jobClassName") String jobClassName,
-                         @RequestParam(value = "jobGroupName") String jobGroupName) throws Exception {
+    public void pausejob(@RequestParam(value = "jobClassName") String jobClassName, @RequestParam(value = "jobGroupName") String jobGroupName) throws Exception {
         jobPause(jobClassName, jobGroupName);
     }
 
@@ -138,8 +144,7 @@ public class JobController {
      * @throws Exception
      */
     @PostMapping(value = "/resumejob")
-    public void resumejob(@RequestParam(value = "jobClassName") String jobClassName,
-                          @RequestParam(value = "jobGroupName") String jobGroupName) throws Exception {
+    public void resumejob(@RequestParam(value = "jobClassName") String jobClassName, @RequestParam(value = "jobGroupName") String jobGroupName) throws Exception {
         jobresume(jobClassName, jobGroupName);
     }
 
@@ -190,8 +195,7 @@ public class JobController {
      * @throws Exception
      */
     @PostMapping(value = "/deletejob")
-    public void deletejob(@RequestParam(value = "jobClassName") String jobClassName,
-                          @RequestParam(value = "jobGroupName") String jobGroupName) throws Exception {
+    public void deletejob(@RequestParam(value = "jobClassName") String jobClassName, @RequestParam(value = "jobGroupName") String jobGroupName) throws Exception {
         jobdelete(jobClassName, jobGroupName);
     }
 

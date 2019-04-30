@@ -19,7 +19,7 @@
 <body>
 
 <section class="g-flexview">
-    <iframe src="${path}/${fristUrl}" name="myiframe" frameborder="0" width="100%" height="100%" scrolling="no"></iframe>
+    <iframe src="${path}/${fristUrl}" name="myiframe" frameborder="0" width="100%" height="100%" scrolling="no" id="iframe"></iframe>
 
     <footer class="m-tabbar">
 
@@ -47,5 +47,17 @@
         </a>
     </footer>
 </section>
+<script>
+    $("#iframe")[0].onload = function () {
+        iosIframeWidthBug();
+    };
+    function iosIframeWidthBug() {
+        if (!navigator.userAgent.match(/iPad|iPhone/i)) {
+            return false;
+        }
+        var iframebody = document.getElementById('iframe').contentWindow.document.body;
+        iframebody.style.width = document.body.clientWidth + 'px';
+    }
+</script>
 </body>
 </html>

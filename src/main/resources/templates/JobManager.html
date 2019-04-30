@@ -272,16 +272,6 @@
                     console.log('failed');
                 });
             },
-
-            //单行删除
-            handleDelete: function(index, row) {
-                this.$http.post('job/deletejob',{"jobClassName":row.job_NAME,"jobGroupName":row.job_GROUP},{emulateJSON: true}).then(function(res){
-                    this.loadData( this.currentPage, this.pagesize);
-                },function(){
-                    console.log('failed');
-                });
-            },
-
             //暂停任务
             handlePause: function(index, row){
                 this.$http.post('job/pausejob',{"jobClassName":row.job_NAME,"jobGroupName":row.job_GROUP},{emulateJSON: true}).then(function(res){

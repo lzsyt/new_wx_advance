@@ -23,10 +23,6 @@ public class DataBaseBackUp implements BaseJob {
 
     static String filePath;
 
-
-
-//    @Scheduled(cron="59 59 23 * * ? ")//表示每天晚上23点59分59秒执行一次
-//    @Scheduled(cron="0 13 11 ? * *")//表示每天晚上23点59分59秒执行一次
     public void backup(JdbcBean jdbcBean){
         try {
             String fileName = new SimpleDateFormat(SQL_BACKUP_PREFIX_FORMAT).format(new Date()) + "_backup";
@@ -36,17 +32,14 @@ public class DataBaseBackUp implements BaseJob {
                 logger.info("******************************");
                 logger.info("数据库数据备份本地成功！");
                 logger.info("******************************");
-//                return R.ok("数据库数据备份本地成功！");
             }else{
                 logger.info("******************************");
                 logger.info("数据库数据备份失败");
                 logger.info("******************************");
-//                return R.error("数据库数据备份失败");
             }
         } catch (Exception e) {
             logger.info("运行异常，数据库数据备份失败！");
             e.printStackTrace();
-//            return R.error("备份失败");
             logger.info("******************************");
             logger.info("备份失败");
             logger.info("******************************");
@@ -106,7 +99,6 @@ public class DataBaseBackUp implements BaseJob {
         return mySqlPath;
     }
 
-
     //获得文件路径
     public static String getFilePath(String fileName,JdbcBean jdbcBean){
         String rootPath;
@@ -122,8 +114,6 @@ public class DataBaseBackUp implements BaseJob {
         }
         return filPath;
     }
-
-
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {

@@ -1,4 +1,4 @@
-package com.kzq.advance.common.quartz.service;
+package com.kzq.advance.service;
 
 import com.github.pagehelper.PageInfo;
 import com.kzq.advance.common.quartz.model.JobAndTrigger;
