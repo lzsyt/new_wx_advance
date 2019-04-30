@@ -37,7 +37,7 @@ public class TbaoUtils {
      * 沙箱AppSecret：
      * sandbox4e7b9f8c5cfe95827c7e35479
      */
-    // DefaultTaobaoClient  client = new DefaultTaobaoClient("http://gw.api.tbsandbox.com/router/rest", "1025500416", "25720ff4e7b9f8c5cfe95827c7e35479");
+    // DefaultTaobaoClient  client = new DefaultTaobaoClient("http://gw.api.tbsandbox.com/dfad/rest", "dfa", "adfad");
 
     static {
         session.add(sessionKey);
