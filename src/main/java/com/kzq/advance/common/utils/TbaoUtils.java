@@ -24,9 +24,9 @@ public class TbaoUtils {
  */
     static DefaultTaobaoClient client = new DefaultTaobaoClient("https://ecoadfadtaobaofadfadcom/router/rest", "adfa", "adfa");
    //光合硅能
-   final static String sessionKey="adf";
-   //动力足
-   final static String sessionKey1="fad
+   final static String sessionKey="620192999bded03c32cb6d579d53619524170ZZ3d62d8f22231644742";
+    //动力足
+    final static String sessionKey1 = "6201e18676d89175cfea2e4f59ZZ7e66d179cbad513a6ff1739075914";
    //currentSessionKey
    static String currentSessionKey="";
     static List<String>  session=new ArrayList<String>();
