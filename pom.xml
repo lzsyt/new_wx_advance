@@ -114,8 +114,6 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/src/lib/taobao-sdk-java-auto_1550801864232-20190316.jar</systemPath>
         </dependency>
-
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
@@ -134,20 +132,7 @@
                 <configuration>
                     <includeSystemScope>true</includeSystemScope>
                 </configuration>
-
             </plugin>
-
-            <plugin>
-                <groupId>org.mybatis.generator</groupId>
-                <artifactId>mybatis-generator-maven-plugin</artifactId>
-                <version>1.3.2</version>
-                <configuration>
-                    <configurationFile>${basedir}/src/main/resources/generator/generatorConfig.xml</configurationFile>
-                    <overwrite>true</overwrite>
-                    <verbose>true</verbose>
-                </configuration>
-            </plugin>
-
         </plugins>
     </build>
 
