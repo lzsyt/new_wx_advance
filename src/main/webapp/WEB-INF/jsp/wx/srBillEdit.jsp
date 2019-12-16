@@ -9,19 +9,22 @@
     <meta content="yes" name="apple-mobile-web-app-capable"/>
     <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
     <meta content="telephone=no" name="format-detection"/>
-    <link rel="stylesheet" href="${staticPath}/style/css/weui.css">
-    <link rel="stylesheet" href="${staticPath}/style/css/weuix.css">
+    <%--<link rel="stylesheet" href="${staticPath}/style/css/weui.css">--%>
+    <%--<link rel="stylesheet" href="${staticPath}/style/css/weuix.css">--%>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">
     <style>
 
-       .m-cell{
+        .m-cell {
             padding-top: 10px;
         }
-       .ellipsis {
-           overflow: hidden; /*自动隐藏文字*/
-           text-overflow: ellipsis;/*文字隐藏后添加省略号*/
-           width: 16em;/*不允许出现半汉字截断*/
-       }
-        body{
+
+        .ellipsis {
+            overflow: hidden; /*自动隐藏文字*/
+            text-overflow: ellipsis; /*文字隐藏后添加省略号*/
+            width: 16em; /*不允许出现半汉字截断*/
+        }
+
+        body {
             font-size: 14px;
         }
     </style>
@@ -77,77 +80,70 @@
             </div>
 
             <div class="m-celltitle">详情</div>
-            <div class="m-cell">
-
             <c:forEach items="${billDetailList}" var="billDetail" varStatus="status">
-                <input name="tsrBillDetail[${status.index}].id" value="${billDetail.id}" type="hidden">
+                <div class="m-cell">
+
+
+                    <input name="tsrBillDetail[${status.index}].id" value="${billDetail.id}" type="hidden">
                         <%--发货商品--%>
                     <div class="cell-item">
                         <div class="cell-left">发货商品：</div>
-                        <div class="cell-right">${billDetail.goodsName} * <fmt:formatNumber type="number" value="${billDetail.goodsCount}" maxFractionDigits="0" pattern="0" />
-                           </div>
+                        <div class="cell-right">${billDetail.goodsName} * <fmt:formatNumber type="number"
+                                                                                            value="${billDetail.goodsCount}"
+                                                                                            maxFractionDigits="0"
+                                                                                            pattern="0"/>
+                        </div>
                     </div>
-
                         <%--产品状态--%>
                     <div class="cell-item">
                         <div class="cell-left">产品状态：</div>
                         <label class="cell-right">
-                                <input name="tsrBillDetail[${status.index}].status"
-                                       type="text" class="cell-input"value="${billDetail.status}"/>
-
+                            <input name="tsrBillDetail[${status.index}].status"
+                                   type="text" class="cell-input" value="${billDetail.status}"/>
                         </label>
                     </div>
                         <%--检测情况--%>
                     <div class="cell-item">
                         <div class="cell-left">检测情况：</div>
                         <div class="cell-right">
-
-                                <input  name="tsrBillDetail[${status.index}].detection"
-                                       type="text" class="cell-input" value="${billDetail.detection}"/>
-
-
+                            <input name="tsrBillDetail[${status.index}].detection"
+                                   type="text" class="cell-input" value="${billDetail.detection}"/>
                         </div>
                     </div>
+
+
+                </div>
             </c:forEach>
 
-            </div>
-
-
-                <%--未处理--%>
-                <c:if test="${srBill.billStatus==1||srBill.billStatus==0}">
-                <div class="m-cell">
-
-
+            <%--未处理--%>
+            <c:if test="${srBill.billStatus==1||srBill.billStatus==0}">
+            <div class="m-cell">
                 <div class="page-bd-15">
+                    <div class="weui-uploader">
+                        <div class="weui-uploader__hd">
+                            <p class="weui-uploader__title">图片上传</p>
+                            <div class="weui-uploader__info" id="imgDel">删除</div>
+                        </div>
+                        <div class="weui-uploader__bd">
+                            <ul class="weui-uploader__files" id="imgeFiles">
 
-                <div class="weui-uploader">
-                    <div class="weui-uploader__hd">
-                        <p class="weui-uploader__title">图片上传</p>
-                        <input type="button" class="weui-uploader__info" id="imgDel">删除</input>
-                    </div>
-                    <div class="weui-uploader__bd">
-                        <ul class="weui-uploader__files" id="imgeFiles">
-
-                        </ul>
-
-                        <div class="weui-uploader__input-box">
-                            <input id="imgUploaderInput" class="weui-uploader__input" type="file"
-                                   name="images"
-                                   accept="image/*" multiple="" onchange="echoimge()">
+                            </ul>
+                            <div class="weui-uploader__input-box">
+                                <input id="imgUploaderInput" class="weui-uploader__input" type="file"
+                                       name="images"
+                                       accept="image/*" multiple="" onchange="echoimge()">
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="weui-uploader">
-                    <div class="weui-uploader__hd">
-                        <p class="weui-uploader__title">视频上传</p>
-                        <div class="weui-uploader__info" id="vdoDel">删除</div>
-                    </div>
-                    <div class="weui-uploader__bd">
-                        <ul class="weui-uploader__files" id="vdoFiles">
-
-
-                        </ul>
+                    <div class="weui-uploader">
+                        <div class="weui-uploader__hd">
+                            <p class="weui-uploader__title">视频上传</p>
+                            <div class="weui-uploader__info" id="vdoDel">删除</div>
+                        </div>
+                        <div class="weui-uploader__bd">
+                            <ul class="weui-uploader__files" id="vdoFiles">
+                            </ul>
                             <div class="weui-uploader__input-box">
                                 <input id="vdoUploaderInput" class="weui-uploader__input" type="file"
                                        name="vdos"
@@ -155,39 +151,40 @@
                             </div>
 
 
-                    </div>
-                </div>
-            </div>
-                </c:if>
-                <%--处理完--%>
-                <c:if test="${srBill.billStatus>1}">
-                    <div class="page-bd-15">
-
-                        <div class="weui-uploader">
-
-                            <div class="weui-uploader__bd">
-                                <ul class="weui-uploader__files" >
-                                    <c:if test="${images!=null and images.size()!=0}">
-                                        <c:forEach items="${images}" var="img">
-                                            <li class="weui-uploader__file" ><img  class="weui-uploader__file"  src="${img.filePath}"/></li>
-                                        </c:forEach>
-                                    </c:if>
-                                    <c:if test="${vdos!=null and vdos.size()!=0}">
-                                        <c:forEach items="${vdos}" var="vdo">
-                                            <li class="weui-uploader__file ellipsis">${vdo.fileName}</li>
-                                        </c:forEach>
-                                    </c:if>
-                                </ul>
-
-
-                            </div>
                         </div>
                     </div>
                 </div>
                 </c:if>
+                <%--处理完--%>
+                <c:if test="${srBill.billStatus>1}">
+                <div class="page-bd-15">
 
+                    <div class="weui-uploader">
+
+                        <div class="weui-uploader__bd">
+                            <ul class="weui-uploader__files">
+                                <c:if test="${images!=null and images.size()!=0}">
+                                    <c:forEach items="${images}" var="img">
+                                        <li class="weui-uploader__file">
+                                            <img class="weui-uploader__file" src="${img.filePath}"/></li>
+                                    </c:forEach>
+                                </c:if>
+                                <c:if test="${vdos!=null and vdos.size()!=0}">
+                                    <c:forEach items="${vdos}" var="vdo">
+                                        <li class="weui-uploader__file ellipsis">${vdo.fileName}</li>
+                                    </c:forEach>
+                                </c:if>
+                            </ul>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </c:if>
+            <c:if test="${srBill.billStatus==0||srBill.billStatus==1}">
                 <input type="submit" class="btn-block btn-primary" <%--onclick="check()" --%>id="sub" value="提交"/>
-
+            </c:if>
             <input type="button" class="btn-block btn-warning" onclick="back()" id="sub" value="返回"/>
         </form>
     </div>
@@ -210,7 +207,7 @@
             r.readAsDataURL(f[i]);
             r.onload = function (e) {
                 var url = this.result;
-                console.log("url:"+url);
+                console.log("url:" + url);
                 var string = '<li class="weui-uploader__file" style="background-image:url(' + url + '"></li>';
                 imageUl.append(string);
                 imgindex++;
@@ -225,26 +222,26 @@
             console.info(f[i].name);
             var string = '<li class="weui-uploader__file ellipsis">' + f[i].name + '</li>';
             imageUl.append(string);
+            vdoindex++;
         }
     }
 
     $(function () {
-        $("#imgDel").click(function() { //这部分刚才放错地方了，放到$(function(){})外面去了
-            console.log('删除');
-            console.log(imgindex);
-            console.log($("#imgeFiles").children("li").length);
-            // $("#vdoFiles").find("li").eq(imgindex-1).remove();
-            $("#imgeFiles li").eq(imgindex).siblings().remove();
+        $("#imgDel").click(function () { //这部分刚才放错地方了，放到$(function(){})外面去了
+            $("#imgeFiles").children("li")[imgindex - 1].remove();
+            imgindex--;
         });
-        $("#vdoDel").click(function() { //这部分刚才放错地方了，放到$(function(){})外面去了
-            console.log('删除');
-            $("#vdoFiles").find("li").eq(vdoindex).remove();
+        $("#vdoDel").click(function () { //这部分刚才放错地方了，放到$(function(){})外面去了
+            console.log($("#vdoFiles").children("li").length);
+            $("#vdoFiles").children("li")[vdoindex - 1].remove();
+            vdoindex--;
         });
     })
 </script>
-<script src="${staticPath }/js/jquery.min.js"></script>
-<script src="${staticPath }/js/zepto.min.js"></script>
+<%--<script src="${staticPath }/js/jquery.min.js"></script>--%>
+<%--<script src="${staticPath }/js/zepto.min.js"></script>--%>
 
-<script src="${staticPath }/js/zepto.weui.js"></script>
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
 </body>
 </html>

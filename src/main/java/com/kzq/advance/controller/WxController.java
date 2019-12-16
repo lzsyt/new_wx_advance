@@ -228,7 +228,7 @@ public class WxController extends BaseController {
     }
     //检查是否登录
 
-    public boolean getLoginUser(HttpServletRequest request, TUser user) {
+    public boolean getLoginUser( HttpServletRequest request,TUser user) {
 
         HttpSession session = request.getSession();
          user = (TUser) session.getAttribute("user");
@@ -568,7 +568,7 @@ public class WxController extends BaseController {
     @RequestMapping("saveSRBill")
     public String saveSRBill(TSRBill tsrBill, HttpServletRequest request) throws IOException {
         Boolean flag = isrBillService.save(tsrBill, request);
-            return "redirect:/salesReturn";
+        return "redirect:/salesReturn";
 
     }
     /**

@@ -13,7 +13,7 @@
 <body>
 <section class="g-flexview m-tab" data-ydui-tab>
     <div class="m-cell demo-small-pitch">
-        <form id="searchForm" action="${path}/SalesReturn" type="post">
+        <form id="searchForm" action="${path}/salesReturn" type="post">
             <div class="cell-item">
                 <div class="cell-left cell-width">
                     <input type="text" id="search" value="${search}" name="search" class="cell-input"

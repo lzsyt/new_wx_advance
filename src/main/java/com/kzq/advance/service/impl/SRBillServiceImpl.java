@@ -61,7 +61,7 @@ public class SRBillServiceImpl implements ISRBillService {
         for (TSRBillDetail tsrBillDetail : tsrBill.getTsrBillDetail()) {
             //保存详情表
             //一定要判断非空，不然会sql 报错
-            if (tsrBillDetail.getStatus() != null&&StringUtils.isNotBlank(tsrBillDetail.getStatus())) {
+            if (StringUtils.isNotBlank(tsrBillDetail.getStatus()) && StringUtils.isNotBlank(tsrBillDetail.getStatus())) {
                 flag = tsrBillDetailMapper.updateByPrimaryKeySelective(tsrBillDetail) > 0;
                 num++;
 
@@ -195,7 +195,7 @@ public class SRBillServiceImpl implements ISRBillService {
         List<TSRBillDetail> tsrBillDetails = tsrBillDetailMapper.findDetDetail(tsrBillDetail);
         int cout = 0;
         for (TSRBillDetail billDetail : tsrBillDetails) {
-            if (billDetail.getStatus() != null&&StringUtils.isNotBlank(billDetail.getStatus())) {
+            if (StringUtils.isNotBlank(billDetail.getStatus())&&StringUtils.isNotBlank(billDetail.getStatus())) {
                 cout++;
             }
         }
