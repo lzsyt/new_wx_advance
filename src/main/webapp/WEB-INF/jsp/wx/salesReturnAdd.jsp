@@ -10,9 +10,9 @@
     <meta content="yes" name="apple-mobile-web-app-capable"/>
     <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
     <meta content="telephone=no" name="format-detection"/>
-    <link rel="stylesheet" href="${staticPath}/style/css/weui.css">
-    <link rel="stylesheet" href="${staticPath}/style/css/weuix.css">
-
+    <%--<link rel="stylesheet" href="${staticPath}/style/css/weui.css">--%>
+    <%--<link rel="stylesheet" href="${staticPath}/style/css/weuix.css">--%>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">
     <style>
         .ellipsis {
             overflow: hidden; /*自动隐藏文字*/
@@ -266,10 +266,13 @@ var check=function(){
         $("#contact_form").append(str);}
 
 </script>
-<script src="${staticPath }/js/jquery.min.js"></script>
-<script src="${staticPath }/js/zepto.min.js"></script>
+<%--<script src="${staticPath }/js/jquery.min.js"></script>--%>
+<%--<script src="${staticPath }/js/zepto.min.js"></script>--%>
 
 <script src="${staticPath }/js/zepto.weui.js"></script>
+
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
 
 
 
