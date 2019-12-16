@@ -39,6 +39,14 @@
                 <span class="tabbar-txt">采购订单</span>
             </a>
         </c:if>
+        <c:if test="${foot3}">
+            <a href="${path}/salesReturn" class="tabbar-item" target="myiframe">
+            <span class="tabbar-icon">
+                <i class="icon-feedback"></i>
+            </span>
+                <span class="tabbar-txt">退货</span>
+            </a>
+        </c:if>
         <a href="${path}/userInfo" class="tabbar-item" target="myiframe">
             <span class="tabbar-icon">
                 <i class="icon-ucenter-outline"></i>
@@ -51,6 +59,8 @@
     $("#iframe")[0].onload = function () {
         iosIframeWidthBug();
     };
+
+
     function iosIframeWidthBug() {
         if (!navigator.userAgent.match(/iPad|iPhone/i)) {
             return false;

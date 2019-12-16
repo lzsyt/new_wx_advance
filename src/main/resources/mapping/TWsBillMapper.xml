@@ -68,15 +68,7 @@
         from t_ws_bill_detail d
         left join t_goods g on g.id=d.goods_id
         left join t_goods_unit u on u.id=g.unit_id
-
-        <where>
-
-            d.wsbill_id=#{id}
-
-
-        </where>
-
-
+        where d.wsbill_id=#{id}
     </select>
     <select id="findDetailByBillIdAndWarehouse" parameterType="com.kzq.advance.domain.TWsBill"
             resultMap="BaseResultMap">

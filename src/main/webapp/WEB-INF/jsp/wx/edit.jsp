@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
+<%--不要问我问什么在这里又引入了一遍，我也不知道，不引的话 ydui 会失效--%>
 <%@ include file="../commons/global.jsp" %>
 <!DOCTYPE html>
 <html>
@@ -104,8 +106,6 @@
         </form>
     </div>
 
-    <%--不要问我问什么在这里又引入了一遍，我也不知道，不引的话 ydui 会失效--%>
-    <%@ include file="../commons/global.jsp" %>
 
 </section>
 <script type="application/javascript">

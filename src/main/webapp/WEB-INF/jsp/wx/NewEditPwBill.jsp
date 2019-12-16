@@ -79,20 +79,7 @@
         </form>
     </div>
 
-    <%@ include file="../commons/global.jsp" %>
-    <%--&lt;%&ndash;<jsp:include   page="footer.jsp" flush="true"/>&ndash;%&gt;--%>
-    <%--<c:if test="${foot==1}">--%>
-    <%--<%@ include file="wFooter.jsp"%>--%>
-    <%--&lt;%&ndash;<jsp:include page="wFooter.jsp" flush="true"/>&ndash;%&gt;--%>
-    <%--</c:if>--%>
-    <%--<c:if test="${foot==2}">--%>
-    <%--<%@ include file="XFooter.jsp"%>--%>
-    <%--&lt;%&ndash;<jsp:include page="XFooter.jsp" flush="true"/>&ndash;%&gt;--%>
-    <%--</c:if>--%>
-    <%--<c:if test="${foot==3}">--%>
-    <%--<%@ include file="footer.jsp"%>--%>
-    <%--&lt;%&ndash;<jsp:include page="footer.jsp" flush="true"/>&ndash;%&gt;--%>
-    <%--</c:if>--%>
+
 
 
 </section>

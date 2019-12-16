@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kzq.advance.mapper.TSRBillMapper">
+    <resultMap id="BaseResultMap" type="com.kzq.advance.domain.TSRBill">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="bill_status" jdbcType="INTEGER" property="billStatus"/>
+        <result column="bizdt" jdbcType="TIMESTAMP" property="bizdt"/>
+        <result column="biz_user_id" jdbcType="VARCHAR" property="bizUserId"/>
+        <result column="customer_id" jdbcType="VARCHAR" property="customerId"/>
+        <result column="date_created" jdbcType="TIMESTAMP" property="dateCreated"/>
+        <result column="input_user_id" jdbcType="VARCHAR" property="inputUserId"/>
+        <result column="inventory_money" jdbcType="DECIMAL" property="inventoryMoney"/>
+        <result column="profit" jdbcType="DECIMAL" property="profit"/>
+        <result column="ref" jdbcType="VARCHAR" property="ref"/>
+        <result column="rejection_sale_money" jdbcType="DECIMAL" property="rejectionSaleMoney"/>
+        <result column="warehouse_id" jdbcType="VARCHAR" property="warehouseId"/>
+        <result column="ws_bill_id" jdbcType="VARCHAR" property="wsBillId"/>
+        <result column="payment_type" jdbcType="INTEGER" property="paymentType"/>
+        <result column="data_org" jdbcType="VARCHAR" property="dataOrg"/>
+        <result column="company_id" jdbcType="VARCHAR" property="companyId"/>
+        <result column="reason" jdbcType="VARCHAR" property="reason"/>
+        <result column="maintain_sale" jdbcType="TINYINT" property="maintainSale"/>
+        <result column="image_path" jdbcType="VARCHAR" property="imagePath"/>
+        <result column="tid" property="tid"/>
+        <result column="cp_code" property="cpCode"/>
+        <result column="express_num" property="expressNum"/>
+        <result column="cpCodeName" property="cpCodeName"/>
+        <result column="customerName" property="customerName"/>
+        <result column="buyer_nick" property="buyerNick"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, bill_status, bizdt, biz_user_id, customer_id, date_created, input_user_id, inventory_money, 
+    profit, ref, rejection_sale_money, warehouse_id, ws_bill_id, payment_type, data_org, 
+    company_id, reason, maintain_sale, image_path,tid,cp_code,express_num
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_sr_bill
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_sr_bill
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.kzq.advance.domain.TSRBill">
+    insert into t_sr_bill ( bill_status, bizdt,
+      biz_user_id, customer_id, date_created, 
+      input_user_id, inventory_money, profit, 
+      ref, rejection_sale_money, warehouse_id, 
+      ws_bill_id, payment_type, data_org, 
+      company_id, reason, maintain_sale, 
+      image_path,memo)
+    values ( #{billStatus,jdbcType=INTEGER}, #{bizdt,jdbcType=TIMESTAMP},
+      #{bizUserId,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR}, #{dateCreated,jdbcType=TIMESTAMP}, 
+      #{inputUserId,jdbcType=VARCHAR}, #{inventoryMoney,jdbcType=DECIMAL}, #{profit,jdbcType=DECIMAL}, 
+      #{ref,jdbcType=VARCHAR}, #{rejectionSaleMoney,jdbcType=DECIMAL}, #{warehouseId,jdbcType=VARCHAR}, 
+      #{wsBillId,jdbcType=VARCHAR}, #{paymentType,jdbcType=INTEGER}, #{dataOrg,jdbcType=VARCHAR}, 
+      #{companyId,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{maintainSale,jdbcType=TINYINT}, 
+      #{imagePath,jdbcType=VARCHAR},#{memo,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.kzq.advance.domain.TSRBill">
+        insert into t_sr_bill
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="billStatus != null">
+                bill_status,
+            </if>
+            <if test="bizdt != null">
+                bizdt,
+            </if>
+            <if test="bizUserId != null">
+                biz_user_id,
+            </if>
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="dateCreated != null">
+                date_created,
+            </if>
+            <if test="inputUserId != null">
+                input_user_id,
+            </if>
+            <if test="inventoryMoney != null">
+                inventory_money,
+            </if>
+            <if test="profit != null">
+                profit,
+            </if>
+            <if test="ref != null">
+                ref,
+            </if>
+            <if test="rejectionSaleMoney != null">
+                rejection_sale_money,
+            </if>
+            <if test="warehouseId != null">
+                warehouse_id,
+            </if>
+            <if test="wsBillId != null">
+                ws_bill_id,
+            </if>
+            <if test="paymentType != null">
+                payment_type,
+            </if>
+            <if test="dataOrg != null">
+                data_org,
+            </if>
+            <if test="companyId != null">
+                company_id,
+            </if>
+            <if test="reason != null">
+                reason,
+            </if>
+            <if test="maintainSale != null">
+                maintain_sale,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="cpCode != null">
+                cp_code,
+            </if>
+            <if test="expressNum != null">
+                express_num,
+            </if>
+            <if test="memo != null">
+                memo,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="billStatus != null">
+                #{billStatus,jdbcType=INTEGER},
+            </if>
+            <if test="bizdt != null">
+                #{bizdt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="bizUserId != null">
+                #{bizUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="customerId != null">
+                #{customerId,jdbcType=VARCHAR},
+            </if>
+            <if test="dateCreated != null">
+                #{dateCreated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="inputUserId != null">
+                #{inputUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="inventoryMoney != null">
+                #{inventoryMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="profit != null">
+                #{profit,jdbcType=DECIMAL},
+            </if>
+            <if test="ref != null">
+                #{ref,jdbcType=VARCHAR},
+            </if>
+            <if test="rejectionSaleMoney != null">
+                #{rejectionSaleMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="warehouseId != null">
+                #{warehouseId,jdbcType=VARCHAR},
+            </if>
+            <if test="wsBillId != null">
+                #{wsBillId,jdbcType=VARCHAR},
+            </if>
+            <if test="paymentType != null">
+                #{paymentType,jdbcType=INTEGER},
+            </if>
+            <if test="dataOrg != null">
+                #{dataOrg,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                #{companyId,jdbcType=VARCHAR},
+            </if>
+            <if test="reason != null">
+                #{reason,jdbcType=VARCHAR},
+            </if>
+            <if test="maintainSale != null">
+                #{maintainSale,jdbcType=TINYINT},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="cpCode != null">
+                #{cpCode,jdbcType=VARCHAR},
+            </if>
+            <if test="expressNum != null">
+                #{expressNum,jdbcType=VARCHAR},
+            </if>
+            <if test="memo != null">
+                #{memo,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.kzq.advance.domain.TSRBill">
+        update t_sr_bill
+        <set>
+            <if test="billStatus != null">
+                bill_status = #{billStatus,jdbcType=INTEGER},
+            </if>
+            <if test="bizdt != null">
+                bizdt = #{bizdt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="bizUserId != null">
+                biz_user_id = #{bizUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="customerId != null">
+                customer_id = #{customerId,jdbcType=VARCHAR},
+            </if>
+            <if test="dateCreated != null">
+                date_created = #{dateCreated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="inputUserId != null">
+                input_user_id = #{inputUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="inventoryMoney != null">
+                inventory_money = #{inventoryMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="profit != null">
+                profit = #{profit,jdbcType=DECIMAL},
+            </if>
+            <if test="ref != null">
+                ref = #{ref,jdbcType=VARCHAR},
+            </if>
+            <if test="rejectionSaleMoney != null">
+                rejection_sale_money = #{rejectionSaleMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="warehouseId != null">
+                warehouse_id = #{warehouseId,jdbcType=VARCHAR},
+            </if>
+            <if test="wsBillId != null">
+                ws_bill_id = #{wsBillId,jdbcType=VARCHAR},
+            </if>
+            <if test="paymentType != null">
+                payment_type = #{paymentType,jdbcType=INTEGER},
+            </if>
+            <if test="dataOrg != null">
+                data_org = #{dataOrg,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                company_id = #{companyId,jdbcType=VARCHAR},
+            </if>
+            <if test="reason != null">
+                reason = #{reason,jdbcType=VARCHAR},
+            </if>
+            <if test="maintainSale != null">
+                maintain_sale = #{maintainSale,jdbcType=TINYINT},
+            </if>
+            <if test="imagePath != null">
+                image_path = #{imagePath,jdbcType=VARCHAR},
+            </if>
+            <if test="cpCode!=null">
+                 cp_code= #{cpCode},
+            </if>
+            <if test="expressNum !=null">
+                express_num =#{expressNum}
+            </if>
+            <if test="billStatus !=null">
+                bill_status =#{billStatus}
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.kzq.advance.domain.TSRBill">
+    update t_sr_bill
+    set bill_status = #{billStatus,jdbcType=INTEGER},
+      bizdt = #{bizdt,jdbcType=TIMESTAMP},
+      biz_user_id = #{bizUserId,jdbcType=VARCHAR},
+      customer_id = #{customerId,jdbcType=VARCHAR},
+      date_created = #{dateCreated,jdbcType=TIMESTAMP},
+      input_user_id = #{inputUserId,jdbcType=VARCHAR},
+      inventory_money = #{inventoryMoney,jdbcType=DECIMAL},
+      profit = #{profit,jdbcType=DECIMAL},
+      ref = #{ref,jdbcType=VARCHAR},
+      rejection_sale_money = #{rejectionSaleMoney,jdbcType=DECIMAL},
+      warehouse_id = #{warehouseId,jdbcType=VARCHAR},
+      ws_bill_id = #{wsBillId,jdbcType=VARCHAR},
+      payment_type = #{paymentType,jdbcType=INTEGER},
+      data_org = #{dataOrg,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      maintain_sale = #{maintainSale,jdbcType=TINYINT},
+      image_path = #{imagePath,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+    <select id="find" resultMap="BaseResultMap" parameterType="com.kzq.advance.domain.TSRBill">
+        SELECT
+        tsrb.id,
+        tsrb.ref,
+        tsrb.express_num,
+        tsrb.bill_status,
+        tsrb.cp_code,
+        bizdt
+        FROM
+        t_sr_bill tsrb
+        <where>
+            tsrb.type=1
+            <if test="warehouseId !=null and warehouseId !=''">
+                and   tsrb.warehouse_id=#{warehouseId}
+            </if>
+            <if test="search !=null and search !=''">
+                and tsrb.express_num like CONCAT('%',#{search},'%')
+            </if>
+            <if test="expressNum !=null and expressNum !=''">
+                and tsrb.express_num = #{expressNum}
+            </if>
+            order by bill_status,bizdt desc
+        </where>
+    </select>
+
+    <select id="findDetail" resultMap="BaseResultMap" parameterType="com.kzq.advance.domain.TSRBill">
+        SELECT
+        srb.id,
+        srb.tid,
+        srb.reason,
+        srb.bill_status,
+        tc.NAME AS customerName,
+        tt.buyer_nick,
+        srb.cp_code,
+        srb.express_num,
+        srb.cp_code,
+        srb.maintain_sale,
+        memo
+        FROM
+        t_sr_bill srb
+        LEFT JOIN t_user tu ON srb.biz_user_id = tu.id
+        LEFT JOIN t_customer tc ON tc.id = srb.customer_id
+        LEFT JOIN t_trades tt ON tt.tid = srb.tid
+        <where>
+            <if test="id !=null and id !=''">
+                srb.id=#{id}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kzq.advance.mapper.TSRBillDetailMapper">
+    <resultMap id="BaseResultMap" type="com.kzq.advance.domain.TSRBillDetail">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="date_created" jdbcType="TIMESTAMP" property="dateCreated"/>
+        <result column="exchange_return" property="exchangeReturn"/>
+        <result column="goods_id" jdbcType="VARCHAR" property="goodsId"/>
+        <result column="goods_count" jdbcType="DECIMAL" property="goodsCount"/>
+        <result column="goods_money" jdbcType="DECIMAL" property="goodsMoney"/>
+        <result column="goods_price" jdbcType="DECIMAL" property="goodsPrice"/>
+        <result column="inventory_money" jdbcType="DECIMAL" property="inventoryMoney"/>
+        <result column="inventory_price" jdbcType="DECIMAL" property="inventoryPrice"/>
+        <result column="rejection_goods_count" jdbcType="DECIMAL" property="rejectionGoodsCount"/>
+        <result column="rejection_goods_price" jdbcType="DECIMAL" property="rejectionGoodsPrice"/>
+        <result column="rejection_sale_money" jdbcType="DECIMAL" property="rejectionSaleMoney"/>
+        <result column="show_order" jdbcType="INTEGER" property="showOrder"/>
+        <result column="srbill_id" jdbcType="VARCHAR" property="srbillId"/>
+        <result column="wsbilldetail_id" jdbcType="VARCHAR" property="wsbilldetailId"/>
+        <result column="sn_note" jdbcType="VARCHAR" property="snNote"/>
+        <result column="data_org" jdbcType="VARCHAR" property="dataOrg"/>
+        <result column="company_id" jdbcType="VARCHAR" property="companyId"/>
+        <result column="warehouse_id" jdbcType="VARCHAR" property="warehouseId"/>
+        <result column="detection" jdbcType="VARCHAR" property="detection"/>
+        <result column="goodsName" property="goodsName"/>
+        <result column="status" property="status"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, date_created, goods_id, goods_count, goods_money, goods_price, inventory_money, 
+    inventory_price, rejection_goods_count, rejection_goods_price, rejection_sale_money, 
+    show_order, srbill_id, wsbilldetail_id, sn_note, data_org, company_id, warehouse_id, 
+    detection
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_sr_bill_detail
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_sr_bill_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.kzq.advance.domain.TSRBillDetail">
+    insert into t_sr_bill_detail (id, date_created, goods_id, 
+      goods_count, goods_money, goods_price, 
+      inventory_money, inventory_price, rejection_goods_count, 
+      rejection_goods_price, rejection_sale_money, 
+      show_order, srbill_id, wsbilldetail_id, 
+      sn_note, data_org, company_id, 
+      warehouse_id, detection)
+    values (#{id,jdbcType=VARCHAR}, #{dateCreated,jdbcType=TIMESTAMP}, #{goodsId,jdbcType=VARCHAR}, 
+      #{goodsCount,jdbcType=DECIMAL}, #{goodsMoney,jdbcType=DECIMAL}, #{goodsPrice,jdbcType=DECIMAL}, 
+      #{inventoryMoney,jdbcType=DECIMAL}, #{inventoryPrice,jdbcType=DECIMAL}, #{rejectionGoodsCount,jdbcType=DECIMAL}, 
+      #{rejectionGoodsPrice,jdbcType=DECIMAL}, #{rejectionSaleMoney,jdbcType=DECIMAL}, 
+      #{showOrder,jdbcType=INTEGER}, #{srbillId,jdbcType=VARCHAR}, #{wsbilldetailId,jdbcType=VARCHAR}, 
+      #{snNote,jdbcType=VARCHAR}, #{dataOrg,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, 
+      #{warehouseId,jdbcType=VARCHAR}, #{detection,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.kzq.advance.domain.TSRBillDetail">
+        insert into t_sr_bill_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="dateCreated != null">
+                date_created,
+            </if>
+            <if test="goodsId != null">
+                goods_id,
+            </if>
+            <if test="goodsCount != null">
+                goods_count,
+            </if>
+            <if test="goodsMoney != null">
+                goods_money,
+            </if>
+            <if test="goodsPrice != null">
+                goods_price,
+            </if>
+            <if test="inventoryMoney != null">
+                inventory_money,
+            </if>
+            <if test="inventoryPrice != null">
+                inventory_price,
+            </if>
+            <if test="rejectionGoodsCount != null">
+                rejection_goods_count,
+            </if>
+            <if test="rejectionGoodsPrice != null">
+                rejection_goods_price,
+            </if>
+            <if test="rejectionSaleMoney != null">
+                rejection_sale_money,
+            </if>
+            <if test="showOrder != null">
+                show_order,
+            </if>
+            <if test="srbillId != null">
+                srbill_id,
+            </if>
+            <if test="wsbilldetailId != null">
+                wsbilldetail_id,
+            </if>
+            <if test="snNote != null">
+                sn_note,
+            </if>
+            <if test="dataOrg != null">
+                data_org,
+            </if>
+            <if test="companyId != null">
+                company_id,
+            </if>
+            <if test="warehouseId != null">
+                warehouse_id,
+            </if>
+            <if test="detection != null">
+                detection,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="dateCreated != null">
+                #{dateCreated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="goodsId != null">
+                #{goodsId,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsCount != null">
+                #{goodsCount,jdbcType=DECIMAL},
+            </if>
+            <if test="goodsMoney != null">
+                #{goodsMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="goodsPrice != null">
+                #{goodsPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="inventoryMoney != null">
+                #{inventoryMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="inventoryPrice != null">
+                #{inventoryPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="rejectionGoodsCount != null">
+                #{rejectionGoodsCount,jdbcType=DECIMAL},
+            </if>
+            <if test="rejectionGoodsPrice != null">
+                #{rejectionGoodsPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="rejectionSaleMoney != null">
+                #{rejectionSaleMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="showOrder != null">
+                #{showOrder,jdbcType=INTEGER},
+            </if>
+            <if test="srbillId != null">
+                #{srbillId,jdbcType=VARCHAR},
+            </if>
+            <if test="wsbilldetailId != null">
+                #{wsbilldetailId,jdbcType=VARCHAR},
+            </if>
+            <if test="snNote != null">
+                #{snNote,jdbcType=VARCHAR},
+            </if>
+            <if test="dataOrg != null">
+                #{dataOrg,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                #{companyId,jdbcType=VARCHAR},
+            </if>
+            <if test="warehouseId != null">
+                #{warehouseId,jdbcType=VARCHAR},
+            </if>
+            <if test="detection != null">
+                #{detection,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.kzq.advance.domain.TSRBillDetail">
+        update t_sr_bill_detail
+        <set>
+            <if test="dateCreated != null">
+                date_created = #{dateCreated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="goodsId != null">
+                goods_id = #{goodsId,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsCount != null">
+                goods_count = #{goodsCount,jdbcType=DECIMAL},
+            </if>
+            <if test="goodsMoney != null">
+                goods_money = #{goodsMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="goodsPrice != null">
+                goods_price = #{goodsPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="inventoryMoney != null">
+                inventory_money = #{inventoryMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="inventoryPrice != null">
+                inventory_price = #{inventoryPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="rejectionGoodsCount != null">
+                rejection_goods_count = #{rejectionGoodsCount,jdbcType=DECIMAL},
+            </if>
+            <if test="rejectionGoodsPrice != null">
+                rejection_goods_price = #{rejectionGoodsPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="rejectionSaleMoney != null">
+                rejection_sale_money = #{rejectionSaleMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="showOrder != null">
+                show_order = #{showOrder,jdbcType=INTEGER},
+            </if>
+            <if test="srbillId != null">
+                srbill_id = #{srbillId,jdbcType=VARCHAR},
+            </if>
+            <if test="wsbilldetailId != null">
+                wsbilldetail_id = #{wsbilldetailId,jdbcType=VARCHAR},
+            </if>
+            <if test="snNote != null">
+                sn_note = #{snNote,jdbcType=VARCHAR},
+            </if>
+            <if test="dataOrg != null">
+                data_org = #{dataOrg,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                company_id = #{companyId,jdbcType=VARCHAR},
+            </if>
+            <if test="warehouseId != null">
+                warehouse_id = #{warehouseId,jdbcType=VARCHAR},
+            </if>
+            <if test="detection != null">
+                detection = #{detection,jdbcType=VARCHAR},
+            </if>
+            <if test="exchangeReturn !=null">
+                exchange_return =#{exchangeReturn},
+            </if>
+            <if test="status !=null and status!=''">
+                status=#{status}
+            </if>
+            <if test="cpCode!=null">
+                cp_code= #{cpCode},
+            </if>
+            <if test="expressNum !=null">
+                express_num =#{expressNum}
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.kzq.advance.domain.TSRBillDetail">
+    update t_sr_bill_detail
+    set date_created = #{dateCreated,jdbcType=TIMESTAMP},
+      goods_id = #{goodsId,jdbcType=VARCHAR},
+      goods_count = #{goodsCount,jdbcType=DECIMAL},
+      goods_money = #{goodsMoney,jdbcType=DECIMAL},
+      goods_price = #{goodsPrice,jdbcType=DECIMAL},
+      inventory_money = #{inventoryMoney,jdbcType=DECIMAL},
+      inventory_price = #{inventoryPrice,jdbcType=DECIMAL},
+      rejection_goods_count = #{rejectionGoodsCount,jdbcType=DECIMAL},
+      rejection_goods_price = #{rejectionGoodsPrice,jdbcType=DECIMAL},
+      rejection_sale_money = #{rejectionSaleMoney,jdbcType=DECIMAL},
+      show_order = #{showOrder,jdbcType=INTEGER},
+      srbill_id = #{srbillId,jdbcType=VARCHAR},
+      wsbilldetail_id = #{wsbilldetailId,jdbcType=VARCHAR},
+      sn_note = #{snNote,jdbcType=VARCHAR},
+      data_org = #{dataOrg,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=VARCHAR},
+      warehouse_id = #{warehouseId,jdbcType=VARCHAR},
+      detection = #{detection,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+    <select id="findDetDetail" parameterType="com.kzq.advance.domain.TSRBillDetail" resultMap="BaseResultMap">
+        SELECT
+        srbd.id,
+        srbd.exchange_return,
+        srbd.detection,
+        tg.NAME AS goodsName,
+        srbd.goods_count,
+        srbd.status
+        FROM
+        t_sr_bill_detail srbd
+        INNER JOIN t_goods tg ON tg.id = srbd.goods_id
+        <where>
+            <if test="srbillId !=null and srbillId !=''">
+                srbd.srbill_id=#{srbillId}
+            </if>
+        </where>
+    </select>
+</mapper>

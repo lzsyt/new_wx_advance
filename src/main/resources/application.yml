@@ -47,9 +47,13 @@ pagehelper:
   params: count=countSql
 
 
-
+server:
+  connection-timeout: 18000000
 spring.datasource.druid.stat-view-servlet.login-username: admin
 spring.datasource.druid.stat-view-servlet.login-password: 123
+
+
+wxUploadPath: D:/res/wxUpload
 
 logging:
   level:
@@ -57,4 +61,6 @@ logging:
       kzq:
         advance:
           mapper: debug
+
+
 

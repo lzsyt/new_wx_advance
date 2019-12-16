@@ -3,6 +3,7 @@ package com.kzq.advance.service;
 
 import com.kzq.advance.domain.*;
 import com.kzq.advance.domain.vo.PwBillVo;
+import com.kzq.advance.domain.vo.Warehouse;
 
 import java.util.List;
 
@@ -52,7 +53,7 @@ public interface IWxService {
     /**
      * 判断是否是仓库管理员
      */
-    public String isWarehouse(String userId);
+    public Warehouse isWarehouse(String userId);
     /**
      * 根据warehouse查询出库单总单
      */

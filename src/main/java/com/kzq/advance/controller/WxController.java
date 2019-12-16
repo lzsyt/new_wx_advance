@@ -5,11 +5,10 @@ import com.kzq.advance.common.advanced.model.WeixinOauth2Token;
 import com.kzq.advance.common.advanced.util.OAuthUtil;
 import com.kzq.advance.common.base.BaseController;
 import com.kzq.advance.common.utils.HttpUtils;
-import com.kzq.advance.domain.TCustomer;
-import com.kzq.advance.domain.TUser;
-import com.kzq.advance.domain.TWsBill;
-import com.kzq.advance.domain.TWsBillDetail;
+import com.kzq.advance.domain.*;
 import com.kzq.advance.domain.vo.PwBillVo;
+import com.kzq.advance.domain.vo.Warehouse;
+import com.kzq.advance.service.ISRBillService;
 import com.kzq.advance.service.IWxService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,12 +32,13 @@ import java.util.List;
  * @date：2015/10/1 14:51
  */
 @Controller
-public class wxController extends BaseController {
+public class WxController extends BaseController {
     @Autowired
     private IWxService wxService;
+    @Autowired
+    ISRBillService isrBillService;
     private String AppID = "wx8148352aa79f60c7";
     private String AppSecret = "e55265afba1663a40388496d39641cb9";
-
 
     /**
      * 进入微信登录界面
@@ -61,7 +62,7 @@ public class wxController extends BaseController {
                     List<TWsBill> list = wxService.findTWsBill(null);
 
                     request.setAttribute("wsBills", list);
-                    return "redirect:/index";
+                    return redirect("/index");
                 }
             }
             //通知的链接过来的可以直接登陆
@@ -76,7 +77,7 @@ public class wxController extends BaseController {
                     List<TWsBill> list = wxService.findTWsBill(null);
 
                     request.setAttribute("wsBills", list);
-                    return "redirect:/index";
+                    return redirect("/index");
 
                 }
             }
@@ -88,7 +89,12 @@ public class wxController extends BaseController {
         return "wx/login";
 
     }
+    @RequestMapping("/login")
+    public String login(HttpServletRequest request) {
 
+        return "wx/login";
+
+    }
     /***
      * 微信登录验证
      * @return
@@ -110,15 +116,58 @@ public class wxController extends BaseController {
             }
             TUser user = wxService.findUserByloginName(name);
             //判断是否是仓库管理员
-            String warehouseId = wxService.isWarehouse(user.getId());
-            if (StringUtils.isNotBlank(warehouseId)) {
-                session.setAttribute("warehouseId", warehouseId);
+            Warehouse wareInfo = wxService.isWarehouse(user.getId());
+            if (wareInfo!=null&&StringUtils.isNotBlank(wareInfo.getId())) {
+                session.setAttribute("warehouseId", wareInfo.getId());
+                session.setAttribute("warehouse",wareInfo);
+
             }
             session.setAttribute("user", user);
             return renderSuccess();
         }
         return renderError("用户名密码错误");
 
+    }
+
+    /**
+     *首页列表
+     * @param request
+     * @return
+     */
+    @RequestMapping("index")
+    public String newIndex(HttpServletRequest request) {
+
+        TUser user = (TUser) request.getSession().getAttribute("user");
+        Warehouse wareInfo = (Warehouse) request.getSession().getAttribute("warehouse");
+        if (wareInfo!=null&&StringUtils.isNotBlank(wareInfo.getId())) {
+            //如果是仓管
+            //本地仓：天马，只显示退货
+            if(wareInfo.getName().contains("天马")){
+                request.setAttribute("fristUrl", "salesReturn");
+
+                //退货
+                request.setAttribute("foot3", true);
+                request.setAttribute("foot2", false);
+                request.setAttribute("foot1", false);
+
+            }else {
+                //异地仓：显示全部
+
+                request.setAttribute("fristUrl", "getContent");
+                request.setAttribute("foot1", true);
+                request.setAttribute("foot2", true);
+                request.setAttribute("foot3", true);
+
+            }
+
+        } else {
+            //非仓库管理员拥有所有foot页面，跳转到发货界面
+            request.setAttribute("foot1", true);
+            request.setAttribute("foot2", true);
+            request.setAttribute("foot3", true);
+            request.setAttribute("fristUrl", "getContent");
+        }
+        return "wx/mainIndex";
     }
 
     /**
@@ -129,9 +178,9 @@ public class wxController extends BaseController {
      */
     @RequestMapping("/getContent")
     public String index(String search, HttpServletRequest request) {
-       if (StringUtils.isNotBlank(search)) {
-           request.setAttribute("search", search);
-       }
+        if (StringUtils.isNotBlank(search)) {
+            request.setAttribute("search", search);
+        }
         HttpSession session = request.getSession();
         String warehouseId = (String) session.getAttribute("warehouseId");
         //判断是否是仓库管理员
@@ -157,9 +206,9 @@ public class wxController extends BaseController {
      * 原来的 发货单
      */
     @GetMapping("/orderDetail/{id}")
-    public String orderDetail(@PathVariable("id") String id, HttpServletRequest request,String search) {
+    public String orderDetail(@PathVariable("id") String id, HttpServletRequest request, String search) {
         if (StringUtils.isNotBlank(search))
-            request.setAttribute("search",search);
+            request.setAttribute("search", search);
         //发货详细单
         TWsBill wsBill = wxService.findDetailById(id);
         wsBill.setId(id);
@@ -177,21 +226,42 @@ public class wxController extends BaseController {
 
 
     }
+    //检查是否登录
+
+    public boolean getLoginUser(HttpServletRequest request, TUser user) {
+
+        HttpSession session = request.getSession();
+         user = (TUser) session.getAttribute("user");
+        if (user!=null){
+
+            return true;
+
+        }
+        return false;
+    }
 
     /**
      * 新的发货详单
      */
     @GetMapping("/orderDetailForWarehouse/{id}")
-    public String orderDetailForWarehouse(@PathVariable("id") String id, HttpServletRequest request,String search) {
-        if(StringUtils.isNotBlank(search)) {
+    public String orderDetailForWarehouse(@PathVariable("id") String id, HttpServletRequest request, String search) {
+        if (StringUtils.isNotBlank(search)) {
             request.setAttribute("search", search);
         }
+        TUser user=new TUser();
+        getLoginUser(request,user);
+       if( getLoginUser(request,user)){
+           String userId = user.getId();
+
+
+       }else {
+
+          return "wx/login";
+       }
         HttpSession session = request.getSession();
-        TUser user = (TUser) session.getAttribute("user");
-
-        String userId = user.getId();
-
         String warehouseId = (String) session.getAttribute("warehouseId");
+
+
         //发货详细单
         TWsBill wsBill = wxService.findDetailById(id);
         wsBill.setId(id);
@@ -202,9 +272,9 @@ public class wxController extends BaseController {
         request.setAttribute("goodsList", goodsList);
         request.setAttribute("wsBill", wsBill);
         request.setAttribute("customer", customer);
-//            request.setAttribute("billstatus", billStatus(goodsList));
+//      request.setAttribute("billstatus", billStatus(goodsList));
         if (StringUtils.isNotBlank(warehouseId)) {
-            return "wx/NewEditDeliver";
+            return "wx/newEditDeliver";
         } else {
             return "wx/editDeliver";
         }
@@ -223,10 +293,10 @@ public class wxController extends BaseController {
     }
 
     /**
-     * 保存
+     * 保存出库单
      */
     @PostMapping("/saveWsBill")
-    public String saveWsBill(String expressCompany, String expressNum, String id, String[] checkbox, HttpServletRequest request,String search) {
+    public String saveWsBill(String expressCompany, String expressNum, String id, String[] checkbox, HttpServletRequest request, String search) {
 
         long startTime = System.currentTimeMillis();
         logger.info("expressCompany:" + expressCompany + ", expressNum:" + expressNum);
@@ -298,32 +368,13 @@ public class wxController extends BaseController {
         logger.info("执行发货方法");
 //        boolean flag = wxService.send(id, checkbox);
 
-        if(StringUtils.isNotBlank(search)) {
-            return "redirect:/getContent?search" + search;
-        }else{
+        if (StringUtils.isNotBlank(search)) {
+            return "redirect:/getContent?search=" + search;
+        } else {
             return "redirect:/getContent";
         }
 
 
-    }
-
-    /**
-     * 用户中心
-     */
-    @GetMapping("/userInfo")
-    public String userInfo(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        TUser user = (TUser) session.getAttribute("user");
-        if (user != null && user.getId() != null) {
-            request.setAttribute("name", user.getName());
-            request.setAttribute("loginName", user.getLoginName());
-        }
-        String warehouseId = (String) session.getAttribute("warehouseId");
-        if (StringUtils.isNotBlank(warehouseId)) {
-            return "/wx/newUserInfo";
-        } else {
-            return "/wx/userInfo";
-        }
     }
 
 
@@ -343,7 +394,7 @@ public class wxController extends BaseController {
             logger.info("仓库：" + warehouseId);
             list = wxService.findPwBillList(keyword, warehouseId);
             request.setAttribute("pwBills", list);
-            return "wx/NewPwBill";
+            return "wx/newPwBill";
         } else {
             list = wxService.findPwBillList(keyword, null);
             request.setAttribute("pwBills", list);
@@ -356,12 +407,17 @@ public class wxController extends BaseController {
      * 入库单详情
      */
     @RequestMapping("/pwBillInfo/{id}")
-    public String pwBillInfo(@PathVariable("id") String id, HttpServletRequest request,String keyword) {
+    public String pwBillInfo(@PathVariable("id") String id, HttpServletRequest request, String keyword) {
         if (StringUtils.isNotBlank(keyword)) {
             request.setAttribute("keyword", keyword);
         }
         HttpSession session = request.getSession();
         TUser user = (TUser) session.getAttribute("user");
+        if (user==null){
+            return "wx/newEditPwBill";
+
+
+        }
         String userId = user.getId();
         PwBillVo tPwBill = wxService.findTPwBillById(id);
         tPwBill.setId(id);
@@ -376,7 +432,7 @@ public class wxController extends BaseController {
 
         String warehouseid = (String) session.getAttribute("warehouseId");
         if (StringUtils.isNotBlank(warehouseid)) {
-            return "wx/NewEditPwBill";
+            return "wx/newEditPwBill";
         } else {
             return "wx/editPwBill";
         }
@@ -410,6 +466,26 @@ public class wxController extends BaseController {
         return "1";
     }
 
+
+    /**
+     * 用户中心
+     */
+    @GetMapping("/userInfo")
+    public String userInfo(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        TUser user = (TUser) session.getAttribute("user");
+        if (user != null && user.getId() != null) {
+            request.setAttribute("name", user.getName());
+            request.setAttribute("loginName", user.getLoginName());
+        }
+        String warehouseId = (String) session.getAttribute("warehouseId");
+        if (StringUtils.isNotBlank(warehouseId)) {
+            return "/wx/newUserInfo";
+        } else {
+            return "/wx/userInfo";
+        }
+    }
+
     /**
      * 退出登录
      */
@@ -421,31 +497,133 @@ public class wxController extends BaseController {
     }
 
 
-    @RequestMapping("index")
-    public String newIndex(HttpServletRequest request) {
-
-        TUser user = (TUser) request.getSession().getAttribute("user");
-        String warehouseId = (String) request.getSession().getAttribute("warehouseId");
-        if (StringUtils.isNotBlank(warehouseId)) {
-            List<String> strings = wxService.findPermissionByUserId(user.getId());
-            Boolean flag1 = strings.contains("销售出库");
-            Boolean flag2 = strings.contains("采购入库");
-            request.setAttribute("foot1", flag1);
-            request.setAttribute("foot2", flag2);
-            if (flag1) {
-                request.setAttribute("fristUrl", "getContent");
-            } else if (flag2) {
-                request.setAttribute("fristUrl", "pwBillList");
-            } else {
-                request.setAttribute("fristUrl", "userInfo");
-            }
-        } else {
-            //非仓库管理员拥有所有foot页面，跳转到发货界面
-            request.setAttribute("foot1", true);
-            request.setAttribute("foot2", true);
-            request.setAttribute("fristUrl", "getContent");
+    /**
+     * 退货列表
+     *
+     * @return
+     */
+    @RequestMapping("salesReturn")
+    public String salesReturn(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        if (request.getAttribute("srBills") != null) {
+            request.removeAttribute("srBills");
         }
-        return "wx/MainIndex";
+        TSRBill tsrBill = new TSRBill();
+        String search = request.getParameter("search");
+        if (!StringUtils.isBlank(search)) {
+            request.setAttribute("search", search);
+        }
+        tsrBill.setSearch(search);
+        //判断是否是仓库管理员
+        String warehouseId = (String) session.getAttribute("warehouseId");
+        if (StringUtils.isNotBlank(warehouseId)) {
+            logger.info("仓库：" + warehouseId);
+            //查询条件
+            tsrBill.setWarehouseId(warehouseId);
+        }
+        List<TSRBill> list = isrBillService.find(tsrBill);
+        request.setAttribute("srBills", list);
+        return "/wx/srBill";
     }
+
+    /**
+     * 查看单个退货单
+     * @param id
+     * @param request
+     * @return
+     */
+    @RequestMapping("salesReturnDetail/{id}")
+    public String salesReturnDetail(@PathVariable("id") String id, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String search = request.getParameter("search");
+        if (StringUtils.isNotBlank(search)) {
+            request.setAttribute("search", search);
+        }
+        String warehouseId = (String) session.getAttribute("warehouseId");
+        TSRBill searchTsrBill = new TSRBill();
+        searchTsrBill.setId(id);
+        searchTsrBill.setWarehouseId(warehouseId);
+        TSRBill tsrBill = isrBillService.findTsrDetail(searchTsrBill);
+        TSRBillDetail tsrBillDetail = new TSRBillDetail();
+        tsrBillDetail.setSrbillId(id);
+        List<TSRBillDetail> tsrBillDetails = isrBillService.findDetDetail(tsrBillDetail);
+        request.setAttribute("srBill", tsrBill);
+        request.setAttribute("billDetailList", tsrBillDetails);
+        List<TSRBillFile> imgs=isrBillService.findImages(id);
+        List<TSRBillFile> videos=isrBillService.findVdo(id);
+        request.setAttribute("images", imgs);
+        request.setAttribute("vdos", videos);
+        return "/wx/srBillEdit";
+    }
+
+
+
+    /**
+     * 保存退货单
+     * @param tsrBill
+     * @param request
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping("saveSRBill")
+    public String saveSRBill(TSRBill tsrBill, HttpServletRequest request) throws IOException {
+        Boolean flag = isrBillService.save(tsrBill, request);
+            return "redirect:/salesReturn";
+
+    }
+    /**
+     * 新建退货单
+     * @return
+     */
+    @RequestMapping("salesReturnAdd")
+    public String salesReturnAdd(){
+        return "/wx/salesReturnAdd";
+    }
+
+    /*
+
+    检查快递单是否重复
+    1:为重复 0：为不重复
+     */
+    @ResponseBody
+    @RequestMapping("checkExpressNum")
+    public String checkExpressNum(String  expressNum){
+            TSRBill bill=new TSRBill();
+            bill.setExpressNum(expressNum);
+            List <TSRBill>list=isrBillService.find(bill);
+            if(list!=null&&list.size()>0){
+               return "1";
+            }
+        return "0";
+
+    }
+
+    /**
+     * 保存新的退货单
+     * @param tsrBill
+     * @param request
+     * @return
+     */
+
+    @RequestMapping("saveAddSRBill")
+    public String saveAddSRBill(TSRBill tsrBill, HttpServletRequest request){
+
+        try {
+            isrBillService.addSrBill(tsrBill, request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //返回到退货列表
+        return "redirect:/salesReturn";
+
+    }
+
+
+
+    @RequestMapping("img")
+    public String img(){
+        return "wx/img";
+    }
+
 
 }

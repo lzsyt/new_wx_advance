@@ -5,6 +5,7 @@ import com.kzq.advance.common.utils.MD5Util;
 import com.kzq.advance.common.utils.TbaoUtils;
 import com.kzq.advance.domain.*;
 import com.kzq.advance.domain.vo.PwBillVo;
+import com.kzq.advance.domain.vo.Warehouse;
 import com.kzq.advance.mapper.*;
 import com.kzq.advance.service.IWxService;
 import org.apache.commons.lang.StringUtils;
@@ -158,7 +159,7 @@ public class WxServiceImpl implements IWxService {
     /**
      * 判断是否是仓库管理员
      */
-    public String isWarehouse(String userId) {
+    public Warehouse isWarehouse(String userId) {
         //查询该用户的部门名称是否有所对应的仓库
 
         return userMapper.findUserWarehouse(userId);
@@ -243,21 +244,7 @@ public class WxServiceImpl implements IWxService {
     public List<String> findPermissionByUserId(String userId) {
         return userMapper.findPermissionByUserId(userId);
     }
-    /*
-    *
-    *
-         首先根据billid查出对应的tid
-         然后根据billdetailIds 得到对应的List<TWsBillDetail>
-         因为我们进行发货的时候调用的接口是多个子订单用一个物流单号和物流公司
-         所有我们可以声明一个HashMap 用物流单号+物流公司编码作为key，用oid 也就是subTid 作为值
-         我们对得到的List<TWsBillDetail>进行遍历，判断HashMap中是否包含以物流单号+物流公司编码的key
-         如果有就说明这个TWsBillDetail和HashMap中的那个是同一批发货
-         如果没有就说明这是一个新的发货单，则插入物流单号+物流公司编码和oid
-         在遍历完List<TWsBillDetail>之后我们得到的HashMap就是我们要发货的信息
-         对HashMap进行遍历，把key拆分为物流单号+物流公司编码
-         调用淘宝的发货方法进行发货，参数为：tid，oid集合，物流单号，物流公司编码
-    *
-    * */
+
 
     private boolean sendSubTid(String billId, String[] billDetailIds) {
         //得到tid

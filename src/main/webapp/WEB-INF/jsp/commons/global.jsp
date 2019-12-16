@@ -18,3 +18,18 @@
 <script src="${path}/js/jquery.min.js"></script>
 <script src="${path}/js/ydui.flexible.js"></script>
 <script src="${staticPath }/js/ydui.js"></script>
+<script>
+    $(function () {
+        //没有登陆的标识
+      //  var dialog = win.YDUI.dialog;
+
+        var loginFlag="${msg}";
+
+        if(loginFlag!=null&&loginFlag!=''){
+            alert("登录超时，请重新登录");
+            top.location.href="${path}/";
+
+        }
+    });
+
+</script>
