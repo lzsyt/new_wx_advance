@@ -16,17 +16,20 @@
     <style>
         .ellipsis {
             overflow: hidden; /*自动隐藏文字*/
-            text-overflow: ellipsis;/*文字隐藏后添加省略号*/
-            white-space: nowrap;/*强制不换行*/
-            width: 16em;/*不允许出现半汉字截断*/
+            text-overflow: ellipsis; /*文字隐藏后添加省略号*/
+            white-space: nowrap; /*强制不换行*/
+            width: 16em; /*不允许出现半汉字截断*/
         }
-        body{
+
+        body {
             font-size: 14px;
         }
-        .m-cell{
+
+        .m-cell {
             padding-top: 10px;
         }
-        .page-bd-15{
+
+        .page-bd-15 {
             padding-left: 0.24rem;
         }
     </style>
@@ -34,18 +37,18 @@
 <body>
 
 
-
 <section class="g-flexview">
     <div class="g-scrollview">
 
 
-        <form name="serForm" action="${path}/saveAddSRBill" id="serForm" method="post"  onsubmit="return check()" enctype="multipart/form-data">
+        <form name="serForm" action="${path}/saveAddSRBill" id="serForm" method="post" onsubmit="return check()"
+              enctype="multipart/form-data">
             <input name="search" value="${search}" type="hidden">
             <div class="m-cell demo-small-pitch">
                 <div class="cell-item">
                     <div class="cell-left">快递公司：</div>
                     <div class="cell-right">
-                        <input id="cpCode" name="cpCode"  type="text" class="cell-input"/>
+                        <input id="cpCode" name="cpCode" type="text" class="cell-input"/>
                     </div>
                 </div>
                 <div class="cell-item">
@@ -64,7 +67,7 @@
                     <div class="cell-left">发货商品：</div>
                     <div class="cell-right wrap">
 
-                        <input id="txt_ide" name="tsrBillDetail[0].goodsName" type="text"  class="cell-input" />
+                        <input id="txt_ide" name="tsrBillDetail[0].goodsName" type="text" class="cell-input"/>
 
 
                     </div>
@@ -73,7 +76,8 @@
                 <%--商品数量--%>
                 <div class="cell-item">
                     <div class="cell-left">商品数量：</div>
-                    <div class="cell-right "><input name="tsrBillDetail[0].goodsCount" type="number"  class="cell-input"/>
+                    <div class="cell-right "><input name="tsrBillDetail[0].goodsCount" type="number"
+                                                    class="cell-input"/>
 
 
                     </div>
@@ -85,7 +89,6 @@
                         <input name="tsrBillDetail[0].status" type="text" class="cell-input"/>
                     </label>
                 </div>
-
 
 
             </div>
@@ -109,7 +112,8 @@
                             <ul class="weui-uploader__files" id="uploaderFiles">
                             </ul>
                             <div class="weui-uploader__input-box">
-                                <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple="">
+                                <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*"
+                                       multiple="">
                             </div>
                         </div>
                     </div>
@@ -133,8 +137,8 @@
                 </div>
 
 
-            <input type="submit" id="bnt" class="btn-block btn-primary"  value="提交"/>
-            <input type="button" class="btn-block btn-warning" onclick="back()" id="sub" value="返回"/>
+                <input type="submit" id="bnt" class="btn-block btn-primary" value="提交"/>
+                <input type="button" class="btn-block btn-warning" onclick="back()" id="sub" value="返回"/>
             </div>
 
         </form>
@@ -149,58 +153,45 @@
     </div>
 </section>
 <script type="text/javascript">
-var check=function(){
-    var cpCode = $("#cpCode").val();
-    var expressNum = $("#expressNum").val();
-
-    if(cpCode==""){
-        console.log("cpCode:"+cpCode);
-
-        $.toptip("快递公司不能为空");
-        return false;
-    }
-    if(expressNum==""){
-
-        $.toptip("快递单号不能为空");
-        return false;
-
-    }
-    var flag=1;
-    $.ajax({
-        type: 'POST',
-        async: false,
-        url: "${path}/checkExpressNum",
-        data: {"expressNum":expressNum},
-        success: function (data) {
-            if(data=="1"){
-                //没有重复的快递单号
-                $.toptip("快递单号不能重复");
-                return;
-            }
-            flag=0;
-
-
-        },
-        dataType: "text"
-    });
-    console.log("flag:"+flag);
-
-    if (flag==1){
-
-
-        return false;
-    }
-
+    var check = function () {
+        var cpCode = $("#cpCode").val();
+        var expressNum = $("#expressNum").val();
+        if (cpCode == "") {
+            console.log("cpCode:" + cpCode);
+            $.toptip("快递公司不能为空");
+            return false;
+        }
+        if (expressNum == "") {
+            $.toptip("快递单号不能为空");
+            return false;
+        }
+        var flag = 1;
+        $.ajax({
+            type: 'POST',
+            async: false,
+            url: "${path}/checkExpressNum",
+            data: {"expressNum": expressNum},
+            success: function (data) {
+                if (data == "1") {
+                    //没有重复的快递单号
+                    $.toptip("快递单号不能重复");
+                    return;
+                }
+                flag = 0;
+            },
+            dataType: "text"
+        });
+        console.log("flag:" + flag);
+        if (flag == 1) {
+            return false;
+        }
         return true;
+    }
 
 
-}
-
-
-
-
-        function back() {
-        location.href = "${path}/salesReturn?search=${search}";}
+    function back() {
+        location.href = "${path}/salesReturn?search=${search}";
+    }
 
 
     function echoimge() {
@@ -211,13 +202,9 @@ var check=function(){
             r.readAsDataURL(f[i]);
             r.onload = function (e) {
                 var url = this.result;
-
                 var imgLi = '<li  class="weui-uploader__file" style="background-image:url(' + url + ')"></li>';
                 console.info(url);
-
                 imageUl.append(imgLi);
-
-
             };
         }
     }
@@ -234,34 +221,32 @@ var check=function(){
             console.info(f[i].name);
             var string = '<li class="weui-uploader__file ellipsis">' + f[i].name + '</li>';
             imageUl.append(string);
-
             // };
-
         }
     }
 
     function addfrom() {
-        var i=1;
+        var i = 1;
         $("div[name='detail']").each(function () {
-               i++;
+            i++;
         });
         var str = '<br/><div class="m-cell"  name="detail">\n' +
             '                <%--发货商品--%>\n' +
             '                <div class="cell-item">\n' +
             '                    <div class="cell-left">发货商品：</div>\n' +
-            '                    <div class="cell-right"><input name="tsrBillDetail['+i+'].goodsName" type="text" class="cell-input"/></div>\n' +
+            '                    <div class="cell-right"><input name="tsrBillDetail[' + i + '].goodsName" type="text" class="cell-input"/></div>\n' +
             '                </div>\n' +
             '                <%--商品数量--%>\n' +
             '                <div class="cell-item">\n' +
             '                    <div class="cell-left">商品数量：</div>\n' +
-            '                    <div class="cell-right"><input name="tsrBillDetail['+i+'].goodsCount" type="text" class="cell-input"/>\n' +
+            '                    <div class="cell-right"><input name="tsrBillDetail[' + i + '].goodsCount" type="text" class="cell-input"/>\n' +
             '                    </div>\n' +
             '                </div>' +
             '                <%--产品状态--%>\n' +
             '                <div class="cell-item">\n' +
             '                    <div class="cell-left">产品状态：</div>\n' +
             '                    <label class="cell-right cell-arrow">\n' +
-            '                        <input name="tsrBillDetail['+i+'].status" type="text" class="cell-input"/>\n' +
+            '                        <input name="tsrBillDetail[' + i + '].status" type="text" class="cell-input"/>\n' +
             '                    </label>\n' +
             '                </div>\n' +
             '                <%--检测情况--%>\n' +
@@ -272,7 +257,8 @@ var check=function(){
             '                    </div>\n' +
             '                </div>\n' +
             '            </div>';
-        $("#contact_form").append(str);}
+        $("#contact_form").append(str);
+    }
 
 </script>
 <%--<script src="${staticPath }/js/jquery.min.js"></script>--%>
@@ -284,22 +270,21 @@ var check=function(){
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
 
 
-
 </body>
 </html>
 <script>
-    $(function() {
+    $(function () {
         var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
             $gallery = $("#gallery"),
             $galleryImg = $("#galleryImg"),
             $uploaderInput = $("#uploaderInput"),
             $uploaderFiles = $("#uploaderFiles");
-        $uploaderInput.on("change", function(e) {
+        $uploaderInput.on("change", function (e) {
             var src, url = window.URL || window.webkitURL || window.mozURL,
                 files = e.target.files;
-            for(var i = 0, len = files.length; i < len; ++i) {
+            for (var i = 0, len = files.length; i < len; ++i) {
                 var file = files[i];
-                if(url) {
+                if (url) {
                     src = url.createObjectURL(file);
                 } else {
                     src = e.target.result;
@@ -308,16 +293,16 @@ var check=function(){
             }
         });
         var index; //第几张图片
-        $uploaderFiles.on("click", "li", function() {
+        $uploaderFiles.on("click", "li", function () {
             index = $(this).index();
             $galleryImg.attr("style", this.getAttribute("style"));
             $gallery.fadeIn(100);
         });
-        $gallery.on("click", function() {
+        $gallery.on("click", function () {
             $gallery.fadeOut(100);
         });
         //删除图片 删除图片的代码也贴出来。
-        $(".weui-gallery__del").click(function() {
+        $(".weui-gallery__del").click(function () {
             console.log('删除');
             $uploaderFiles.find("li").eq(index).remove();
         });
