@@ -18,6 +18,10 @@
             padding-top: 10px;
         }
 
+        .page-bd-15{
+            padding-left: 0.24rem;
+        }
+
         .ellipsis {
             overflow: hidden; /*自动隐藏文字*/
             text-overflow: ellipsis; /*文字隐藏后添加省略号*/
@@ -122,16 +126,23 @@
                     <div class="weui-uploader">
                         <div class="weui-uploader__hd">
                             <p class="weui-uploader__title">图片上传</p>
-                            <div class="weui-uploader__info" id="imgDel">删除</div>
+                            <%--<div class="weui-uploader__info" id="imgDel">删除</div>--%>
                         </div>
-                        <div class="weui-uploader__bd">
-                            <ul class="weui-uploader__files" id="imgeFiles">
+                        <%--<div class="weui-uploader__bd">--%>
+                            <%--<ul class="weui-uploader__files" id="imgeFiles">--%>
 
+                            <%--</ul>--%>
+                            <%--<div class="weui-uploader__input-box">--%>
+                                <%--<input id="imgUploaderInput" class="weui-uploader__input" type="file"--%>
+                                       <%--name="images"--%>
+                                       <%--accept="image/*" multiple="" onchange="echoimge()">--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <div class="weui-uploader__bd">
+                            <ul class="weui-uploader__files" id="uploaderFiles">
                             </ul>
                             <div class="weui-uploader__input-box">
-                                <input id="imgUploaderInput" class="weui-uploader__input" type="file"
-                                       name="images"
-                                       accept="image/*" multiple="" onchange="echoimge()">
+                                <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple="">
                             </div>
                         </div>
                     </div>
@@ -139,7 +150,7 @@
                     <div class="weui-uploader">
                         <div class="weui-uploader__hd">
                             <p class="weui-uploader__title">视频上传</p>
-                            <div class="weui-uploader__info" id="vdoDel">删除</div>
+                            <%--<div class="weui-uploader__info" id="vdoDel">删除</div>--%>
                         </div>
                         <div class="weui-uploader__bd">
                             <ul class="weui-uploader__files" id="vdoFiles">
@@ -149,8 +160,6 @@
                                        name="vdos"
                                        accept="video/*" multiple="" onchange="echoVdo()">
                             </div>
-
-
                         </div>
                     </div>
                 </div>
@@ -182,22 +191,26 @@
                 </div>
             </div>
             </c:if>
-            <c:if test="${srBill.billStatus==0||srBill.billStatus==1}">
-                <input type="submit" class="btn-block btn-primary" <%--onclick="check()" --%>id="sub" value="提交"/>
-            </c:if>
+            <%--<c:if test="${srBill.billStatus==0||srBill.billStatus==1}">--%>
+            <input type="submit" class="btn-block btn-primary" <%--onclick="check()" --%>id="sub" value="提交"/>
+            <%--</c:if>--%>
             <input type="button" class="btn-block btn-warning" onclick="back()" id="sub" value="返回"/>
         </form>
     </div>
-
+    <div class="weui-gallery" id="gallery">
+        <span class="weui-gallery__img" id="galleryImg"></span>
+        <div class="weui-gallery__opr">
+            <a href="javascript:" rel="external nofollow" class="weui-gallery__del">
+                <i class="weui-icon-delete weui-icon_gallery-delete"></i>
+            </a>
+        </div>
+    </div>
 </section>
 <script type="application/javascript">
 
     function back() {
         location.href = "${path}/salesReturn?search=${search}";
     }
-
-    var imgindex = 0;
-    var vdoindex = 0;
 
     function echoimge() {
         var f = document.getElementById('imgUploaderInput').files;
@@ -208,9 +221,13 @@
             r.onload = function (e) {
                 var url = this.result;
                 console.log("url:" + url);
-                var string = '<li class="weui-uploader__file" style="background-image:url(' + url + '"></li>';
+                var string = '<div class="weui-uploader__file" style="display: flex;flex-direction: row; height: 109px;margin:0 0;">';
+                string += '<li style="display: flex;flex-direction: column;">';
+                string += '<img class="weui-uploader__file" src="'+url+'"/>';
+                string += '<button onclick="delImage(this)"  type="button" style="width: 79px;">删除</button>';
+                string += '</li>';
+                string += '</div>';
                 imageUl.append(string);
-                imgindex++;
             };
         }
     }
@@ -220,23 +237,22 @@
         var imageUl = $("#vdoFiles");
         for (var i = 0; i < f.length; i++) {
             console.info(f[i].name);
-            var string = '<li class="weui-uploader__file ellipsis">' + f[i].name + '</li>';
+            var string = '<li class="weui-uploader__file ellipsis">' + f[i].name + '<br>' +
+                '<button onclick="delVdo(this)"  type="button" style="width: 79px;">删除</button></li>';
             imageUl.append(string);
-            vdoindex++;
         }
     }
 
-    $(function () {
-        $("#imgDel").click(function () { //这部分刚才放错地方了，放到$(function(){})外面去了
-            $("#imgeFiles").children("li")[imgindex - 1].remove();
-            imgindex--;
-        });
-        $("#vdoDel").click(function () { //这部分刚才放错地方了，放到$(function(){})外面去了
-            console.log($("#vdoFiles").children("li").length);
-            $("#vdoFiles").children("li")[vdoindex - 1].remove();
-            vdoindex--;
-        });
-    })
+   function delImage(obj){
+        console.info("kldjfla");
+        $(obj).parent().parent().remove();
+    }
+
+
+    function delVdo(obj){
+        console.info("kldjfla");
+        $(obj).parent().remove();
+    }
 </script>
 <%--<script src="${staticPath }/js/jquery.min.js"></script>--%>
 <%--<script src="${staticPath }/js/zepto.min.js"></script>--%>
@@ -245,3 +261,39 @@
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
 </body>
 </html>
+<script>
+    $(function() {
+        var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
+            $gallery = $("#gallery"),
+            $galleryImg = $("#galleryImg"),
+            $uploaderInput = $("#uploaderInput"),
+            $uploaderFiles = $("#uploaderFiles");
+        $uploaderInput.on("change", function(e) {
+            var src, url = window.URL || window.webkitURL || window.mozURL,
+                files = e.target.files;
+            for(var i = 0, len = files.length; i < len; ++i) {
+                var file = files[i];
+                if(url) {
+                    src = url.createObjectURL(file);
+                } else {
+                    src = e.target.result;
+                }
+                $uploaderFiles.append($(tmpl.replace('#url#', src)));
+            }
+        });
+        var index; //第几张图片
+        $uploaderFiles.on("click", "li", function() {
+            index = $(this).index();
+            $galleryImg.attr("style", this.getAttribute("style"));
+            $gallery.fadeIn(100);
+        });
+        $gallery.on("click", function() {
+            $gallery.fadeOut(100);
+        });
+        //删除图片 删除图片的代码也贴出来。
+        $(".weui-gallery__del").click(function() {
+            console.log('删除');
+            $uploaderFiles.find("li").eq(index).remove();
+        });
+    });
+</script>

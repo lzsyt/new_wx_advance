@@ -15,7 +15,7 @@ public class TSRBillDetail {
 
     private String goodsName;
 
-    private BigDecimal goodsCount;
+    private int goodsCount;
 
     private BigDecimal goodsMoney;
 
@@ -157,11 +157,11 @@ public class TSRBillDetail {
         this.goodsId = goodsId == null ? null : goodsId.trim();
     }
 
-    public BigDecimal getGoodsCount() {
+    public int getGoodsCount() {
         return goodsCount;
     }
 
-    public void setGoodsCount(BigDecimal goodsCount) {
+    public void setGoodsCount(int goodsCount) {
         this.goodsCount = goodsCount;
     }
 

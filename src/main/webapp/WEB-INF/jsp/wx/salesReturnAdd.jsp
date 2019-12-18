@@ -26,6 +26,9 @@
         .m-cell{
             padding-top: 10px;
         }
+        .page-bd-15{
+            padding-left: 0.24rem;
+        }
     </style>
 </head>
 <body>
@@ -97,29 +100,27 @@
 
                 <div class="page-bd-15">
 
-
                     <div class="weui-uploader">
-                        <div class="weui-uploader">
-
-                            <div class="weui-uploader__hd">
-                                <p class="weui-uploader__title">图片上传</p>
-                            </div>
-                            <div class="weui-uploader__bd">
-                                <ul class="weui-uploader__files"  id="imgUl">
-                                </ul>
-                                <div class="weui-uploader__input-box">
-                                    <input  id="imgUploaderInput" name="images" class="weui-uploader__input" accept="image/*" multiple="" type="file" onchange="echoimge()">
-                                </div>
+                        <div class="weui-uploader__hd">
+                            <p class="weui-uploader__title">图片上传</p>
+                            <%--<div class="weui-uploader__info" id="imgDel">删除</div>--%>
+                        </div>
+                        <div class="weui-uploader__bd">
+                            <ul class="weui-uploader__files" id="uploaderFiles">
+                            </ul>
+                            <div class="weui-uploader__input-box">
+                                <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple="">
                             </div>
                         </div>
                     </div>
+
                     <div class="weui-uploader">
 
                         <div class="weui-uploader__hd">
                             <p class="weui-uploader__title">视频上传</p>
                         </div>
                         <div class="weui-uploader__bd">
-                            <ul class="weui-uploader__files" id="uploaderFiles">
+                            <ul class="weui-uploader__files" id="vdoUploaderFiles">
                             </ul>
                             <div class="weui-uploader__input-box">
                                 <input id="vdoUploaderInput" class="weui-uploader__input" type="file"
@@ -137,6 +138,14 @@
             </div>
 
         </form>
+    </div>
+    <div class="weui-gallery" id="gallery">
+        <span class="weui-gallery__img" id="galleryImg"></span>
+        <div class="weui-gallery__opr">
+            <a href="javascript:" rel="external nofollow" class="weui-gallery__del">
+                <i class="weui-icon-delete weui-icon_gallery-delete"></i>
+            </a>
+        </div>
     </div>
 </section>
 <script type="text/javascript">
@@ -278,3 +287,39 @@ var check=function(){
 
 </body>
 </html>
+<script>
+    $(function() {
+        var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
+            $gallery = $("#gallery"),
+            $galleryImg = $("#galleryImg"),
+            $uploaderInput = $("#uploaderInput"),
+            $uploaderFiles = $("#uploaderFiles");
+        $uploaderInput.on("change", function(e) {
+            var src, url = window.URL || window.webkitURL || window.mozURL,
+                files = e.target.files;
+            for(var i = 0, len = files.length; i < len; ++i) {
+                var file = files[i];
+                if(url) {
+                    src = url.createObjectURL(file);
+                } else {
+                    src = e.target.result;
+                }
+                $uploaderFiles.append($(tmpl.replace('#url#', src)));
+            }
+        });
+        var index; //第几张图片
+        $uploaderFiles.on("click", "li", function() {
+            index = $(this).index();
+            $galleryImg.attr("style", this.getAttribute("style"));
+            $gallery.fadeIn(100);
+        });
+        $gallery.on("click", function() {
+            $gallery.fadeOut(100);
+        });
+        //删除图片 删除图片的代码也贴出来。
+        $(".weui-gallery__del").click(function() {
+            console.log('删除');
+            $uploaderFiles.find("li").eq(index).remove();
+        });
+    });
+</script>

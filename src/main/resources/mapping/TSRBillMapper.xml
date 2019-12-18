@@ -27,6 +27,11 @@
         <result column="cpCodeName" property="cpCodeName"/>
         <result column="customerName" property="customerName"/>
         <result column="buyer_nick" property="buyerNick"/>
+        <collection property="tsrBillDetail" ofType="com.kzq.advance.domain.TSRBillDetail">
+            <id property="id" column="detail_id"/>
+            <result column="goods_name" property="goodsName"/>
+            <result column="goods_count" property="goodsCount"/>
+        </collection>
     </resultMap>
     <sql id="Base_Column_List">
     id, bill_status, bizdt, biz_user_id, customer_id, date_created, input_user_id, inventory_money, 
@@ -256,7 +261,7 @@
                 image_path = #{imagePath,jdbcType=VARCHAR},
             </if>
             <if test="cpCode!=null">
-                 cp_code= #{cpCode},
+                cp_code= #{cpCode},
             </if>
             <if test="expressNum !=null">
                 express_num =#{expressNum}
@@ -296,13 +301,18 @@
         tsrb.express_num,
         tsrb.bill_status,
         tsrb.cp_code,
-        bizdt
+        bizdt,
+        tsrbd.id as detail_id,
+        tg.NAME AS goods_name,
+        tsrbd.goods_count
         FROM
         t_sr_bill tsrb
+        LEFT JOIN t_sr_bill_detail tsrbd ON tsrbd.srbill_id = tsrb.id
+        LEFT JOIN t_goods tg ON tsrbd.goods_id = tg.id
         <where>
             tsrb.type=1
             <if test="warehouseId !=null and warehouseId !=''">
-                and   tsrb.warehouse_id=#{warehouseId}
+                and tsrb.warehouse_id=#{warehouseId}
             </if>
             <if test="search !=null and search !=''">
                 and tsrb.express_num like CONCAT('%',#{search},'%')

@@ -43,12 +43,16 @@
 
                             <div class="list-mes">
                                 <div class="cell-left"> 退货单：${srBill.ref}</div>
-                                <c:if test="${srBill.cpCodeName!=null}">
-                                    <div class="cell-left">${srBill.cpCodeName}: ${srBill.expressNum}</div>
-
+                                <c:if test="${srBill.cpCode!=null and srBill.cpCode!=''}">
+                                    <div class="list-mes-item"><span style="color: #0a95da">${srBill.cpCode}: ${srBill.expressNum}</span></div>
                                 </c:if>
                                 <div class="list-mes-item">
+                                    <c:forEach items="${srBill.tsrBillDetail}" var="srDetail">
+                                        ${srDetail.goodsName}* ${srDetail.goodsCount}&nbsp;&nbsp;&nbsp;
+                                    </c:forEach>
+                                </div>
 
+                                <div class="list-mes-item">
                                     <fmt:formatDate value="${srBill.bizdt}" type="both"/>
                                 </div>
                             </div>
@@ -69,17 +73,21 @@
                     <c:forEach items="${srBills}" var="srBill">
                         <c:if test="${srBill.billStatus==0}">
                             <a href="${path}/salesReturnDetail/${srBill.id}?search=${search}" class="cell-item">
+
                                 <div class="list-mes">
                                     <div class="cell-left"> 退货单：${srBill.ref}</div>
-                                    <c:if test="${srBill.cpCodeName!=null}">
-                                        <div class="cell-left">${srBill.cpCodeName}: ${srBill.expressNum}</div>
-
+                                    <c:if test="${srBill.cpCode!=null and srBill.cpCode!=''}">
+                                        <div class="list-mes-item"><span style="color: #0a95da">${srBill.cpCode}: ${srBill.expressNum}</span></div>
                                     </c:if>
                                     <div class="list-mes-item">
-
-                                    <fmt:formatDate value="${srBill.bizdt}" type="both"/>
+                                        <c:forEach items="${srBill.tsrBillDetail}" var="srDetail">
+                                            ${srDetail.goodsName}* ${srDetail.goodsCount}&nbsp;&nbsp;&nbsp;
+                                        </c:forEach>
                                     </div>
 
+                                    <div class="list-mes-item">
+                                        <fmt:formatDate value="${srBill.bizdt}" type="both"/>
+                                    </div>
                                 </div>
                                 <div class="cell-right cell-arrow">
                                     <font style="color:red;">
@@ -100,14 +108,19 @@
                     <c:forEach items="${srBills}" var="srBill">
                         <c:if test="${srBill.billStatus==1}">
                             <a href="${path}/salesReturnDetail/${srBill.id}?search=${search}" class="cell-item">
+
                                 <div class="list-mes">
                                     <div class="cell-left"> 退货单：${srBill.ref}</div>
-                                    <c:if test="${srBill.cpCodeName!=null}">
-                                        <div class="cell-left">${srBill.cpCodeName}: ${srBill.expressNum}</div>
-
+                                    <c:if test="${srBill.cpCode!=null and srBill.cpCode!=''}">
+                                        <div class="list-mes-item"><span style="color: #0a95da">${srBill.cpCode}: ${srBill.expressNum}</span></div>
                                     </c:if>
                                     <div class="list-mes-item">
+                                        <c:forEach items="${srBill.tsrBillDetail}" var="srDetail">
+                                            ${srDetail.goodsName}* ${srDetail.goodsCount}&nbsp;&nbsp;&nbsp;
+                                        </c:forEach>
+                                    </div>
 
+                                    <div class="list-mes-item">
                                         <fmt:formatDate value="${srBill.bizdt}" type="both"/>
                                     </div>
                                 </div>
@@ -130,15 +143,19 @@
                     <c:forEach items="${srBills}" var="srBill">
                         <c:if test="${srBill.billStatus==2}">
                             <a href="${path}/salesReturnDetail/${srBill.id}?search=${search}" class="cell-item">
+
                                 <div class="list-mes">
                                     <div class="cell-left"> 退货单：${srBill.ref}</div>
-                                    <c:if test="${srBill.cpCodeName!=null}">
-                                        <div class="cell-left">${srBill.cpCodeName}: ${srBill.expressNum}</div>
-                                        <div class="cell-left">${srBill.dateCreated}</div>
-
+                                    <c:if test="${srBill.cpCode!=null and srBill.cpCode!=''}">
+                                        <div class="list-mes-item"><span style="color: #0a95da">${srBill.cpCode}: ${srBill.expressNum}</span></div>
                                     </c:if>
                                     <div class="list-mes-item">
+                                        <c:forEach items="${srBill.tsrBillDetail}" var="srDetail">
+                                            ${srDetail.goodsName}* ${srDetail.goodsCount}&nbsp;&nbsp;&nbsp;
+                                        </c:forEach>
+                                    </div>
 
+                                    <div class="list-mes-item">
                                         <fmt:formatDate value="${srBill.bizdt}" type="both"/>
                                     </div>
                                 </div>
@@ -161,13 +178,18 @@
                     <c:forEach items="${srBills}" var="srBill">
                         <c:if test="${srBill.billStatus==1000}">
                             <a href="${path}/salesReturnDetail/${srBill.id}?search=${search}" class="cell-item">
-                                <div class="list-mes">
-                                    <div class="cell-left"> 订单号：${srBill.tid}</div>
-                                    <c:if test="${srBill.cpCodeName!=null}">
-                                        <div class="cell-left">${srBill.cpCodeName}: ${srBill.expressNum}</div>
-                                        <div class="cell-left">${srBill.bizdt}</div>
 
+                                <div class="list-mes">
+                                    <div class="cell-left"> 退货单：${srBill.ref}</div>
+                                    <c:if test="${srBill.cpCode!=null and srBill.cpCode!=''}">
+                                        <div class="list-mes-item"><span style="color: #0a95da">${srBill.cpCode}: ${srBill.expressNum}</span></div>
                                     </c:if>
+                                    <div class="list-mes-item">
+                                        <c:forEach items="${srBill.tsrBillDetail}" var="srDetail">
+                                            ${srDetail.goodsName}* ${srDetail.goodsCount}&nbsp;&nbsp;&nbsp;
+                                        </c:forEach>
+                                    </div>
+
                                     <div class="list-mes-item">
                                         <fmt:formatDate value="${srBill.bizdt}" type="both"/>
                                     </div>
