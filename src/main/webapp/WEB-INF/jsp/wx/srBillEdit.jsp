@@ -18,7 +18,7 @@
             padding-top: 10px;
         }
 
-        .page-bd-15{
+        .page-bd-15 {
             padding-left: 0.24rem;
         }
 
@@ -42,7 +42,7 @@
             <div class="m-cell demo-small-pitch">
                 <input name="id" type="hidden" value="${srBill.id}">
 
-                <c:if test="${not empty srBill.tid}">
+                <c:if test="${not empty srBill.id}">
                     <div class="cell-item">
                         <div class="cell-left">订单号：</div>
                         <div class="cell-right">${srBill.tid}</div>
@@ -65,6 +65,10 @@
                             <c:if test="${srBill.maintainSale ==1}">维修</c:if>
                             <c:if test="${srBill.maintainSale ==2}">退货</c:if></div>
                     </div>
+                    <div class="cell-item">
+                        <div class="cell-left">备注：</div>
+                        <div class="cell-right">${srBill.memo}</div>
+                    </div>
                 </c:if>
 
                 <!--<editor-fold desc="快递公司和快递信息">-->
@@ -82,8 +86,9 @@
                 </div>
                 <!--</editor-fold>-->
             </div>
-
-            <div class="m-celltitle">详情</div>
+            <c:if test="${billDetailList!=null && billDetailList.size()!=0}">
+                <div class="m-celltitle">详情</div>
+            </c:if>
             <c:forEach items="${billDetailList}" var="billDetail" varStatus="status">
                 <div class="m-cell">
 
@@ -126,23 +131,24 @@
                     <div class="weui-uploader">
                         <div class="weui-uploader__hd">
                             <p class="weui-uploader__title">图片上传</p>
-                            <%--<div class="weui-uploader__info" id="imgDel">删除</div>--%>
+                                <%--<div class="weui-uploader__info" id="imgDel">删除</div>--%>
                         </div>
-                        <%--<div class="weui-uploader__bd">--%>
+                            <%--<div class="weui-uploader__bd">--%>
                             <%--<ul class="weui-uploader__files" id="imgeFiles">--%>
 
                             <%--</ul>--%>
                             <%--<div class="weui-uploader__input-box">--%>
-                                <%--<input id="imgUploaderInput" class="weui-uploader__input" type="file"--%>
-                                       <%--name="images"--%>
-                                       <%--accept="image/*" multiple="" onchange="echoimge()">--%>
+                            <%--<input id="imgUploaderInput" class="weui-uploader__input" type="file"--%>
+                            <%--name="images"--%>
+                            <%--accept="image/*" multiple="" onchange="echoimge()">--%>
                             <%--</div>--%>
-                        <%--</div>--%>
+                            <%--</div>--%>
                         <div class="weui-uploader__bd">
                             <ul class="weui-uploader__files" id="uploaderFiles">
                             </ul>
                             <div class="weui-uploader__input-box">
-                                <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple="">
+                                <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*"
+                                       multiple="">
                             </div>
                         </div>
                     </div>
@@ -150,7 +156,7 @@
                     <div class="weui-uploader">
                         <div class="weui-uploader__hd">
                             <p class="weui-uploader__title">视频上传</p>
-                            <%--<div class="weui-uploader__info" id="vdoDel">删除</div>--%>
+                                <%--<div class="weui-uploader__info" id="vdoDel">删除</div>--%>
                         </div>
                         <div class="weui-uploader__bd">
                             <ul class="weui-uploader__files" id="vdoFiles">
@@ -223,7 +229,7 @@
                 console.log("url:" + url);
                 var string = '<div class="weui-uploader__file" style="display: flex;flex-direction: row; height: 109px;margin:0 0;">';
                 string += '<li style="display: flex;flex-direction: column;">';
-                string += '<img class="weui-uploader__file" src="'+url+'"/>';
+                string += '<img class="weui-uploader__file" src="' + url + '"/>';
                 string += '<button onclick="delImage(this)"  type="button" style="width: 79px;">删除</button>';
                 string += '</li>';
                 string += '</div>';
@@ -243,13 +249,13 @@
         }
     }
 
-   function delImage(obj){
+    function delImage(obj) {
         console.info("kldjfla");
         $(obj).parent().parent().remove();
     }
 
 
-    function delVdo(obj){
+    function delVdo(obj) {
         console.info("kldjfla");
         $(obj).parent().remove();
     }
@@ -262,18 +268,18 @@
 </body>
 </html>
 <script>
-    $(function() {
+    $(function () {
         var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
             $gallery = $("#gallery"),
             $galleryImg = $("#galleryImg"),
             $uploaderInput = $("#uploaderInput"),
             $uploaderFiles = $("#uploaderFiles");
-        $uploaderInput.on("change", function(e) {
+        $uploaderInput.on("change", function (e) {
             var src, url = window.URL || window.webkitURL || window.mozURL,
                 files = e.target.files;
-            for(var i = 0, len = files.length; i < len; ++i) {
+            for (var i = 0, len = files.length; i < len; ++i) {
                 var file = files[i];
-                if(url) {
+                if (url) {
                     src = url.createObjectURL(file);
                 } else {
                     src = e.target.result;
@@ -282,16 +288,16 @@
             }
         });
         var index; //第几张图片
-        $uploaderFiles.on("click", "li", function() {
+        $uploaderFiles.on("click", "li", function () {
             index = $(this).index();
             $galleryImg.attr("style", this.getAttribute("style"));
             $gallery.fadeIn(100);
         });
-        $gallery.on("click", function() {
+        $gallery.on("click", function () {
             $gallery.fadeOut(100);
         });
         //删除图片 删除图片的代码也贴出来。
-        $(".weui-gallery__del").click(function() {
+        $(".weui-gallery__del").click(function () {
             console.log('删除');
             $uploaderFiles.find("li").eq(index).remove();
         });

@@ -109,7 +109,7 @@ public class SRBillServiceImpl implements ISRBillService {
         boolean flag = false;
         HttpSession session=request.getSession();
         String memo="";
-        tsrBill.setBillStatus(2);
+        tsrBill.setBillStatus(0);
         String ref=genNewBillRef();
         tsrBill.setRef(ref);
         tsrBill.setType(1);
@@ -151,7 +151,6 @@ public class SRBillServiceImpl implements ISRBillService {
                 insertFile(vdo.getOriginalFilename(), tsrBill.getId(), vdoPath, 2);}
         }}
         //保存主表
-        tsrBill.setBillStatus(2);
         tsrBillMapper.insertSelective(tsrBill);
         //新建一个退货单
         return flag;

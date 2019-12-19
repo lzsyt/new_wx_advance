@@ -211,7 +211,7 @@
 
     function echoVdo() {
         var f = document.getElementById('vdoUploaderInput').files;
-        var imageUl = $("#uploaderFiles");
+        var imageUl = $("#vdoUploaderFiles");
         for (var i = 0; i < f.length; i++) {
             // var r = new FileReader();
             // r.readAsDataURL(f[i]);
@@ -219,10 +219,16 @@
             //     console.info((f[i].name);
             //     var url = this.result;
             console.info(f[i].name);
-            var string = '<li class="weui-uploader__file ellipsis">' + f[i].name + '</li>';
+            var string = '<li class="weui-uploader__file ellipsis">' + f[i].name + '<br>' +
+                '<button onclick="delVdo(this)"  type="button" style="width: 79px;">删除</button></li>';
             imageUl.append(string);
             // };
         }
+    }
+
+    function delVdo(obj){
+        console.info("kldjfla");
+        $(obj).parent().remove();
     }
 
     function addfrom() {

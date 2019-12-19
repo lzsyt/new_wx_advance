@@ -577,7 +577,7 @@ public class WxController extends BaseController {
      */
     @RequestMapping("salesReturnAdd")
     public String salesReturnAdd(){
-        return "/wx/salesReturnAdd";
+        return "/wx/srbilladd";
     }
 
     /*
@@ -616,13 +616,6 @@ public class WxController extends BaseController {
         //返回到退货列表
         return "redirect:/salesReturn";
 
-    }
-
-
-
-    @RequestMapping("img")
-    public String img(){
-        return "wx/img";
     }
 
 

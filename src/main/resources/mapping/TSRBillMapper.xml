@@ -27,6 +27,7 @@
         <result column="cpCodeName" property="cpCodeName"/>
         <result column="customerName" property="customerName"/>
         <result column="buyer_nick" property="buyerNick"/>
+        <result column="memo" property="memo"/>
         <collection property="tsrBillDetail" ofType="com.kzq.advance.domain.TSRBillDetail">
             <id property="id" column="detail_id"/>
             <result column="goods_name" property="goodsName"/>
@@ -336,7 +337,7 @@
         srb.express_num,
         srb.cp_code,
         srb.maintain_sale,
-        memo
+        srb.memo
         FROM
         t_sr_bill srb
         LEFT JOIN t_user tu ON srb.biz_user_id = tu.id
