@@ -12,7 +12,7 @@ import java.net.URLConnection;
 public class WxUtils {
     private static final String APP_ID = "wx8148352aa79f60c7";
     private static final String AppSecret = "e55265afba1663a40388496d39641cb9";
-    public static final String APP_DOMAIN ="wx.150ah.cn";
+    public static final String APP_DOMAIN ="wx.150ah.com";
 
     public static String getTicket(){
         String urlToken="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+APP_ID+"&secret="+AppSecret+"";

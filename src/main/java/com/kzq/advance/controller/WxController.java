@@ -10,6 +10,8 @@ import com.kzq.advance.domain.vo.PwBillVo;
 import com.kzq.advance.domain.vo.Warehouse;
 import com.kzq.advance.service.ISRBillService;
 import com.kzq.advance.service.IWxService;
+import com.kzq.advance.wx.Sign;
+import com.kzq.advance.wx.WxUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,8 +25,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @description：用户管理
@@ -596,6 +600,20 @@ public class WxController extends BaseController {
             }
         return "0";
 
+    }
+
+    @ResponseBody
+    @PostMapping("getWxConfig")
+    public Map<String, Object> getWxConfig(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        String url = "http://" + WxUtils.APP_DOMAIN + request.getContextPath() + "/wx/saoyisao.jsp";
+        String ticket = WxUtils.getTicket();
+        Map<String, String> sign = Sign.sign(ticket, url);
+        for (Map.Entry entry : sign.entrySet()) {
+            System.out.println(entry.getKey() + "," + entry.getValue());
+        }
+        map.put("wxConfig", sign);
+        return map;
     }
 
     /**

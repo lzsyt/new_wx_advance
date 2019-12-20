@@ -10,9 +10,9 @@
     <meta content="yes" name="apple-mobile-web-app-capable"/>
     <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
     <meta content="telephone=no" name="format-detection"/>
-    <%--<link rel="stylesheet" href="${staticPath}/style/css/weui.css">--%>
-    <%--<link rel="stylesheet" href="${staticPath}/style/css/weuix.css">--%>
-    <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">
+    <link rel="stylesheet" href="${staticPath}/style/css/weui.css">
+    <link rel="stylesheet" href="${staticPath}/style/css/weuix.css">
+    <%--<link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">--%>
     <style>
         .ellipsis {
             overflow: hidden; /*自动隐藏文字*/
@@ -139,6 +139,7 @@
 
                 <input type="submit" id="bnt" class="btn-block btn-primary" value="提交"/>
                 <input type="button" class="btn-block btn-warning" onclick="back()" id="sub" value="返回"/>
+                <a href="${path}/img">扫一扫</a>
             </div>
 
         </form>
@@ -152,6 +153,7 @@
         </div>
     </div>
 </section>
+<%@ include file="../commons/global.jsp" %>
 <script type="text/javascript">
     var check = function () {
         var cpCode = $("#cpCode").val();
@@ -267,13 +269,13 @@
     }
 
 </script>
-<%--<script src="${staticPath }/js/jquery.min.js"></script>--%>
-<%--<script src="${staticPath }/js/zepto.min.js"></script>--%>
+<script src="${staticPath }/js/jquery.min.js"></script>
+<script src="${staticPath }/js/zepto.min.js"></script>
 
 <script src="${staticPath }/js/zepto.weui.js"></script>
 
-<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+<%--<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>--%>
+<%--<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>--%>
 
 
 </body>
