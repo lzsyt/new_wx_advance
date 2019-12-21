@@ -321,6 +321,7 @@
             <if test="expressNum !=null and expressNum !=''">
                 and tsrb.express_num = #{expressNum}
             </if>
+            and tsrb.bill_status !='1001'
             order by bill_status,bizdt desc
         </where>
     </select>

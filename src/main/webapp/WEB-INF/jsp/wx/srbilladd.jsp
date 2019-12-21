@@ -57,40 +57,34 @@
                         <input id="expressNum" name="expressNum" type="text" class="cell-input"/>
                     </div>
                 </div>
-
             </div>
-
             <div class="m-celltitle">商品详情</div>
             <div class="m-cell" id="contact_form">
                 <%--发货商品--%>
                 <div class="cell-item">
                     <div class="cell-left">发货商品：</div>
                     <div class="cell-right wrap">
-
                         <input id="txt_ide" name="tsrBillDetail[0].goodsName" type="text" class="cell-input"/>
-
-
                     </div>
-
                 </div>
                 <%--商品数量--%>
                 <div class="cell-item">
                     <div class="cell-left">商品数量：</div>
-                    <div class="cell-right "><input name="tsrBillDetail[0].goodsCount" type="number"
-                                                    class="cell-input"/>
-
-
+                    <div class="cell-right ">
+                        <input name="tsrBillDetail[0].goodsCount" type="number" class="cell-input"/>
                     </div>
                 </div>
                 <%--产品状态--%>
                 <div class="cell-item">
                     <div class="cell-left">产品状态：</div>
                     <label class="cell-right cell-arrow">
-                        <input name="tsrBillDetail[0].status" type="text" class="cell-input"/>
+                        <select name="tsrBillDetail[0].status" class="cell-input">
+                            <option value="1">好</option>
+                            <option value="2">坏</option>
+                            <option value="3">电池</option>
+                        </select>
                     </label>
                 </div>
-
-
             </div>
 
             <a href="javascript:void(0);" class="weui-cell weui-cell_link">
@@ -99,10 +93,7 @@
 
 
             <div class="m-cell">
-
-
                 <div class="page-bd-15">
-
                     <div class="weui-uploader">
                         <div class="weui-uploader__hd">
                             <p class="weui-uploader__title">图片上传</p>
@@ -139,7 +130,7 @@
 
                 <input type="submit" id="bnt" class="btn-block btn-primary" value="提交"/>
                 <input type="button" class="btn-block btn-warning" onclick="back()" id="sub" value="返回"/>
-                <a href="${path}/img">扫一扫</a>
+                <%--<a href="${path}/img">扫一扫</a>--%>
             </div>
 
         </form>
@@ -238,31 +229,31 @@
         $("div[name='detail']").each(function () {
             i++;
         });
-        var str = '<br/><div class="m-cell"  name="detail">\n' +
+        var str = '<br/><div class="m-cell" id="detail">\n' +
             '                <%--发货商品--%>\n' +
             '                <div class="cell-item">\n' +
             '                    <div class="cell-left">发货商品：</div>\n' +
-            '                    <div class="cell-right"><input name="tsrBillDetail[' + i + '].goodsName" type="text" class="cell-input"/></div>\n' +
+            '                    <div class="cell-right wrap">\n' +
+            '                        <input id="txt_ide" name="tsrBillDetail[0].goodsName" type="text" class="cell-input"/>\n' +
+            '                    </div>\n' +
             '                </div>\n' +
             '                <%--商品数量--%>\n' +
             '                <div class="cell-item">\n' +
             '                    <div class="cell-left">商品数量：</div>\n' +
-            '                    <div class="cell-right"><input name="tsrBillDetail[' + i + '].goodsCount" type="text" class="cell-input"/>\n' +
+            '                    <div class="cell-right ">\n' +
+            '                        <input name="tsrBillDetail[0].goodsCount" type="number" class="cell-input"/>\n' +
             '                    </div>\n' +
-            '                </div>' +
+            '                </div>\n' +
             '                <%--产品状态--%>\n' +
             '                <div class="cell-item">\n' +
             '                    <div class="cell-left">产品状态：</div>\n' +
             '                    <label class="cell-right cell-arrow">\n' +
-            '                        <input name="tsrBillDetail[' + i + '].status" type="text" class="cell-input"/>\n' +
+            '                        <select name="tsrBillDetail[0].status" class="cell-input">\n' +
+            '                            <option value="1">好</option>\n' +
+            '                            <option value="2">坏</option>\n' +
+            '                            <option value="3">电池</option>\n' +
+            '                        </select>\n' +
             '                    </label>\n' +
-            '                </div>\n' +
-            '                <%--检测情况--%>\n' +
-            '                <div class="cell-item">\n' +
-            '                    <div class="cell-left">检测情况：</div>\n' +
-            '                    <div class="cell-right">\n' +
-            '                        <input name="tsrBillDetail.detection" type="text" class="cell-input">\n' +
-            '                    </div>\n' +
             '                </div>\n' +
             '            </div>';
         $("#contact_form").append(str);

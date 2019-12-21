@@ -106,18 +106,52 @@
                         <%--产品状态--%>
                     <div class="cell-item">
                         <div class="cell-left">产品状态：</div>
-                        <label class="cell-right">
-                            <input name="tsrBillDetail[${status.index}].status"
-                                   type="text" class="cell-input" value="${billDetail.status}"/>
-                        </label>
+                        <div class="cell-right">
+                            <c:if test="${billDetail.status ==null||billDetail.status ==''}">
+                                <div class="cell-right">
+                                <select name="tsrBillDetail[${status.index}].status" class="cell-select">
+                                    <option value="1">好</option>
+                                    <option value="2">坏</option>
+                                    <option value="3">电池</option>
+                                </select>
+                                </div>
+                            </c:if>
+
+                            <c:if test="${billDetail.status !=null && billDetail.status !=''}">
+                                <c:choose >
+                                    <c:when test="${billDetail.status =='1'}">
+                                        <div class="cell-right"><input name="tsrBillDetail[${status.index}].status" value="1" class="cell-input">好</div>
+                                    </c:when>
+                                    <c:when test="${billDetail.status =='2'}">
+                                        <div class="cell-right"><input name="tsrBillDetail[${status.index}].status" value="2" class="cell-input">坏</div>
+                                    </c:when>
+                                    <c:when test="${billDetail.status =='3'}">
+                                        <div class="cell-right"><input name="tsrBillDetail[${status.index}].status" value="3" class="cell-input">电池</div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="cell-right"><input type="hidden" name="tsrBillDetail[${status.index}].status" value="${billDetail.status}" class="cell-input">${billDetail.status}</div>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:if>
+
+                        </div>
                     </div>
                         <%--检测情况--%>
                     <div class="cell-item">
                         <div class="cell-left">检测情况：</div>
-                        <div class="cell-right">
-                            <input name="tsrBillDetail[${status.index}].detection"
-                                   type="text" class="cell-input" value="${billDetail.detection}"/>
-                        </div>
+                        <c:if test="${billDetail.detection ==null || billDetail.detection ==''}">
+                            <div class="cell-right">
+                                <input name="tsrBillDetail[${status.index}].detection"
+                                       type="text" class="cell-input" value=""/>
+                            </div>
+                        </c:if>
+                        <c:if test="${billDetail.detection !=null && billDetail.detection !=''}">
+                            <div class="cell-right">
+                                <input name="tsrBillDetail[${status.index}].detection"
+                                       type="hidden" class="cell-input" value="${billDetail.detection}"/>
+                                    ${billDetail.detection}
+                            </div>
+                        </c:if>
                     </div>
 
 
