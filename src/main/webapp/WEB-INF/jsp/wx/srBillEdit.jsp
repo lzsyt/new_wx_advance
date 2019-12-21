@@ -271,13 +271,10 @@
     }
 
     function delImage(obj) {
-        console.info("kldjfla");
         $(obj).parent().parent().remove();
     }
 
-
     function delVdo(obj) {
-        console.info("kldjfla");
         $(obj).parent().remove();
     }
 </script>
@@ -290,6 +287,19 @@
 </html>
 <script>
     $(function () {
+
+        $("#uploaderInput").change(function () {
+            var file = $("#uploaderInput").get(0).files[0];
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = function () {
+             //   $("#Image1").attr("src", reader.result);
+            }
+
+            var path=$("#uploaderInput").val();
+            console.log("path："+path);
+
+        });
         var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
             $gallery = $("#gallery"),
             $galleryImg = $("#galleryImg"),
@@ -317,6 +327,7 @@
         $gallery.on("click", function () {
             $gallery.fadeOut(100);
         });
+
         //删除图片 删除图片的代码也贴出来。
         $(".weui-gallery__del").click(function () {
             console.log('删除');
