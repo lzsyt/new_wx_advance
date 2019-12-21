@@ -298,6 +298,7 @@
 
             var path=$("#uploaderInput").val();
             console.log("path："+path);
+            alert(path);
 
         });
         var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
