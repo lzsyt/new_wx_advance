@@ -95,7 +95,7 @@ public class SRBillServiceImpl implements ISRBillService {
                 tsrBill.setBillStatus(1);
             }
             //更新主表处理状态
-            inseruser(tsrBill, request);
+            insertUser(tsrBill, request);
             tsrBillMapper.updateByPrimaryKeySelective(tsrBill);
 
         }
@@ -103,11 +103,7 @@ public class SRBillServiceImpl implements ISRBillService {
         return true;
     }
 
-    private void insertVdoFile(TSRBill tsrBill, String fileBasePath) throws IOException {
-        insertVdoFile(tsrBill, fileBasePath);
-    }
-
-    private void inseruser(TSRBill tsrBill, HttpServletRequest request) {
+    private void insertUser(TSRBill tsrBill, HttpServletRequest request) {
         HttpSession session = request.getSession();
         TUser user = (TUser) session.getAttribute("user");
         if (user != null && user.getId() != null) {
@@ -133,7 +129,7 @@ public class SRBillServiceImpl implements ISRBillService {
 
         UUID uuid = UUID.randomUUID();
         tsrBill.setId(uuid.toString());
-        inseruser(tsrBill, request);
+        insertUser(tsrBill, request);
         for (TSRBillDetail tsrBillDetail : tsrBill.getTsrBillDetail()) {
             memo = memo + tsrBillDetail.getGoodsName() + "*" + tsrBillDetail.getGoodsCount() + ":" + tsrBillDetail.getStatus() + "; ";
         }
@@ -148,12 +144,7 @@ public class SRBillServiceImpl implements ISRBillService {
         }
         //保存视频和图片
         if (tsrBill.getVdos() != null && tsrBill.getVdos().size() > 0) {
-            for (MultipartFile vdo : tsrBill.getVdos()) {
-                if (StringUtils.isNotBlank(vdo.getOriginalFilename())) {
-                    String vdoPath = FileUploadUtils.upload(fileBasePath, vdo);
-                    insertFile(vdo.getOriginalFilename(), tsrBill.getId(), vdoPath, 2);
-                }
-            }
+            insertVdoFile(tsrBill, fileBasePath);
         }
         //</editor-fold>
 
@@ -161,6 +152,15 @@ public class SRBillServiceImpl implements ISRBillService {
         tsrBillMapper.insertSelective(tsrBill);
         //新建一个退货单
         return flag;
+    }
+
+    private void insertVdoFile(TSRBill tsrBill, String fileBasePath) throws IOException {
+        for (MultipartFile vdo : tsrBill.getVdos()) {
+            if (StringUtils.isNotBlank(vdo.getOriginalFilename())) {
+                String vdoPath = FileUploadUtils.upload(fileBasePath, vdo);
+                insertFile(vdo.getOriginalFilename(), tsrBill.getId(), vdoPath, 2);
+            }
+        }
     }
 
     private void insertImgFile(TSRBill tsrBill, String fileBasePath) throws IOException {
