@@ -70,16 +70,7 @@ public class SRBillServiceImpl implements ISRBillService {
             }
         }
         //<editor-fold desc="文件上传代码">
-        String fileBasePath = uploadPath;
-        //保存视频和图片
-        if (tsrBill.getImages() != null) {
-
-            insertImgFile(tsrBill, fileBasePath);
-        }
-        if (tsrBill.getVdos() != null) {
-
-            insertVdoFile(tsrBill, fileBasePath);
-        }
+        insertFile(tsrBill);
         //</editor-fold>
 
         //处理状态   0：未处理 1：部分处理，2：全部处理
@@ -101,6 +92,19 @@ public class SRBillServiceImpl implements ISRBillService {
         }
 
         return true;
+    }
+
+    private void insertFile(TSRBill tsrBill) throws IOException {
+        String fileBasePath = uploadPath;
+        //保存视频和图片
+        if (tsrBill.getImages() != null && tsrBill.getImages().size() > 0) {
+
+            insertImgFile(tsrBill, fileBasePath);
+        }
+        if (tsrBill.getVdos() != null && tsrBill.getVdos().size() > 0) {
+
+            insertVdoFile(tsrBill, fileBasePath);
+        }
     }
 
     private void insertUser(TSRBill tsrBill, HttpServletRequest request) {
@@ -135,17 +139,7 @@ public class SRBillServiceImpl implements ISRBillService {
         }
         tsrBill.setMemo(memo);
 
-        String fileBasePath = uploadPath;
-
-        //<editor-fold desc="保存视频和图片">
-        if (tsrBill.getImages() != null && tsrBill.getImages().size() > 0) {
-            insertImgFile(tsrBill, fileBasePath);
-
-        }
-        //保存视频和图片
-        if (tsrBill.getVdos() != null && tsrBill.getVdos().size() > 0) {
-            insertVdoFile(tsrBill, fileBasePath);
-        }
+        insertFile(tsrBill);
         //</editor-fold>
 
         //保存主表
