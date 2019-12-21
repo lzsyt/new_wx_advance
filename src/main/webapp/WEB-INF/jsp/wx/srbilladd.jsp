@@ -77,13 +77,13 @@
                 <%--产品状态--%>
                 <div class="cell-item">
                     <div class="cell-left">产品状态：</div>
-                    <label class="cell-right cell-arrow">
-                        <select name="tsrBillDetail[0].status" class="cell-input">
-                            <option value="1">好</option>
-                            <option value="2">坏</option>
-                            <option value="3">电池</option>
+                    <div class="cell-right">
+                        <select name="tsrBillDetail[0].status" class="cell-select">
+                            <option value="好">好</option>
+                            <option value="坏">坏</option>
+                            <option value="电池">电池</option>
                         </select>
-                    </label>
+                    </div>
                 </div>
             </div>
 
@@ -103,7 +103,7 @@
                             <ul class="weui-uploader__files" id="uploaderFiles">
                             </ul>
                             <div class="weui-uploader__input-box">
-                                <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*"
+                                <input id="uploaderInput" class="weui-uploader__input" name="images" type="file" accept="image/*"
                                        multiple="">
                             </div>
                         </div>
@@ -219,7 +219,7 @@
         }
     }
 
-    function delVdo(obj){
+    function delVdo(obj) {
         console.info("kldjfla");
         $(obj).parent().remove();
     }
@@ -229,31 +229,31 @@
         $("div[name='detail']").each(function () {
             i++;
         });
-        var str = '<br/><div class="m-cell" id="detail">\n' +
+        var str = '<br/><div class="m-cell" name="detail">\n' +
             '                <%--发货商品--%>\n' +
             '                <div class="cell-item">\n' +
             '                    <div class="cell-left">发货商品：</div>\n' +
             '                    <div class="cell-right wrap">\n' +
-            '                        <input id="txt_ide" name="tsrBillDetail[0].goodsName" type="text" class="cell-input"/>\n' +
+            '                        <input id="txt_ide" name="tsrBillDetail[' + i + '].goodsName" type="text" class="cell-input"/>\n' +
             '                    </div>\n' +
             '                </div>\n' +
             '                <%--商品数量--%>\n' +
             '                <div class="cell-item">\n' +
             '                    <div class="cell-left">商品数量：</div>\n' +
             '                    <div class="cell-right ">\n' +
-            '                        <input name="tsrBillDetail[0].goodsCount" type="number" class="cell-input"/>\n' +
+            '                        <input name="tsrBillDetail[' + i + '].goodsCount" type="number" class="cell-input"/>\n' +
             '                    </div>\n' +
             '                </div>\n' +
             '                <%--产品状态--%>\n' +
             '                <div class="cell-item">\n' +
             '                    <div class="cell-left">产品状态：</div>\n' +
-            '                    <label class="cell-right cell-arrow">\n' +
-            '                        <select name="tsrBillDetail[0].status" class="cell-input">\n' +
-            '                            <option value="1">好</option>\n' +
-            '                            <option value="2">坏</option>\n' +
-            '                            <option value="3">电池</option>\n' +
+            '                    <div class="cell-right">\n' +
+            '                        <select name="tsrBillDetail[' + i + '].status" class="cell-select">\n' +
+            '                            <option value="好">好</option>\n' +
+            '                            <option value="坏">坏</option>\n' +
+            '                            <option value="电池">电池</option>\n' +
             '                        </select>\n' +
-            '                    </label>\n' +
+            '                    </div>\n' +
             '                </div>\n' +
             '            </div>';
         $("#contact_form").append(str);

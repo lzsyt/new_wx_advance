@@ -165,24 +165,13 @@
                     <div class="weui-uploader">
                         <div class="weui-uploader__hd">
                             <p class="weui-uploader__title">图片上传</p>
-                                <%--<div class="weui-uploader__info" id="imgDel">删除</div>--%>
                         </div>
-                            <%--<div class="weui-uploader__bd">--%>
-                            <%--<ul class="weui-uploader__files" id="imgeFiles">--%>
-
-                            <%--</ul>--%>
-                            <%--<div class="weui-uploader__input-box">--%>
-                            <%--<input id="imgUploaderInput" class="weui-uploader__input" type="file"--%>
-                            <%--name="images"--%>
-                            <%--accept="image/*" multiple="" onchange="echoimge()">--%>
-                            <%--</div>--%>
-                            <%--</div>--%>
                         <div class="weui-uploader__bd">
                             <ul class="weui-uploader__files" id="uploaderFiles">
                             </ul>
                             <div class="weui-uploader__input-box">
-                                <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*"
-                                       multiple="">
+                                <input id="uploaderInput" class="weui-uploader__input"
+                                       name="images" type="file" accept="image/*" multiple="">
                             </div>
                         </div>
                     </div>
@@ -207,9 +196,7 @@
                 <%--处理完--%>
                 <c:if test="${srBill.billStatus>1}">
                 <div class="page-bd-15">
-
                     <div class="weui-uploader">
-
                         <div class="weui-uploader__bd">
                             <ul class="weui-uploader__files">
                                 <c:if test="${images!=null and images.size()!=0}">
@@ -252,25 +239,25 @@
         location.href = "${path}/salesReturn?search=${search}";
     }
 
-    function echoimge() {
-        var f = document.getElementById('imgUploaderInput').files;
-        var imageUl = $("#imgeFiles");
-        for (var i = 0; i < f.length; i++) {
-            var r = new FileReader();
-            r.readAsDataURL(f[i]);
-            r.onload = function (e) {
-                var url = this.result;
-                console.log("url:" + url);
-                var string = '<div class="weui-uploader__file" style="display: flex;flex-direction: row; height: 109px;margin:0 0;">';
-                string += '<li style="display: flex;flex-direction: column;">';
-                string += '<img class="weui-uploader__file" src="' + url + '"/>';
-                string += '<button onclick="delImage(this)"  type="button" style="width: 79px;">删除</button>';
-                string += '</li>';
-                string += '</div>';
-                imageUl.append(string);
-            };
-        }
-    }
+    // function echoimge() {
+    //     var f = document.getElementById('imgUploaderInput').files;
+    //     var imageUl = $("#imgeFiles");
+    //     for (var i = 0; i < f.length; i++) {
+    //         var r = new FileReader();
+    //         r.readAsDataURL(f[i]);
+    //         r.onload = function (e) {
+    //             var url = this.result;
+    //             console.log("url:" + url);
+    //             var string = '<div class="weui-uploader__file" style="display: flex;flex-direction: row; height: 109px;margin:0 0;">';
+    //             string += '<li style="display: flex;flex-direction: column;">';
+    //             string += '<img class="weui-uploader__file" src="' + url + '"/>';
+    //             string += '<button onclick="delImage(this)"  type="button" style="width: 79px;">删除</button>';
+    //             string += '</li>';
+    //             string += '</div>';
+    //             imageUl.append(string);
+    //         };
+    //     }
+    // }
 
     function echoVdo() {
         var f = document.getElementById('vdoUploaderInput').files;
