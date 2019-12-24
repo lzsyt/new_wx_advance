@@ -112,7 +112,7 @@
                                 <select name="tsrBillDetail[${status.index}].status" class="cell-select">
                                     <option value="1" <c:if test="${billDetail.status =='1'}">selected</c:if>>好</option>
                                     <option value="2" <c:if test="${billDetail.status =='2'}">selected</c:if>>坏</option>
-                                    <option value="3" <c:if test="${billDetail.status =='3'}">selected</c:if>>电池
+                                    <option value="3" <c:if test="${billDetail.status =='3'}">selected</c:if>>电池坏
                                     </option>
                                     <c:if test="${billDetail.status !='1' and  billDetail.status !='2'and  billDetail.status !='3'}">
                                         <option value="${billDetail.status}" selected>${billDetail.status}</option>
@@ -196,7 +196,7 @@
             </div>
             </c:if>
             <%--<c:if test="${srBill.billStatus==0||srBill.billStatus==1}">--%>
-            <input type="submit" class="btn-block btn-primary" value="提交"/>
+            <input type="submit" class="btn-block btn-primary" id="btn" value="提交"/>
             <%--</c:if>--%>
             <input type="button" class="btn-block btn-warning" onclick="back()" value="返回"/>
         </form>
@@ -213,60 +213,30 @@
 <script type="application/javascript">
 
     var formFile = new FormData();
-    var images = new Array();
-
-    function sub() {
-        // formFile = new FormData();
-        // var id = $("#id").val();
-        // formFile.append('id', id);
-        // console.info("id=" + id);
-        <%--for (var j = 0; j < ${billDetailList.size()}; j++) {--%>
-            <%--var status = $("name='tsrBillDetail[" + j + "].status'").val();--%>
-            <%--formFile.append("name='tsrBillDetail[" + j + "].status'", status);--%>
-            <%--var detection = $("name=tsrBillDetail[" + j + "].detection").val();--%>
-            <%--formFile.append("name='tsrBillDetail[" + j + "].detection'", detection);--%>
-        <%--}--%>
-        // formFile.append("images", images);
-        // var vdos = $("#vdoUploaderInput").file;
-        // formFile.append('vdos', vdos);
-
-
-        // $("#uploaderInput").val(images);
-        // $("serForm").submit();
-        <%--$.ajax({--%>
-            <%--type: "POST",--%>
-            <%--dataType: "json",//服务器返回的数据类型--%>
-            <%--// headers	:{'Content-Type': 'application/json'},--%>
-            <%--url: "${path}/saveSRBill",--%>
-            <%--data: formFile,--%>
-            <%--cache: false,--%>
-            <%--processData: false,--%>
-            <%--contentType: false,--%>
-            <%--success: function (result) {--%>
-                <%--back();--%>
-            <%--}--%>
-        <%--});--%>
-    }
-
-
-    // $(function () {
-    //
-    //
-    //     $("#uploaderInput").change(function () {
-    //         var file = $("#uploaderInput").get(0).files[0];
-    //         var reader = new FileReader();
-    //         reader.readAsDataURL(file);
-    //         reader.onloadend = function () {
-    //             //   $("#Image1").attr("src", reader.result);
-    //         }
-    //
-    //         var path = $("#uploaderInput").val();
-    //         console.log("path：" + path);
-    //         alert(path);
-    //
-    //     });
-    //
-    // })
+    <%--$(function () {--%>
+        <%--$("#btn").click(function () {--%>
+            <%--$.ajax({--%>
+                <%--type: "POST",--%>
+                <%--dataType: "json",//服务器返回的数据类型--%>
+                <%--url: "${path}/saveSRBill",--%>
+                <%--data: $("#serForm").serialize(),--%>
+                <%--cache: false,--%>
+                <%--processData: false,--%>
+                <%--contentType: false,--%>
+                <%--success: function (result) {--%>
+                    <%--if (result) {--%>
+                        <%--alert("保存成功");--%>
+                    <%--} else {--%>
+                        <%--alert("保存失败");--%>
+                    <%--}--%>
+                    <%--back();--%>
+                <%--},--%>
+                <%--error : function() {--%>
+                    <%--alert("服务器异常！请联系管理员");--%>
+                <%--}--%>
+            <%--});--%>
+        <%--})--%>
+    <%--})--%>
 
     function back() {
         location.href = "${path}/salesReturn?search=${search}";
@@ -338,7 +308,6 @@
                 files = e.target.files;
             for (var i = 0, len = files.length; i < len; ++i) {
                 var file = files[i];
-                images.push(file);
                 if (url) {
                     src = url.createObjectURL(file);
                 } else {

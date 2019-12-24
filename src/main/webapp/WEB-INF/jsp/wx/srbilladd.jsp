@@ -81,7 +81,7 @@
                         <select name="tsrBillDetail[0].status" class="cell-select">
                             <option value="好">好</option>
                             <option value="坏">坏</option>
-                            <option value="电池">电池</option>
+                            <option value="电池坏">电池坏</option>
                         </select>
                     </div>
                 </div>
@@ -251,13 +251,36 @@
             '                        <select name="tsrBillDetail[' + i + '].status" class="cell-select">\n' +
             '                            <option value="好">好</option>\n' +
             '                            <option value="坏">坏</option>\n' +
-            '                            <option value="电池">电池</option>\n' +
+            '                            <option value="电池坏">电池坏</option>\n' +
             '                        </select>\n' +
             '                    </div>\n' +
             '                </div>\n' +
             '            </div>';
         $("#contact_form").append(str);
     }
+    
+    <%--$(function () {--%>
+        <%--$("#bnt").click(function () {--%>
+            <%--$.ajax({--%>
+                <%--//几个参数需要注意一下--%>
+                <%--type: "POST",//方法类型--%>
+                <%--dataType: "json",//预期服务器返回的数据类型--%>
+                <%--url: "${path}/saveAddSRBill" ,//url--%>
+                <%--data: $("#serForm").serialize(),--%>
+                <%--success: function (result) {--%>
+                    <%--if (result) {--%>
+                        <%--alert("保存成功");--%>
+                    <%--} else {--%>
+                        <%--alert("保存失败");--%>
+                    <%--}--%>
+                    <%--back();--%>
+                <%--},--%>
+                <%--error : function() {--%>
+                    <%--alert("服务器异常！请联系管理员");--%>
+                <%--}--%>
+            <%--});--%>
+        <%--})--%>
+    <%--})--%>
 
 </script>
 <script src="${staticPath }/js/jquery.min.js"></script>

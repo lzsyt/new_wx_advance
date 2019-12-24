@@ -69,9 +69,7 @@ public class SRBillServiceImpl implements ISRBillService {
                 }
             }
         }
-        //<editor-fold desc="文件上传代码">
-        insertFile(tsrBill);
-        //</editor-fold>
+        boolean fileflag = insertFile(tsrBill);
 
         //处理状态   0：未处理 1：部分处理，2：全部处理
         List<TSRBillDetail> billdetail = tsrBill.getTsrBillDetail();
@@ -80,7 +78,6 @@ public class SRBillServiceImpl implements ISRBillService {
             if (num == billdetail.size()) {
                 //已处理
                 tsrBill.setBillStatus(2);
-
             } else if (num < billdetail.size()) {
                 //部分处理
                 tsrBill.setBillStatus(1);
@@ -88,23 +85,25 @@ public class SRBillServiceImpl implements ISRBillService {
             //更新主表处理状态
             insertUser(tsrBill, request);
             tsrBillMapper.updateByPrimaryKeySelective(tsrBill);
-
         }
 
-        return true;
+        if (flag || fileflag) return true;
+        else return false;
     }
 
-    private void insertFile(TSRBill tsrBill) throws IOException {
+    private boolean insertFile(TSRBill tsrBill) throws IOException {
+        boolean flag = false;
         String fileBasePath = uploadPath;
         //保存视频和图片
         if (tsrBill.getImages() != null && tsrBill.getImages().size() > 0) {
 
-            insertImgFile(tsrBill, fileBasePath);
+            flag = insertImgFile(tsrBill, fileBasePath);
         }
         if (tsrBill.getVdos() != null && tsrBill.getVdos().size() > 0) {
 
-            insertVdoFile(tsrBill, fileBasePath);
+            flag = insertVdoFile(tsrBill, fileBasePath);
         }
+        return flag;
     }
 
     private void insertUser(TSRBill tsrBill, HttpServletRequest request) {
@@ -125,6 +124,7 @@ public class SRBillServiceImpl implements ISRBillService {
 
         String memo = "";
         tsrBill.setBillStatus(0);
+        tsrBill.setMaintainSale((byte) 2);
         String ref = genNewBillRef();
         tsrBill.setRef(ref);
         tsrBill.setType(1);
@@ -143,28 +143,33 @@ public class SRBillServiceImpl implements ISRBillService {
         //</editor-fold>
 
         //保存主表
-        tsrBillMapper.insertSelective(tsrBill);
+        flag = tsrBillMapper.insertSelective(tsrBill) > 0;
         //新建一个退货单
         return flag;
     }
 
-    private void insertVdoFile(TSRBill tsrBill, String fileBasePath) throws IOException {
+    private boolean insertVdoFile(TSRBill tsrBill, String fileBasePath) throws IOException {
         for (MultipartFile vdo : tsrBill.getVdos()) {
             if (StringUtils.isNotBlank(vdo.getOriginalFilename())) {
                 String vdoPath = FileUploadUtils.upload(fileBasePath, vdo);
-                insertFile(vdo.getOriginalFilename(), tsrBill.getId(), vdoPath, 2);
+                if(!insertFile(vdo.getOriginalFilename(), tsrBill.getId(), vdoPath, 2)){
+                    return false;
+                }
             }
         }
+        return true;
     }
 
-    private void insertImgFile(TSRBill tsrBill, String fileBasePath) throws IOException {
+    private boolean insertImgFile(TSRBill tsrBill, String fileBasePath) throws IOException {
         for (MultipartFile image : tsrBill.getImages()) {
             if (StringUtils.isNotBlank(image.getOriginalFilename())) {
                 String imgPath = FileUploadUtils.upload(fileBasePath, image);
-                insertFile(image.getOriginalFilename(), tsrBill.getId(), imgPath, 1);
+                if (!insertFile(image.getOriginalFilename(), tsrBill.getId(), imgPath, 1)){
+                    return false;
+                }
             }
-
         }
+        return true;
     }
 
     //生成一个退货单号
@@ -200,13 +205,13 @@ public class SRBillServiceImpl implements ISRBillService {
         return tsrBillFileMapper.find(tsrBillFile);
     }
 
-    private void insertFile(String fileName, String srDetailId, String imgPath, int i) {
+    private Boolean insertFile(String fileName, String srDetailId, String imgPath, int i) {
         TSRBillFile file = new TSRBillFile();
         file.setFileName(fileName);
         file.setFilePath(imgPath);
         file.setFileType(i);
         file.setSrdetailId(srDetailId);
-        tsrBillFileMapper.insert(file);
+        return tsrBillFileMapper.insert(file) > 0;
     }
 
 }
