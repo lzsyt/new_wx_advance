@@ -40,7 +40,7 @@
             <input name="search" value="${search}" type="hidden">
 
             <div class="m-cell demo-small-pitch">
-                <input name="id" type="hidden" value="${srBill.id}">
+                <input name="id" id="id" type="hidden" value="${srBill.id}">
 
                 <c:if test="${not empty srBill.id}">
                     <div class="cell-item">
@@ -107,51 +107,28 @@
                     <div class="cell-item">
                         <div class="cell-left">产品状态：</div>
                         <div class="cell-right">
-                            <c:if test="${billDetail.status ==null||billDetail.status ==''}">
-                                <div class="cell-right">
+                                <%--<c:if test="${billDetail.status ==null|| billDetail.status ==''}">--%>
+                            <div class="cell-right">
                                 <select name="tsrBillDetail[${status.index}].status" class="cell-select">
-                                    <option value="1">好</option>
-                                    <option value="2">坏</option>
-                                    <option value="3">电池</option>
+                                    <option value="1" <c:if test="${billDetail.status =='1'}">selected</c:if>>好</option>
+                                    <option value="2" <c:if test="${billDetail.status =='2'}">selected</c:if>>坏</option>
+                                    <option value="3" <c:if test="${billDetail.status =='3'}">selected</c:if>>电池
+                                    </option>
+                                    <c:if test="${billDetail.status !='1' and  billDetail.status !='2'and  billDetail.status !='3'}">
+                                        <option value="${billDetail.status}" selected>${billDetail.status}</option>
+                                    </c:if>
                                 </select>
-                                </div>
-                            </c:if>
-
-                            <c:if test="${billDetail.status !=null && billDetail.status !=''}">
-                                <c:choose >
-                                    <c:when test="${billDetail.status =='1'}">
-                                        <div class="cell-right"><input name="tsrBillDetail[${status.index}].status" value="1" class="cell-input">好</div>
-                                    </c:when>
-                                    <c:when test="${billDetail.status =='2'}">
-                                        <div class="cell-right"><input name="tsrBillDetail[${status.index}].status" value="2" class="cell-input">坏</div>
-                                    </c:when>
-                                    <c:when test="${billDetail.status =='3'}">
-                                        <div class="cell-right"><input name="tsrBillDetail[${status.index}].status" value="3" class="cell-input">电池</div>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <div class="cell-right"><input type="hidden" name="tsrBillDetail[${status.index}].status" value="${billDetail.status}" class="cell-input">${billDetail.status}</div>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:if>
-
+                            </div>
                         </div>
                     </div>
                         <%--检测情况--%>
                     <div class="cell-item">
                         <div class="cell-left">检测情况：</div>
-                        <c:if test="${billDetail.detection ==null || billDetail.detection ==''}">
-                            <div class="cell-right">
-                                <input name="tsrBillDetail[${status.index}].detection"
-                                       type="text" class="cell-input" value=""/>
-                            </div>
-                        </c:if>
-                        <c:if test="${billDetail.detection !=null && billDetail.detection !=''}">
-                            <div class="cell-right">
-                                <input name="tsrBillDetail[${status.index}].detection"
-                                       type="hidden" class="cell-input" value="${billDetail.detection}"/>
-                                    ${billDetail.detection}
-                            </div>
-                        </c:if>
+                            <%--<c:if test="${billDetail.detection ==null || billDetail.detection ==''}">--%>
+                        <div class="cell-right">
+                            <input name="tsrBillDetail[${status.index}].detection"
+                                   type="text" class="cell-input" value="${billDetail.detection}"/>
+                        </div>
                     </div>
 
 
@@ -219,9 +196,9 @@
             </div>
             </c:if>
             <%--<c:if test="${srBill.billStatus==0||srBill.billStatus==1}">--%>
-            <input type="submit" class="btn-block btn-primary" <%--onclick="check()" --%>id="sub" value="提交"/>
+            <input type="submit" class="btn-block btn-primary" value="提交"/>
             <%--</c:if>--%>
-            <input type="button" class="btn-block btn-warning" onclick="back()" id="sub" value="返回"/>
+            <input type="button" class="btn-block btn-warning" onclick="back()" value="返回"/>
         </form>
     </div>
     <div class="weui-gallery" id="gallery">
@@ -234,6 +211,62 @@
     </div>
 </section>
 <script type="application/javascript">
+
+    var formFile = new FormData();
+    var images = new Array();
+
+    function sub() {
+        // formFile = new FormData();
+        // var id = $("#id").val();
+        // formFile.append('id', id);
+        // console.info("id=" + id);
+        <%--for (var j = 0; j < ${billDetailList.size()}; j++) {--%>
+            <%--var status = $("name='tsrBillDetail[" + j + "].status'").val();--%>
+            <%--formFile.append("name='tsrBillDetail[" + j + "].status'", status);--%>
+            <%--var detection = $("name=tsrBillDetail[" + j + "].detection").val();--%>
+            <%--formFile.append("name='tsrBillDetail[" + j + "].detection'", detection);--%>
+        <%--}--%>
+        // formFile.append("images", images);
+        // var vdos = $("#vdoUploaderInput").file;
+        // formFile.append('vdos', vdos);
+
+
+        // $("#uploaderInput").val(images);
+        // $("serForm").submit();
+        <%--$.ajax({--%>
+            <%--type: "POST",--%>
+            <%--dataType: "json",//服务器返回的数据类型--%>
+            <%--// headers	:{'Content-Type': 'application/json'},--%>
+            <%--url: "${path}/saveSRBill",--%>
+            <%--data: formFile,--%>
+            <%--cache: false,--%>
+            <%--processData: false,--%>
+            <%--contentType: false,--%>
+            <%--success: function (result) {--%>
+                <%--back();--%>
+            <%--}--%>
+        <%--});--%>
+    }
+
+
+    // $(function () {
+    //
+    //
+    //     $("#uploaderInput").change(function () {
+    //         var file = $("#uploaderInput").get(0).files[0];
+    //         var reader = new FileReader();
+    //         reader.readAsDataURL(file);
+    //         reader.onloadend = function () {
+    //             //   $("#Image1").attr("src", reader.result);
+    //         }
+    //
+    //         var path = $("#uploaderInput").val();
+    //         console.log("path：" + path);
+    //         alert(path);
+    //
+    //     });
+    //
+    // })
 
     function back() {
         location.href = "${path}/salesReturn?search=${search}";
@@ -277,40 +310,35 @@
     function delVdo(obj) {
         $(obj).parent().remove();
     }
-</script>
-<%--<script src="${staticPath }/js/jquery.min.js"></script>--%>
-<%--<script src="${staticPath }/js/zepto.min.js"></script>--%>
 
-<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
-</body>
-</html>
-<script>
     $(function () {
 
-        $("#uploaderInput").change(function () {
-            var file = $("#uploaderInput").get(0).files[0];
-            var reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onloadend = function () {
-             //   $("#Image1").attr("src", reader.result);
-            }
-
-            var path=$("#uploaderInput").val();
-            console.log("path："+path);
-            alert(path);
-
-        });
+        // $("#uploaderInput").change(function () {
+        //     var file = $("#uploaderInput").get(0).files[0];
+        //
+        //     // var reader = new FileReader();
+        //     // reader.readAsDataURL(file);
+        //     // reader.onloadend = function () {
+        //     //     //   $("#Image1").attr("src", reader.result);
+        //     // }
+        //     //
+        //     // var path = $("#uploaderInput").val();
+        //     // console.log("path：" + path);
+        //     // alert(path);
+        //
+        // });
         var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
             $gallery = $("#gallery"),
             $galleryImg = $("#galleryImg"),
             $uploaderInput = $("#uploaderInput"),
             $uploaderFiles = $("#uploaderFiles");
         $uploaderInput.on("change", function (e) {
+            $("#uploaderFiles").empty();
             var src, url = window.URL || window.webkitURL || window.mozURL,
                 files = e.target.files;
             for (var i = 0, len = files.length; i < len; ++i) {
                 var file = files[i];
+                images.push(file);
                 if (url) {
                     src = url.createObjectURL(file);
                 } else {
@@ -335,4 +363,63 @@
             $uploaderFiles.find("li").eq(index).remove();
         });
     });
+
+</script>
+<%--<script src="${staticPath }/js/jquery.min.js"></script>--%>
+<%--<script src="${staticPath }/js/zepto.min.js"></script>--%>
+
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+</body>
+</html>
+<script>
+    // $(function () {
+    //
+    //     $("#uploaderInput").change(function () {
+    //         var file = $("#uploaderInput").get(0).files[0];
+    //         var reader = new FileReader();
+    //         reader.readAsDataURL(file);
+    //         reader.onloadend = function () {
+    //             //   $("#Image1").attr("src", reader.result);
+    //         }
+    //
+    //         var path = $("#uploaderInput").val();
+    //         console.log("path：" + path);
+    //         alert(path);
+    //
+    //     });
+    //     var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
+    //         $gallery = $("#gallery"),
+    //         $galleryImg = $("#galleryImg"),
+    //         $uploaderInput = $("#uploaderInput"),
+    //         $uploaderFiles = $("#uploaderFiles");
+    //     $uploaderInput.on("change", function (e) {
+    //         var src, url = window.URL || window.webkitURL || window.mozURL,
+    //             files = e.target.files;
+    //         for (var i = 0, len = files.length; i < len; ++i) {
+    //             var file = files[i];
+    //             if (url) {
+    //                 src = url.createObjectURL(file);
+    //             } else {
+    //                 src = e.target.result;
+    //             }
+    //             $uploaderFiles.append($(tmpl.replace('#url#', src)));
+    //         }
+    //     });
+    //     var index; //第几张图片
+    //     $uploaderFiles.on("click", "li", function () {
+    //         index = $(this).index();
+    //         $galleryImg.attr("style", this.getAttribute("style"));
+    //         $gallery.fadeIn(100);
+    //     });
+    //     $gallery.on("click", function () {
+    //         $gallery.fadeOut(100);
+    //     });
+    //
+    //     //删除图片 删除图片的代码也贴出来。
+    //     $(".weui-gallery__del").click(function () {
+    //         console.log('删除');
+    //         $uploaderFiles.find("li").eq(index).remove();
+    //     });
+    // });
 </script>

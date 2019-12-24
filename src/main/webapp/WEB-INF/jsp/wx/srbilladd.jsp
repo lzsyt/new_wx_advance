@@ -279,6 +279,7 @@
             $uploaderInput = $("#uploaderInput"),
             $uploaderFiles = $("#uploaderFiles");
         $uploaderInput.on("change", function (e) {
+            $("#uploaderFiles").empty();
             var src, url = window.URL || window.webkitURL || window.mozURL,
                 files = e.target.files;
             for (var i = 0, len = files.length; i < len; ++i) {
