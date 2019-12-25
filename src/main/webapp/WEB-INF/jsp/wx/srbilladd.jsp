@@ -10,9 +10,9 @@
     <meta content="yes" name="apple-mobile-web-app-capable"/>
     <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
     <meta content="telephone=no" name="format-detection"/>
-    <link rel="stylesheet" href="${staticPath}/style/css/weui.css">
-    <link rel="stylesheet" href="${staticPath}/style/css/weuix.css">
-    <%--<link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">--%>
+    <%--<link rel="stylesheet" href="${staticPath}/style/css/weui.css">--%>
+    <%--<link rel="stylesheet" href="${staticPath}/style/css/weuix.css">--%>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">
     <style>
         .ellipsis {
             overflow: hidden; /*自动隐藏文字*/
@@ -185,42 +185,18 @@
     function back() {
         location.href = "${path}/salesReturn?search=${search}";
     }
-
-
-    function echoimge() {
-        var f = document.getElementById('imgUploaderInput').files;
-        var imageUl = $("#imgUl");
-        for (var i = 0; i < f.length; i++) {
-            var r = new FileReader();
-            r.readAsDataURL(f[i]);
-            r.onload = function (e) {
-                var url = this.result;
-                var imgLi = '<li  class="weui-uploader__file" style="background-image:url(' + url + ')"></li>';
-                console.info(url);
-                imageUl.append(imgLi);
-            };
-        }
-    }
-
     function echoVdo() {
         var f = document.getElementById('vdoUploaderInput').files;
         var imageUl = $("#vdoUploaderFiles");
         for (var i = 0; i < f.length; i++) {
-            // var r = new FileReader();
-            // r.readAsDataURL(f[i]);
-            // r.onload = function (e) {
-            //     console.info((f[i].name);
-            //     var url = this.result;
             console.info(f[i].name);
             var string = '<li class="weui-uploader__file ellipsis">' + f[i].name + '<br>' +
                 '<button onclick="delVdo(this)"  type="button" style="width: 79px;">删除</button></li>';
             imageUl.append(string);
-            // };
         }
     }
 
     function delVdo(obj) {
-        console.info("kldjfla");
         $(obj).parent().remove();
     }
 
@@ -258,43 +234,8 @@
             '            </div>';
         $("#contact_form").append(str);
     }
-    
-    <%--$(function () {--%>
-        <%--$("#bnt").click(function () {--%>
-            <%--$.ajax({--%>
-                <%--//几个参数需要注意一下--%>
-                <%--type: "POST",//方法类型--%>
-                <%--dataType: "json",//预期服务器返回的数据类型--%>
-                <%--url: "${path}/saveAddSRBill" ,//url--%>
-                <%--data: $("#serForm").serialize(),--%>
-                <%--success: function (result) {--%>
-                    <%--if (result) {--%>
-                        <%--alert("保存成功");--%>
-                    <%--} else {--%>
-                        <%--alert("保存失败");--%>
-                    <%--}--%>
-                    <%--back();--%>
-                <%--},--%>
-                <%--error : function() {--%>
-                    <%--alert("服务器异常！请联系管理员");--%>
-                <%--}--%>
-            <%--});--%>
-        <%--})--%>
-    <%--})--%>
-
-</script>
-<script src="${staticPath }/js/jquery.min.js"></script>
-<script src="${staticPath }/js/zepto.min.js"></script>
-
-<script src="${staticPath }/js/zepto.weui.js"></script>
-
-<%--<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>--%>
-<%--<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>--%>
 
 
-</body>
-</html>
-<script>
     $(function () {
         var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
             $gallery = $("#gallery"),
@@ -330,4 +271,14 @@
             $uploaderFiles.find("li").eq(index).remove();
         });
     });
+
 </script>
+<%--<script src="${staticPath }/js/jquery.min.js"></script>--%>
+<%--<script src="${staticPath }/js/zepto.min.js"></script>--%>
+
+<%--<script src="${staticPath }/js/zepto.weui.js"></script>--%>
+
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+</body>
+</html>

@@ -67,7 +67,9 @@
                     </div>
                     <div class="cell-item">
                         <div class="cell-left">备注：</div>
-                        <div class="cell-right">${srBill.memo}</div>
+                        <div class="cell-right">
+                            <input name="memo" id="memo" type="text" class="cell-input" value="${srBill.memo}">
+                        </div>
                     </div>
                 </c:if>
 
@@ -91,9 +93,8 @@
             </c:if>
             <c:forEach items="${billDetailList}" var="billDetail" varStatus="status">
                 <div class="m-cell">
-
-
-                    <input name="tsrBillDetail[${status.index}].id" value="${billDetail.id}" type="hidden">
+                    <input name="tsrBillDetail[${status.index}].id" id="tsrBillDetail[${status.index}].id"
+                           value="${billDetail.id}" type="hidden">
                         <%--发货商品--%>
                     <div class="cell-item">
                         <div class="cell-left">发货商品：</div>
@@ -109,7 +110,8 @@
                         <div class="cell-right">
                                 <%--<c:if test="${billDetail.status ==null|| billDetail.status ==''}">--%>
                             <div class="cell-right">
-                                <select name="tsrBillDetail[${status.index}].status" class="cell-select">
+                                <select name="tsrBillDetail[${status.index}].status"
+                                        id="tsrBillDetail[${status.index}].status" class="cell-select">
                                     <option value="1" <c:if test="${billDetail.status =='1'}">selected</c:if>>好</option>
                                     <option value="2" <c:if test="${billDetail.status =='2'}">selected</c:if>>坏</option>
                                     <option value="3" <c:if test="${billDetail.status =='3'}">selected</c:if>>电池坏
@@ -127,6 +129,7 @@
                             <%--<c:if test="${billDetail.detection ==null || billDetail.detection ==''}">--%>
                         <div class="cell-right">
                             <input name="tsrBillDetail[${status.index}].detection"
+                                   id="tsrBillDetail[${status.index}].detection"
                                    type="text" class="cell-input" value="${billDetail.detection}"/>
                         </div>
                     </div>
@@ -211,56 +214,9 @@
     </div>
 </section>
 <script type="application/javascript">
-
-    var formFile = new FormData();
-    <%--$(function () {--%>
-        <%--$("#btn").click(function () {--%>
-            <%--$.ajax({--%>
-                <%--type: "POST",--%>
-                <%--dataType: "json",//服务器返回的数据类型--%>
-                <%--url: "${path}/saveSRBill",--%>
-                <%--data: $("#serForm").serialize(),--%>
-                <%--cache: false,--%>
-                <%--processData: false,--%>
-                <%--contentType: false,--%>
-                <%--success: function (result) {--%>
-                    <%--if (result) {--%>
-                        <%--alert("保存成功");--%>
-                    <%--} else {--%>
-                        <%--alert("保存失败");--%>
-                    <%--}--%>
-                    <%--back();--%>
-                <%--},--%>
-                <%--error : function() {--%>
-                    <%--alert("服务器异常！请联系管理员");--%>
-                <%--}--%>
-            <%--});--%>
-        <%--})--%>
-    <%--})--%>
-
     function back() {
         location.href = "${path}/salesReturn?search=${search}";
     }
-
-    // function echoimge() {
-    //     var f = document.getElementById('imgUploaderInput').files;
-    //     var imageUl = $("#imgeFiles");
-    //     for (var i = 0; i < f.length; i++) {
-    //         var r = new FileReader();
-    //         r.readAsDataURL(f[i]);
-    //         r.onload = function (e) {
-    //             var url = this.result;
-    //             console.log("url:" + url);
-    //             var string = '<div class="weui-uploader__file" style="display: flex;flex-direction: row; height: 109px;margin:0 0;">';
-    //             string += '<li style="display: flex;flex-direction: column;">';
-    //             string += '<img class="weui-uploader__file" src="' + url + '"/>';
-    //             string += '<button onclick="delImage(this)"  type="button" style="width: 79px;">删除</button>';
-    //             string += '</li>';
-    //             string += '</div>';
-    //             imageUl.append(string);
-    //         };
-    //     }
-    // }
 
     function echoVdo() {
         var f = document.getElementById('vdoUploaderInput').files;
@@ -273,30 +229,11 @@
         }
     }
 
-    function delImage(obj) {
-        $(obj).parent().parent().remove();
-    }
-
     function delVdo(obj) {
         $(obj).parent().remove();
     }
 
     $(function () {
-
-        // $("#uploaderInput").change(function () {
-        //     var file = $("#uploaderInput").get(0).files[0];
-        //
-        //     // var reader = new FileReader();
-        //     // reader.readAsDataURL(file);
-        //     // reader.onloadend = function () {
-        //     //     //   $("#Image1").attr("src", reader.result);
-        //     // }
-        //     //
-        //     // var path = $("#uploaderInput").val();
-        //     // console.log("path：" + path);
-        //     // alert(path);
-        //
-        // });
         var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
             $gallery = $("#gallery"),
             $galleryImg = $("#galleryImg"),
@@ -341,54 +278,3 @@
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
 </body>
 </html>
-<script>
-    // $(function () {
-    //
-    //     $("#uploaderInput").change(function () {
-    //         var file = $("#uploaderInput").get(0).files[0];
-    //         var reader = new FileReader();
-    //         reader.readAsDataURL(file);
-    //         reader.onloadend = function () {
-    //             //   $("#Image1").attr("src", reader.result);
-    //         }
-    //
-    //         var path = $("#uploaderInput").val();
-    //         console.log("path：" + path);
-    //         alert(path);
-    //
-    //     });
-    //     var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
-    //         $gallery = $("#gallery"),
-    //         $galleryImg = $("#galleryImg"),
-    //         $uploaderInput = $("#uploaderInput"),
-    //         $uploaderFiles = $("#uploaderFiles");
-    //     $uploaderInput.on("change", function (e) {
-    //         var src, url = window.URL || window.webkitURL || window.mozURL,
-    //             files = e.target.files;
-    //         for (var i = 0, len = files.length; i < len; ++i) {
-    //             var file = files[i];
-    //             if (url) {
-    //                 src = url.createObjectURL(file);
-    //             } else {
-    //                 src = e.target.result;
-    //             }
-    //             $uploaderFiles.append($(tmpl.replace('#url#', src)));
-    //         }
-    //     });
-    //     var index; //第几张图片
-    //     $uploaderFiles.on("click", "li", function () {
-    //         index = $(this).index();
-    //         $galleryImg.attr("style", this.getAttribute("style"));
-    //         $gallery.fadeIn(100);
-    //     });
-    //     $gallery.on("click", function () {
-    //         $gallery.fadeOut(100);
-    //     });
-    //
-    //     //删除图片 删除图片的代码也贴出来。
-    //     $(".weui-gallery__del").click(function () {
-    //         console.log('删除');
-    //         $uploaderFiles.find("li").eq(index).remove();
-    //     });
-    // });
-</script>

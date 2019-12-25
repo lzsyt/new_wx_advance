@@ -89,12 +89,14 @@ public class WxController extends BaseController {
         return "wx/login";
 
     }
+
     @RequestMapping("/login")
     public String login(HttpServletRequest request) {
 
         return "wx/login";
 
     }
+
     /***
      * 微信登录验证
      * @return
@@ -117,9 +119,9 @@ public class WxController extends BaseController {
             TUser user = wxService.findUserByloginName(name);
             //判断是否是仓库管理员
             Warehouse wareInfo = wxService.isWarehouse(user.getId());
-            if (wareInfo!=null&&StringUtils.isNotBlank(wareInfo.getId())) {
+            if (wareInfo != null && StringUtils.isNotBlank(wareInfo.getId())) {
                 session.setAttribute("warehouseId", wareInfo.getId());
-                session.setAttribute("warehouse",wareInfo);
+                session.setAttribute("warehouse", wareInfo);
 
             }
             session.setAttribute("user", user);
@@ -130,7 +132,8 @@ public class WxController extends BaseController {
     }
 
     /**
-     *首页列表
+     * 首页列表
+     *
      * @param request
      * @return
      */
@@ -139,10 +142,10 @@ public class WxController extends BaseController {
 
         TUser user = (TUser) request.getSession().getAttribute("user");
         Warehouse wareInfo = (Warehouse) request.getSession().getAttribute("warehouse");
-        if (wareInfo!=null&&StringUtils.isNotBlank(wareInfo.getId())) {
+        if (wareInfo != null && StringUtils.isNotBlank(wareInfo.getId())) {
             //如果是仓管
             //本地仓：天马，只显示退货
-            if(wareInfo.getName().contains("天马")){
+            if (wareInfo.getName().contains("天马")) {
                 request.setAttribute("fristUrl", "salesReturn");
 
                 //退货
@@ -150,7 +153,7 @@ public class WxController extends BaseController {
                 request.setAttribute("foot2", false);
                 request.setAttribute("foot1", false);
 
-            }else {
+            } else {
                 //异地仓：显示全部
 
                 request.setAttribute("fristUrl", "getContent");
@@ -228,11 +231,11 @@ public class WxController extends BaseController {
     }
     //检查是否登录
 
-    public boolean getLoginUser( HttpServletRequest request,TUser user) {
+    public boolean getLoginUser(HttpServletRequest request, TUser user) {
 
         HttpSession session = request.getSession();
-         user = (TUser) session.getAttribute("user");
-        if (user!=null){
+        user = (TUser) session.getAttribute("user");
+        if (user != null) {
 
             return true;
 
@@ -248,16 +251,16 @@ public class WxController extends BaseController {
         if (StringUtils.isNotBlank(search)) {
             request.setAttribute("search", search);
         }
-        TUser user=new TUser();
-        getLoginUser(request,user);
-       if( getLoginUser(request,user)){
-           String userId = user.getId();
+        TUser user = new TUser();
+        getLoginUser(request, user);
+        if (getLoginUser(request, user)) {
+            String userId = user.getId();
 
 
-       }else {
+        } else {
 
-          return "wx/login";
-       }
+            return "wx/login";
+        }
         HttpSession session = request.getSession();
         String warehouseId = (String) session.getAttribute("warehouseId");
 
@@ -413,7 +416,7 @@ public class WxController extends BaseController {
         }
         HttpSession session = request.getSession();
         TUser user = (TUser) session.getAttribute("user");
-        if (user==null){
+        if (user == null) {
             return "wx/newEditPwBill";
 
 
@@ -503,7 +506,7 @@ public class WxController extends BaseController {
      * @return
      */
     @RequestMapping("salesReturn")
-    public String salesReturn(HttpServletRequest request) {
+    public String salesReturn(HttpServletRequest request,@RequestParam(required = false)String succeed) {
         HttpSession session = request.getSession();
         if (request.getAttribute("srBills") != null) {
             request.removeAttribute("srBills");
@@ -523,11 +526,15 @@ public class WxController extends BaseController {
         }
         List<TSRBill> list = isrBillService.find(tsrBill);
         request.setAttribute("srBills", list);
+        if (succeed != null) {
+            request.setAttribute("succeed",succeed);
+        }
         return "/wx/srBill";
     }
 
     /**
      * 查看单个退货单
+     *
      * @param id
      * @param request
      * @return
@@ -549,35 +556,38 @@ public class WxController extends BaseController {
         List<TSRBillDetail> tsrBillDetails = isrBillService.findDetDetail(tsrBillDetail);
         request.setAttribute("srBill", tsrBill);
         request.setAttribute("billDetailList", tsrBillDetails);
-        List<TSRBillFile> imgs=isrBillService.findImages(id);
-        List<TSRBillFile> videos=isrBillService.findVdo(id);
+        List<TSRBillFile> imgs = isrBillService.findImages(id);
+        List<TSRBillFile> videos = isrBillService.findVdo(id);
         request.setAttribute("images", imgs);
         request.setAttribute("vdos", videos);
         return "/wx/srBillEdit";
     }
 
 
-
     /**
      * 保存退货单
+     *
      * @param tsrBill
      * @param request
      * @return
      * @throws IOException
      */
     @RequestMapping("saveSRBill")
-    @ResponseBody
     public String saveSRBill(TSRBill tsrBill, HttpServletRequest request) throws IOException {
         Boolean flag = isrBillService.save(tsrBill, request);
-        return "redirect:/salesReturn";
-
+        if (flag)
+            return "redirect:/salesReturn?succeed=true";
+        else
+            return "redirect:/salesReturn?succeed=false";
     }
+
     /**
      * 新建退货单
+     *
      * @return
      */
     @RequestMapping("salesReturnAdd")
-    public String salesReturnAdd(){
+    public String salesReturnAdd() {
         return "/wx/srbilladd";
     }
 
@@ -588,13 +598,13 @@ public class WxController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("checkExpressNum")
-    public String checkExpressNum(String  expressNum){
-            TSRBill bill=new TSRBill();
-            bill.setExpressNum(expressNum);
-            List <TSRBill>list=isrBillService.find(bill);
-            if(list!=null&&list.size()>0){
-               return "1";
-            }
+    public String checkExpressNum(String expressNum) {
+        TSRBill bill = new TSRBill();
+        bill.setExpressNum(expressNum);
+        List<TSRBill> list = isrBillService.find(bill);
+        if (list != null && list.size() > 0) {
+            return "1";
+        }
         return "0";
 
     }
@@ -602,14 +612,14 @@ public class WxController extends BaseController {
 
     /**
      * 保存新的退货单
+     *
      * @param tsrBill
      * @param request
      * @return
      */
 
     @RequestMapping("saveAddSRBill")
-    @ResponseBody
-    public String saveAddSRBill(TSRBill tsrBill, HttpServletRequest request){
+    public String saveAddSRBill(TSRBill tsrBill, HttpServletRequest request) {
         Boolean flag = false;
         try {
             flag = isrBillService.addSrBill(tsrBill, request);
@@ -617,8 +627,7 @@ public class WxController extends BaseController {
             e.printStackTrace();
         }
         //返回到退货列表
-        return "redirect:/salesReturn";
-
+        return "redirect:/salesReturn?succeed=" + true;
     }
 
 

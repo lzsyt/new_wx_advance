@@ -265,10 +265,13 @@
                 cp_code= #{cpCode},
             </if>
             <if test="expressNum !=null">
-                express_num =#{expressNum}
+                express_num =#{expressNum},
             </if>
             <if test="billStatus !=null">
-                bill_status =#{billStatus}
+                bill_status =#{billStatus},
+            </if>
+            <if test="memo !=null and memo !=''">
+                memo =#{memo}
             </if>
         </set>
         where id = #{id,jdbcType=VARCHAR}

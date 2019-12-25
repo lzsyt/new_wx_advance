@@ -84,10 +84,10 @@ public class SRBillServiceImpl implements ISRBillService {
             }
             //更新主表处理状态
             insertUser(tsrBill, request);
-            tsrBillMapper.updateByPrimaryKeySelective(tsrBill);
         }
+        boolean srbillflag=tsrBillMapper.updateByPrimaryKeySelective(tsrBill)>0;
 
-        if (flag || fileflag) return true;
+        if (flag || fileflag||srbillflag) return true;
         else return false;
     }
 
