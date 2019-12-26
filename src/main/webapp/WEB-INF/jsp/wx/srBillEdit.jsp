@@ -149,9 +149,9 @@
                         <div class="weui-uploader__bd">
                             <ul class="weui-uploader__files" id="uploaderFiles">
                             </ul>
-                            <div class="weui-uploader__input-box">
-                                <input id="uploaderInput" class="weui-uploader__input"
-                                       name="images" type="file" accept="image/*" multiple="">
+                            <div class="weui-uploader__input-box" id="inputbox">
+                                <input id="uploaderInput0" class="weui-uploader__input"
+                                       name="images[0]" type="file" accept="image/*" multiple="">
                             </div>
                         </div>
                     </div>
@@ -237,27 +237,40 @@
         var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
             $gallery = $("#gallery"),
             $galleryImg = $("#galleryImg"),
-            $uploaderInput = $("#uploaderInput"),
             $uploaderFiles = $("#uploaderFiles");
-        $uploaderInput.on("change", function (e) {
-            $("#uploaderFiles").empty();
+
+
+        var imageIndex = 0;
+
+        function jsFileChange(event) {
+            console.info("jsFileChange run")
             var src, url = window.URL || window.webkitURL || window.mozURL,
-                files = e.target.files;
+                files = event.target.files;
             for (var i = 0, len = files.length; i < len; ++i) {
                 var file = files[i];
                 if (url) {
                     src = url.createObjectURL(file);
                 } else {
-                    src = e.target.result;
+                    src = event.target.result;
                 }
                 $uploaderFiles.append($(tmpl.replace('#url#', src)));
             }
-        });
+            $("#uploaderInput" + imageIndex).css('display', 'none');
+            imageIndex++;
+            var imgInputStr = '<input id="uploaderInput' + imageIndex + '" class="weui-uploader__input" name="images[' + imageIndex + ']" type="file" accept="image/*" multiple="">';
+            $("#inputbox").append(imgInputStr);
+            $("#uploaderInput" + imageIndex).on("change", jsFileChange);
+        }
+
+
+        $("#uploaderInput0").on("change", jsFileChange);
+
         var index; //第几张图片
         $uploaderFiles.on("click", "li", function () {
             index = $(this).index();
             $galleryImg.attr("style", this.getAttribute("style"));
             $gallery.fadeIn(100);
+            $("#inputbox input:eq(" + index + ")").remove();
         });
         $gallery.on("click", function () {
             $gallery.fadeOut(100);

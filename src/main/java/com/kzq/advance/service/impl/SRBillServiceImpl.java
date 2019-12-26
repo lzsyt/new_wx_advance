@@ -85,25 +85,27 @@ public class SRBillServiceImpl implements ISRBillService {
             //更新主表处理状态
             insertUser(tsrBill, request);
         }
-        boolean srbillflag=tsrBillMapper.updateByPrimaryKeySelective(tsrBill)>0;
+        boolean srbillflag = tsrBillMapper.updateByPrimaryKeySelective(tsrBill) > 0;
 
-        if (flag || fileflag||srbillflag) return true;
+        if (flag || fileflag || srbillflag) return true;
         else return false;
     }
 
     private boolean insertFile(TSRBill tsrBill) throws IOException {
-        boolean flag = false;
         String fileBasePath = uploadPath;
         //保存视频和图片
+        boolean flag1 = false;
+        boolean flag2 = false;
         if (tsrBill.getImages() != null && tsrBill.getImages().size() > 0) {
-
-            flag = insertImgFile(tsrBill, fileBasePath);
+            flag1 = insertImgFile(tsrBill, fileBasePath);
         }
         if (tsrBill.getVdos() != null && tsrBill.getVdos().size() > 0) {
-
-            flag = insertVdoFile(tsrBill, fileBasePath);
+            flag2 = insertVdoFile(tsrBill, fileBasePath);
         }
-        return flag;
+        if (flag1 || flag2)
+            return true;
+        else
+            return false;
     }
 
     private void insertUser(TSRBill tsrBill, HttpServletRequest request) {
@@ -149,27 +151,25 @@ public class SRBillServiceImpl implements ISRBillService {
     }
 
     private boolean insertVdoFile(TSRBill tsrBill, String fileBasePath) throws IOException {
+        int count = 0;
         for (MultipartFile vdo : tsrBill.getVdos()) {
-            if (StringUtils.isNotBlank(vdo.getOriginalFilename())) {
+            if (null != vdo && StringUtils.isNotBlank(vdo.getOriginalFilename())) {
                 String vdoPath = FileUploadUtils.upload(fileBasePath, vdo);
-                if(!insertFile(vdo.getOriginalFilename(), tsrBill.getId(), vdoPath, 2)){
-                    return false;
-                }
+                count += insertFile(vdo.getOriginalFilename(), tsrBill.getId(), vdoPath, 2);
             }
         }
-        return true;
+        return count > 0;
     }
 
     private boolean insertImgFile(TSRBill tsrBill, String fileBasePath) throws IOException {
+        int count = 0;
         for (MultipartFile image : tsrBill.getImages()) {
-            if (StringUtils.isNotBlank(image.getOriginalFilename())) {
+            if (null != image && StringUtils.isNotBlank(image.getOriginalFilename())) {
                 String imgPath = FileUploadUtils.upload(fileBasePath, image);
-                if (!insertFile(image.getOriginalFilename(), tsrBill.getId(), imgPath, 1)){
-                    return false;
-                }
+                count += insertFile(image.getOriginalFilename(), tsrBill.getId(), imgPath, 1);
             }
         }
-        return true;
+        return count > 0;
     }
 
     //生成一个退货单号
@@ -205,13 +205,13 @@ public class SRBillServiceImpl implements ISRBillService {
         return tsrBillFileMapper.find(tsrBillFile);
     }
 
-    private Boolean insertFile(String fileName, String srDetailId, String imgPath, int i) {
+    private int insertFile(String fileName, String srDetailId, String imgPath, int i) {
         TSRBillFile file = new TSRBillFile();
         file.setFileName(fileName);
         file.setFilePath(imgPath);
         file.setFileType(i);
         file.setSrdetailId(srDetailId);
-        return tsrBillFileMapper.insert(file) > 0;
+        return tsrBillFileMapper.insert(file);
     }
 
 }
