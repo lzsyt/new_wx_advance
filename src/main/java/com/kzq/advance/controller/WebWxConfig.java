@@ -3,10 +3,8 @@ package com.kzq.advance.controller;
 import com.kzq.advance.wx.Sign;
 import com.kzq.advance.wx.WxUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +15,7 @@ import java.util.Map;
 public class WebWxConfig {
 
     @RequestMapping("img")
-    public String img(HttpServletRequest request, ModelMap map){
+    public String img(){
         return "wx/saoyisao";
     }
 
@@ -34,12 +32,5 @@ public class WebWxConfig {
         }
         map.put("wxConfig", sign);
         return map;
-    }
-
-
-    @RequestMapping("saoyisao")
-    public String saoyisao(@RequestParam String expressNum){
-
-        return null;
     }
 }

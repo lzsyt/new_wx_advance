@@ -18,7 +18,6 @@
             type: 'POST',
             async: false,
             url: "${path}/getWxConfig",
-            data: {},
             success: function (data) {
                 timestamp = data.wxConfig.timestamp;
                 nonceStr = data.wxConfig.nonceStr;
@@ -26,33 +25,50 @@
             }
         });
         wx.config({
-            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
             appId: "wx8148352aa79f60c7", // 必填，公众号的唯一标识
             timestamp: timestamp, // 必填，生成签名的时间戳
             nonceStr: nonceStr, // 必填，生成签名的随机串
             signature: signature,// 必填，签名，见附录1
             jsApiList: ['scanQRCode'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
         });
-        wx.ready(function(){
+        wx.ready(function () {
             console.info("wx.ready:");
+            wx.checkJsApi({
+                jsApiList: ['scanQRCode'],
+                success: function (res) {
+                }
+            });
+            wx.scanQRCode({
+                needResult: 1,
+                scanType: ["qrCode"],
+                success: function (res) {
+                    console.log(res)
+                    //扫描返回的数据
+                    var result = res.resultStr;
+                    alert(result)
+                },
+                fail: function (res) {
+                    alert("res:" + res);
+                }
+            });
         });
-        wx.error(function(res) {
-            console.info("wx.error:"+res.errMsg);
+        wx.error(function (res) {
+            console.info("wx.error:" + res.errMsg);
         });
     });
-    $("#train_signStatus").click(function() {
+    $("#train_signStatus").click(function () {
         wx.scanQRCode({
-            needResult : 1,
+            needResult: 1,
             scanType: ["qrCode"],
-            success : function(res) {
+            success: function (res) {
+                console.log(res)
+                //扫描返回的数据
                 var result = res.resultStr;
-                alert(result);
+                alert(result)
             },
-            error: function (res) {
-                alert(JSON.stringify(res))
-                if (res.errMsg.indexOf('function_not_exist') > 0) {
-                    alert('版本过低请升级')
-                }
+            fail: function (res) {
+                alert("res:" + res);
             }
         });
     });

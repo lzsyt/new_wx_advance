@@ -27,7 +27,7 @@
                 <div class="cell-right">
                     <input type="submit" id="searchBtn" class="btn btn-primary" value="查询">&nbsp;&nbsp;&nbsp;
                     <a href="${path}/salesReturnAdd" class="btn btn-primary">新增</a>
-                    <%--&nbsp;&nbsp;&nbsp;<a href="${path}/img" id="saoyisao" class="btn btn-primary">扫一扫</a>--%>
+                    &nbsp;&nbsp;&nbsp;<a href="${path}/img" id="saoyisao" class="btn btn-primary">扫一扫</a>
                 </div>
             </div>
         </form>

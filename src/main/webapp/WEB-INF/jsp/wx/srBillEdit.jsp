@@ -174,30 +174,29 @@
                 </div>
                 </c:if>
                 <%--处理完--%>
-                <c:if test="${srBill.billStatus>1}">
-                <div class="page-bd-15">
-                    <div class="weui-uploader">
-                        <div class="weui-uploader__bd">
-                            <ul class="weui-uploader__files">
-                                <c:if test="${images!=null and images.size()!=0}">
-                                    <c:forEach items="${images}" var="img">
-                                        <li class="weui-uploader__file">
-                                            <img class="weui-uploader__file" src="${img.filePath}"/></li>
-                                    </c:forEach>
-                                </c:if>
-                                <c:if test="${vdos!=null and vdos.size()!=0}">
-                                    <c:forEach items="${vdos}" var="vdo">
-                                        <li class="weui-uploader__file ellipsis">${vdo.fileName}</li>
-                                    </c:forEach>
-                                </c:if>
-                            </ul>
-
-
+                <c:if test="${(images!=null and images.size()!=0)||(vdos!=null and vdos.size()!=0)}">
+                    <div class="page-bd-15">
+                        <div class="weui-uploader">
+                            <div class="weui-uploader__bd">
+                                <ul class="weui-uploader__files">
+                                    <c:if test="${images!=null and images.size()!=0}">
+                                        <c:forEach items="${images}" var="img">
+                                            <li class="weui-uploader__file">
+                                                <img class="weui-uploader__file" src="${img.filePath}"/>
+                                            </li>
+                                        </c:forEach>
+                                    </c:if>
+                                    <c:if test="${vdos!=null and vdos.size()!=0}">
+                                        <c:forEach items="${vdos}" var="vdo">
+                                            <li class="weui-uploader__file ellipsis">${vdo.fileName}</li>
+                                        </c:forEach>
+                                    </c:if>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </c:if>
             </div>
-            </c:if>
             <%--<c:if test="${srBill.billStatus==0||srBill.billStatus==1}">--%>
             <input type="submit" class="btn-block btn-primary" id="btn" value="提交"/>
             <%--</c:if>--%>
