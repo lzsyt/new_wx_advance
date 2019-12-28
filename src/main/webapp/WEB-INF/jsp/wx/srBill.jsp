@@ -26,11 +26,12 @@
                 </div>
                 <div class="cell-right">
                     <input type="submit" id="searchBtn" class="btn btn-primary" value="查询">&nbsp;&nbsp;&nbsp;
-                    <a href="${path}/salesReturnAdd" class="btn btn-primary">新增</a>
-                    &nbsp;&nbsp;&nbsp;<a href="${path}/img" id="saoyisao" class="btn btn-primary">扫一扫</a>
+                    <a href="${path}/salesReturnAdd" class="btn btn-primary">新增</a>&nbsp;&nbsp;&nbsp;
+                    <a href="${path}/img" target="_top" id="saoyisao" class="btn btn-primary">扫一扫</a>
                 </div>
             </div>
         </form>
+        <input type="hidden" value="${succeed}" id="succeed">
     </div>
     <ul class="tab-nav">
         <li class="tab-nav-item tab-active"><a href="javascript:;">全部</a></li>
@@ -50,7 +51,8 @@
                             <div class="list-mes">
                                 <div class="cell-left"> 退货单：${srBill.ref}</div>
                                 <c:if test="${srBill.cpCode!=null and srBill.cpCode!=''}">
-                                    <div class="list-mes-item"><span style="color: #0a95da">${srBill.cpCode}: ${srBill.expressNum}</span></div>
+                                    <div class="list-mes-item"><span
+                                            style="color: #0a95da">${srBill.cpCode}: ${srBill.expressNum}</span></div>
                                 </c:if>
                                 <div class="list-mes-item">
                                     <c:forEach items="${srBill.tsrBillDetail}" var="srDetail">
@@ -83,7 +85,9 @@
                                 <div class="list-mes">
                                     <div class="cell-left"> 退货单：${srBill.ref}</div>
                                     <c:if test="${srBill.cpCode!=null and srBill.cpCode!=''}">
-                                        <div class="list-mes-item"><span style="color: #0a95da">${srBill.cpCode}: ${srBill.expressNum}</span></div>
+                                        <div class="list-mes-item"><span
+                                                style="color: #0a95da">${srBill.cpCode}: ${srBill.expressNum}</span>
+                                        </div>
                                     </c:if>
                                     <div class="list-mes-item">
                                         <c:forEach items="${srBill.tsrBillDetail}" var="srDetail">
@@ -118,7 +122,9 @@
                                 <div class="list-mes">
                                     <div class="cell-left"> 退货单：${srBill.ref}</div>
                                     <c:if test="${srBill.cpCode!=null and srBill.cpCode!=''}">
-                                        <div class="list-mes-item"><span style="color: #0a95da">${srBill.cpCode}: ${srBill.expressNum}</span></div>
+                                        <div class="list-mes-item"><span
+                                                style="color: #0a95da">${srBill.cpCode}: ${srBill.expressNum}</span>
+                                        </div>
                                     </c:if>
                                     <div class="list-mes-item">
                                         <c:forEach items="${srBill.tsrBillDetail}" var="srDetail">
@@ -153,7 +159,9 @@
                                 <div class="list-mes">
                                     <div class="cell-left"> 退货单：${srBill.ref}</div>
                                     <c:if test="${srBill.cpCode!=null and srBill.cpCode!=''}">
-                                        <div class="list-mes-item"><span style="color: #0a95da">${srBill.cpCode}: ${srBill.expressNum}</span></div>
+                                        <div class="list-mes-item"><span
+                                                style="color: #0a95da">${srBill.cpCode}: ${srBill.expressNum}</span>
+                                        </div>
                                     </c:if>
                                     <div class="list-mes-item">
                                         <c:forEach items="${srBill.tsrBillDetail}" var="srDetail">
@@ -179,21 +187,25 @@
 
                 </div>
             </div>
-    </div>
-    <%--<jsp:include   page="footer.jsp" flush="true"/>--%>
+        </div>
+        <%--<jsp:include   page="footer.jsp" flush="true"/>--%>
 </section>
 <script src="${staticPath }/static/js/ydui.js"></script>
-
+<script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script type="application/javascript">
-
-
     $(function () {
-        if (${succeed}) {
-            alert("操作成功")
-        }else{
-            alert("操作失败")
+        var succeed = $("#succeed").val();
+        console.info("succeed:" + succeed);
+        if (succeed!=null&&succeed!=''){
+            if (succeed) {
+                alert("操作成功")
+            } else {
+                alert("操作失败")
+            }
         }
-    })
+    });
+
+
     $('#search').bind('keypress', function (event) {   //回车事件绑定 
         if (event.keyCode == "13") {  //js监测到为为回车事件时 触发
             var form = document.getElementById('searchForm');
@@ -201,9 +213,15 @@
         }
     });
     $("#searchBtn").click(function () {
+        console.info("sub")
         var form = document.getElementById('searchForm');
         form.submit();
-    })
+    });
+    $("#saoyisao").click(function () {
+        console.info("$(\"#saoyisao\").click");
+        window.location.href = '${path}/img';
+    });
+
 
 </script>
 </body>

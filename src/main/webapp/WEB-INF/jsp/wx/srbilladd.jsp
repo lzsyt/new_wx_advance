@@ -54,7 +54,7 @@
                 <div class="cell-item">
                     <div class="cell-left">快递单号：</div>
                     <div class="cell-right">
-                        <input id="expressNum" name="expressNum" type="text" class="cell-input"/>
+                        <input id="expressNum" name="expressNum" type="text" class="cell-input" value="${tsrbill.expressNum}"/>
                     </div>
                 </div>
             </div>
@@ -150,11 +150,11 @@
         var expressNum = $("#expressNum").val();
         if (cpCode == "") {
             console.log("cpCode:" + cpCode);
-            $.toptip("快递公司不能为空");
+            alert("快递公司不能为空");
             return false;
         }
         if (expressNum == "") {
-            $.toptip("快递单号不能为空");
+            alert("快递单号不能为空");
             return false;
         }
         var flag = 1;
@@ -166,8 +166,8 @@
             success: function (data) {
                 if (data == "1") {
                     //没有重复的快递单号
-                    $.toptip("快递单号不能重复");
-                    return;
+                    alert("快递单号不能重复");
+                    return false;
                 }
                 flag = 0;
             },
@@ -177,6 +177,7 @@
         if (flag == 1) {
             return false;
         }
+        $("#bnt").attr('disabled', true);
         return true;
     }
 

@@ -36,7 +36,7 @@
 <body>
 <section class="g-flexview">
     <div class="g-scrollview">
-        <form name="serForm" action="${path}/saveSRBill" id="serForm" method="post" enctype="multipart/form-data">
+        <form name="serForm" action="${path}/saveSRBill" id="serForm" method="post" enctype="multipart/form-data" onsubmit="return sub()">
             <input name="search" value="${search}" type="hidden">
 
             <div class="m-cell demo-small-pitch">

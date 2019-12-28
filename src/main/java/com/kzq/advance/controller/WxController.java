@@ -587,7 +587,12 @@ public class WxController extends BaseController {
      * @return
      */
     @RequestMapping("salesReturnAdd")
-    public String salesReturnAdd() {
+    public String salesReturnAdd(@RequestParam(required = false,value = "expressNum")String expressNum,HttpServletRequest request) {
+        if(StringUtils.isNotBlank(expressNum)){
+            TSRBill tsrBill = new TSRBill();
+            tsrBill.setExpressNum(expressNum);
+            request.setAttribute("tsrbill", tsrBill);
+        }
         return "/wx/srbilladd";
     }
 

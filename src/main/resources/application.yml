@@ -53,7 +53,7 @@ spring.datasource.druid.stat-view-servlet.login-username: admin
 spring.datasource.druid.stat-view-servlet.login-password: 123
 
 
-wxUploadPath: D:/res/wxUpload
+wxUploadPath: /res/wxUpload
 
 logging:
   level:
