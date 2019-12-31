@@ -110,7 +110,6 @@
                             </a>
                         </c:if>
                     </c:forEach>
-
                 </div>
             </div>
             <div class="tab-panel-item">
@@ -147,7 +146,6 @@
                             </a>
                         </c:if>
                     </c:forEach>
-
                 </div>
             </div>
             <div class="tab-panel-item">
@@ -184,11 +182,10 @@
                             </a>
                         </c:if>
                     </c:forEach>
-
                 </div>
             </div>
         </div>
-        <%--<jsp:include   page="footer.jsp" flush="true"/>--%>
+    </div>
 </section>
 <script src="${staticPath }/static/js/ydui.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
@@ -198,13 +195,12 @@
         console.info("succeed:" + succeed);
         if (succeed!=null&&succeed!=''){
             if (succeed) {
-                alert("操作成功")
+                alert("操作成功");
             } else {
-                alert("操作失败")
+                alert("操作失败");
             }
         }
     });
-
 
     $('#search').bind('keypress', function (event) {   //回车事件绑定 
         if (event.keyCode == "13") {  //js监测到为为回车事件时 触发
@@ -217,11 +213,6 @@
         var form = document.getElementById('searchForm');
         form.submit();
     });
-    $("#saoyisao").click(function () {
-        console.info("$(\"#saoyisao\").click");
-        window.location.href = '${path}/img';
-    });
-
 
 </script>
 </body>

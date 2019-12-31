@@ -26,6 +26,7 @@ public interface TUserMapper {
 
      public List<String> findPermissionByUserId(String userId);
 
+     public TUser findUserByUserId(String id);
 
 
 }

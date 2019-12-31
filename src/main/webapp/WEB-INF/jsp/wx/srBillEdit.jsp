@@ -36,7 +36,8 @@
 <body>
 <section class="g-flexview">
     <div class="g-scrollview">
-        <form name="serForm" action="${path}/saveSRBill" id="serForm" method="post" enctype="multipart/form-data" onsubmit="return sub()">
+        <form name="serForm" action="${path}/saveSRBill" id="serForm" method="post" enctype="multipart/form-data"
+              onsubmit="return sub()">
             <input name="search" value="${search}" type="hidden">
 
             <div class="m-cell demo-small-pitch">
@@ -69,6 +70,12 @@
                         <div class="cell-left">备注：</div>
                         <div class="cell-right">
                             <input name="memo" id="memo" type="text" class="cell-input" value="${srBill.memo}">
+                        </div>
+                    </div>
+                    <div class="cell-item">
+                        <div class="cell-left">修改人：</div>
+                        <div class="cell-right">
+                            ${srBill.bizUserName}
                         </div>
                     </div>
                 </c:if>
@@ -182,7 +189,8 @@
                                     <c:if test="${images!=null and images.size()!=0}">
                                         <c:forEach items="${images}" var="img">
                                             <li class="weui-uploader__file">
-                                                <img class="weui-uploader__file" src="${img.filePath}"/>
+                                                <img class="weui-uploader__file" ondblclick="delimg(this,${img.id})"
+                                                     src="${img.filePath}"/>
                                             </li>
                                         </c:forEach>
                                     </c:if>
@@ -213,6 +221,18 @@
     </div>
 </section>
 <script type="application/javascript">
+
+    function delimg(obj, id) {
+        $.ajax({
+            url: "${path}/delImg?imgId=" + id,
+            success: function (result) {
+                if (result) {
+                    obj.remove();
+                }
+            }
+        });
+    }
+
     function back() {
         location.href = "${path}/salesReturn?search=${search}";
     }

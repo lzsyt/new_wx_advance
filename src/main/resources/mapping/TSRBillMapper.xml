@@ -331,6 +331,7 @@
 
     <select id="findDetail" resultMap="BaseResultMap" parameterType="com.kzq.advance.domain.TSRBill">
         SELECT
+        srb.biz_user_id,
         srb.id,
         srb.tid,
         srb.reason,

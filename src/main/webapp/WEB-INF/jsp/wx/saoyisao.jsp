@@ -65,26 +65,5 @@
             }
         });
     });
-
-
-    function saoyisao(){
-        wx.scanQRCode({
-            needResult: 1,
-            scanType: ["qrCode"],
-            success: function (res) {
-                console.log(res)
-                //扫描返回的数据
-                var result = res.resultStr;
-                console.info(result)
-                location.href = "${path}/saoyisaoSear?expressNum=" + result;
-            },
-            fail: function (res) {
-                console.info("res:" + res);
-            }
-        });
-    }
-    $("#train_signStatus").click(function () {
-        saoyisao();
-    });
 </script>
 </html>

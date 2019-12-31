@@ -58,4 +58,9 @@
         INNER JOIN ( SELECT user_id, role_id FROM t_role_user WHERE user_id = #{userId} ) AS ru
 		on rp.role_id= ru.role_id
 	</select>
+
+
+    <select id="findUserByUserId" parameterType="java.lang.String" resultType="com.kzq.advance.domain.TUser">
+        select * FROM t_user where id=#{id}
+    </select>
 </mapper>

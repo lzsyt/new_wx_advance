@@ -636,4 +636,11 @@ public class WxController extends BaseController {
     }
 
 
+    @RequestMapping("delImg")
+    @ResponseBody
+    public String delImg(@RequestParam Long imgId){
+        return isrBillService.delImg(imgId) > 0 ? "true" : "false";
+    }
+
+
 }

@@ -20,4 +20,6 @@ public interface ISRBillService {
     List<TSRBillFile> findImages(String id);
 
     List<TSRBillFile> findVdo(String id);
+
+    int delImg(Long imgId);
 }

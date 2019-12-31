@@ -8,6 +8,7 @@ import com.kzq.advance.domain.TUser;
 import com.kzq.advance.mapper.TSRBillDetailMapper;
 import com.kzq.advance.mapper.TSRBillFileMapper;
 import com.kzq.advance.mapper.TSRBillMapper;
+import com.kzq.advance.mapper.TUserMapper;
 import com.kzq.advance.service.ISRBillService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,6 +37,9 @@ public class SRBillServiceImpl implements ISRBillService {
     @Resource
     private TSRBillFileMapper tsrBillFileMapper;
 
+    @Resource
+    private TUserMapper userMapper;
+
     @Override
     public List<TSRBill> find(TSRBill tsrBill) {
         return tsrBillMapper.find(tsrBill);
@@ -43,7 +47,12 @@ public class SRBillServiceImpl implements ISRBillService {
 
     @Override
     public TSRBill findTsrDetail(TSRBill searchTsrBill) {
-        return tsrBillMapper.findDetail(searchTsrBill);
+        TSRBill tsrBill = tsrBillMapper.findDetail(searchTsrBill);
+        if (StringUtils.isNotBlank(tsrBill.getBizUserId())) {
+            TUser user = userMapper.findUserByUserId(tsrBill.getBizUserId());
+            if (user != null) tsrBill.setBizUserName(user.getName());
+        }
+        return tsrBill;
     }
 
     @Override
@@ -57,38 +66,26 @@ public class SRBillServiceImpl implements ISRBillService {
     @Override
     public Boolean save(TSRBill tsrBill, HttpServletRequest request) throws IOException {
         boolean flag = false;
-        //记录处理的商品
-        int num = 0;
-        if (null != tsrBill.getTsrBillDetail()) {
+        if (null != tsrBill.getTsrBillDetail() && tsrBill.getTsrBillDetail().size() > 0) {
             for (TSRBillDetail tsrBillDetail : tsrBill.getTsrBillDetail()) {
                 //保存详情表
                 //一定要判断非空，不然会sql 报错
                 if (StringUtils.isNotBlank(tsrBillDetail.getStatus()) && !tsrBillDetail.getStatus().equals("0")) {
                     flag = tsrBillDetailMapper.updateByPrimaryKeySelective(tsrBillDetail) > 0;
-                    num++;
                 }
             }
         }
         boolean fileflag = insertFile(tsrBill);
-
-        //处理状态   0：未处理 1：部分处理，2：全部处理
-        List<TSRBillDetail> billdetail = tsrBill.getTsrBillDetail();
-        if (billdetail != null && num != 0) {
-            //只有一个商品的情况
-            if (num == billdetail.size()) {
-                //已处理
-                tsrBill.setBillStatus(2);
-            } else if (num < billdetail.size()) {
-                //部分处理
-                tsrBill.setBillStatus(1);
-            }
-            //更新主表处理状态
-            insertUser(tsrBill, request);
-        }
-        boolean srbillflag = tsrBillMapper.updateByPrimaryKeySelective(tsrBill) > 0;
-
-        if (flag || fileflag || srbillflag) return true;
-        else return false;
+        boolean srbillflag = false;
+        if (StringUtils.isNotBlank(tsrBill.getMemo()))
+            srbillflag = tsrBillMapper.updateByPrimaryKeySelective(tsrBill) > 0;
+        tsrBill.setBizdt(new Date());
+        if (request.getSession().getAttribute("user") != null)
+            tsrBill.setBizUserId(((TUser) request.getSession().getAttribute("user")).getId());
+        if (flag || fileflag || srbillflag)
+            return true;
+        else
+            return false;
     }
 
     private boolean insertFile(TSRBill tsrBill) throws IOException {
@@ -203,6 +200,11 @@ public class SRBillServiceImpl implements ISRBillService {
         tsrBillFile.setSrdetailId(id);
         tsrBillFile.setFileType(2);
         return tsrBillFileMapper.find(tsrBillFile);
+    }
+
+    @Override
+    public int delImg(Long imgId) {
+        return tsrBillFileMapper.deleteByPrimaryKey(imgId);
     }
 
     private int insertFile(String fileName, String srDetailId, String imgPath, int i) {
