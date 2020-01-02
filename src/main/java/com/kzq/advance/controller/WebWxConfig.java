@@ -41,11 +41,16 @@ public class WebWxConfig {
         }
     }
 
-
+    /**
+     * 微信的js sdk 配置
+     * @param request
+     * @return
+     */
     @ResponseBody
     @PostMapping("getWxConfig")
     public Map<String, Object> getWxConfig(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
+        //这个url 必须是对应的调用微信jssdk 页面的url ,页面url 必须和request请求的url 一致，不然效果出不来
         String url = "http://" + WxUtils.APP_DOMAIN + request.getContextPath() + "/img";
         String ticket = WxUtils.getTicket();
         Map<String, String> sign = Sign.sign(ticket, url);
