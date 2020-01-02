@@ -30,14 +30,10 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.kzq.advance.mapper" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
-        <!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名-->
-        <!--<table tableName="t_sr_bill" domainObjectName="TSRBill" enableCountByExample="false"-->
-               <!--enableDeleteByExample="false" enableSelectByExample="false"-->
-               <!--enableUpdateByExample="false"/>-->
-        <!--<table tableName="t_sr_bill_detail" domainObjectName="TSRBillDetail" enableCountByExample="false"-->
-               <!--enableDeleteByExample="false" enableSelectByExample="false"-->
-               <!--enableUpdateByExample="false"/>-->
-        <table tableName="t_sr_bill_detail_file" domainObjectName="TSRBillFile" enableCountByExample="false"
+        <table tableName="t_finance_input_detail" domainObjectName="TFinanceInputDetail" enableCountByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false"/>
+        <table tableName="t_finance_input" domainObjectName="TFinanceInput" enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false"/>
 

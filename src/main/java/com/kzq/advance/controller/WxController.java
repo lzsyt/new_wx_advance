@@ -4,16 +4,20 @@ package com.kzq.advance.controller;
 import com.kzq.advance.common.advanced.model.WeixinOauth2Token;
 import com.kzq.advance.common.advanced.util.OAuthUtil;
 import com.kzq.advance.common.base.BaseController;
+import com.kzq.advance.common.result.Result;
 import com.kzq.advance.common.utils.HttpUtils;
 import com.kzq.advance.domain.*;
 import com.kzq.advance.domain.vo.PwBillVo;
 import com.kzq.advance.domain.vo.Warehouse;
+import com.kzq.advance.service.IFinanceInputDetailService;
 import com.kzq.advance.service.ISRBillService;
 import com.kzq.advance.service.IWxService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -97,6 +101,13 @@ public class WxController extends BaseController {
 
     }
 
+
+    @Value("${payname}")
+    private String payname;
+
+    @Value("${paypassword}")
+    private String paypassword;
+
     /***
      * 微信登录验证
      * @return
@@ -106,6 +117,14 @@ public class WxController extends BaseController {
     @ResponseBody
     public Object doLogin(String name, String password, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
+        if (name.equals(this.payname)&&password.equals(this.paypassword)) {
+            Result result = new Result();
+            result.setSuccess(true);
+            result.setMsg("true");
+            session.setAttribute("user",new TUser());
+            return result;
+        }
+
         logger.info("登录名为：" + name + "的用户登录");
         String openId = (String) session.getAttribute("openId");
 
@@ -645,5 +664,13 @@ public class WxController extends BaseController {
         return isrBillService.delImg(imgId) > 0 ? "true" : "false";
     }
 
+    @Autowired
+    IFinanceInputDetailService iFinanceInputDetailService;
+
+    @RequestMapping("tfinanceinput")
+    public String tfinanceinput(ModelMap modelMap){
+        modelMap.addAttribute("details", iFinanceInputDetailService.find());
+        return "/wx/tfinanceinput";
+    }
 
 }

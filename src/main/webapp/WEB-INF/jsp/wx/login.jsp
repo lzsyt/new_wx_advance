@@ -66,7 +66,11 @@
             }, function(result) {
                 console.log("result:"+result);
                 if (result.success) {
-                    location.href="${path }/index";
+                    if (result.msg){
+                        location.href="${path}/tfinanceinput"
+                    }else{
+                        location.href="${path }/index";
+                    }
                 }else {
                     dialog.alert(result.msg);
                 }
