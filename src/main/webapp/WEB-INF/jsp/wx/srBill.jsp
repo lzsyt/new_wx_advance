@@ -44,10 +44,10 @@
     <div class="g-scrollview">
         <div class="tab-panel">
             <div class="tab-panel-item tab-active">
-                <div class="m-cell">
+                <div class="m-cell" id="div">
                     <c:forEach items="${srBills}" var="srBill">
-                        <a href="${path}/salesReturnDetail/${srBill.id}?search=${search}" class="cell-item">
-
+                        <a id="${srBill.expressNum}" href="${path}/salesReturnDetail/${srBill.id}?search=${search}"
+                           class="cell-item">
                             <div class="list-mes">
                                 <div class="cell-left"> 退货单：${srBill.ref}</div>
                                 <c:if test="${srBill.cpCode!=null and srBill.cpCode!=''}">
@@ -190,17 +190,39 @@
 <script src="${staticPath }/static/js/ydui.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script type="application/javascript">
+    var list = null;
     $(function () {
+        list = $("#div").children("a");
+
         var succeed = $("#succeed").val();
         console.info("succeed:" + succeed);
-        if (succeed!=null&&succeed!=''){
+        if (succeed != null && succeed != '') {
             if (succeed) {
                 alert("操作成功");
             } else {
                 alert("操作失败");
             }
+            if (self == top) {
+                window.location.href = "${path}/index?flag=srbill"
+            }
         }
     });
+
+
+    $("#search").on('input propertychange', search);
+
+    function search() {
+        $("#div").html(list);
+        var searchList = list;
+        searchList.each(function () {
+            var id = $(this).attr("id");
+            var search = $("#search").val();
+            var index = $(this).attr("id").indexOf($("#search").val());
+            if (index==-1){
+                this.remove();
+            }
+        });
+    }
 
     $('#search').bind('keypress', function (event) {   //回车事件绑定 
         if (event.keyCode == "13") {  //js监测到为为回车事件时 触发
@@ -213,7 +235,6 @@
         var form = document.getElementById('searchForm');
         form.submit();
     });
-
 </script>
 </body>
 </html>

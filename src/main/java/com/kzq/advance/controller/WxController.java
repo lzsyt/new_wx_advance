@@ -138,7 +138,7 @@ public class WxController extends BaseController {
      * @return
      */
     @RequestMapping("index")
-    public String newIndex(HttpServletRequest request) {
+    public String newIndex(HttpServletRequest request,@RequestParam(required = false) String flag) {
 
         TUser user = (TUser) request.getSession().getAttribute("user");
         Warehouse wareInfo = (Warehouse) request.getSession().getAttribute("warehouse");
@@ -169,6 +169,9 @@ public class WxController extends BaseController {
             request.setAttribute("foot2", true);
             request.setAttribute("foot3", true);
             request.setAttribute("fristUrl", "getContent");
+        }
+        if (StringUtils.isNotBlank(flag)&&flag.equals("flag")){
+            request.setAttribute("fristUrl", "salesReturn");
         }
         return "wx/mainIndex";
     }
